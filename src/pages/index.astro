@@ -141,6 +141,67 @@ const reviews = [
     </div>
   </section>
 
+  <!-- ══════════════════════════════════════════ GALERÍA -->
+  <section class="gallery-section" id="galeria" aria-label="Galería de trabajo">
+    <div class="gallery-header container fade-in">
+      <p class="kicker">Nuestro trabajo</p>
+      <h2 class="h2">El arte habla<br/>por sí solo</h2>
+      <a class="btn btn-outline-gold gallery-ig-btn" href="https://www.instagram.com/sacredpain" target="_blank" rel="noreferrer">
+        Ver más en Instagram
+      </a>
+    </div>
+
+    <div class="gallery-grid">
+      <!-- Row 1: tall | normal | normal | normal -->
+      <a class="gallery-item gallery-item--tall" href="https://www.instagram.com/sacredpain" target="_blank" rel="noreferrer" aria-label="Ver en Instagram">
+        <img src="/images/artist-david.jpeg" alt="Trabajo de tatuaje — Sacred Pain" loading="lazy" />
+        <div class="gallery-item-overlay"><span class="gallery-hover-icon">↗</span></div>
+      </a>
+      <a class="gallery-item" href="https://www.instagram.com/sacredpain" target="_blank" rel="noreferrer" aria-label="Ver en Instagram">
+        <img src="/images/piercing-gallery-1.jpg" alt="Piercing — Sacred Pain" loading="lazy" />
+        <div class="gallery-item-overlay"><span class="gallery-hover-icon">↗</span></div>
+      </a>
+      <a class="gallery-item" href="https://www.instagram.com/sacredpain" target="_blank" rel="noreferrer" aria-label="Ver en Instagram">
+        <img src="/images/artist-ari.jpg" alt="Trabajo de tatuaje — Sacred Pain" loading="lazy" />
+        <div class="gallery-item-overlay"><span class="gallery-hover-icon">↗</span></div>
+      </a>
+      <a class="gallery-item" href="https://www.instagram.com/sacredpain" target="_blank" rel="noreferrer" aria-label="Ver en Instagram">
+        <img src="/images/piercing-gallery-3.jpg" alt="Piercing — Sacred Pain" loading="lazy" />
+        <div class="gallery-item-overlay"><span class="gallery-hover-icon">↗</span></div>
+      </a>
+      <!-- Row 2 continues: tall still spans, + 3 more -->
+      <a class="gallery-item" href="https://www.instagram.com/sacredpain" target="_blank" rel="noreferrer" aria-label="Ver en Instagram">
+        <img src="/images/piercing-gallery-2.jpg" alt="Piercing — Sacred Pain" loading="lazy" />
+        <div class="gallery-item-overlay"><span class="gallery-hover-icon">↗</span></div>
+      </a>
+      <a class="gallery-item" href="https://www.instagram.com/sacredpain" target="_blank" rel="noreferrer" aria-label="Ver en Instagram">
+        <img src="/images/piercing-gallery-4.jpg" alt="Piercing — Sacred Pain" loading="lazy" />
+        <div class="gallery-item-overlay"><span class="gallery-hover-icon">↗</span></div>
+      </a>
+      <!-- Row 3: wide | normal | tall -->
+      <a class="gallery-item gallery-item--wide" href="https://www.instagram.com/sacredpain" target="_blank" rel="noreferrer" aria-label="Ver en Instagram">
+        <img src="/images/artist-brignoni.jpg" alt="Trabajo de tatuaje — Sacred Pain" loading="lazy" />
+        <div class="gallery-item-overlay"><span class="gallery-hover-icon">↗</span></div>
+      </a>
+      <a class="gallery-item" href="https://www.instagram.com/sacredpain" target="_blank" rel="noreferrer" aria-label="Ver en Instagram">
+        <img src="/images/piercing-gallery-5.jpg" alt="Piercing — Sacred Pain" loading="lazy" />
+        <div class="gallery-item-overlay"><span class="gallery-hover-icon">↗</span></div>
+      </a>
+      <a class="gallery-item gallery-item--tall" href="https://www.instagram.com/sacredpain" target="_blank" rel="noreferrer" aria-label="Ver en Instagram">
+        <img src="/images/hero-studio.jpeg" alt="Estudio Sacred Pain" loading="lazy" />
+        <div class="gallery-item-overlay"><span class="gallery-hover-icon">↗</span></div>
+      </a>
+      <a class="gallery-item" href="https://www.instagram.com/sacredpain" target="_blank" rel="noreferrer" aria-label="Ver en Instagram">
+        <img src="/images/piercing-gallery-6.jpg" alt="Piercing — Sacred Pain" loading="lazy" />
+        <div class="gallery-item-overlay"><span class="gallery-hover-icon">↗</span></div>
+      </a>
+      <a class="gallery-item" href="https://www.instagram.com/sacredpain" target="_blank" rel="noreferrer" aria-label="Ver en Instagram">
+        <img src="/images/piercing-gallery-7.jpg" alt="Piercing — Sacred Pain" loading="lazy" />
+        <div class="gallery-item-overlay"><span class="gallery-hover-icon">↗</span></div>
+      </a>
+    </div>
+  </section>
+
   <hr class="divider" />
 
   <!-- ════════════════════════════════════════ BOOKING CTA -->
@@ -394,6 +455,90 @@ const reviews = [
     object-fit: cover;
     border: 2px solid var(--border-gold);
     flex-shrink: 0;
+  }
+
+  /* ── Gallery ──────────────────────────────────────────── */
+  .gallery-section {
+    background: #000;
+    padding: 80px 0 0;
+  }
+  .gallery-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+  .gallery-header .h2 { flex: 1; min-width: 200px; margin: 0; }
+  .gallery-ig-btn { margin-left: auto; }
+
+  /* CSS Grid masonry-style layout */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 240px;
+    gap: 3px;
+    background: #000;
+  }
+  .gallery-item {
+    position: relative;
+    overflow: hidden;
+    display: block;
+    cursor: pointer;
+    background: var(--dark);
+  }
+  .gallery-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.65s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.4s;
+    filter: brightness(0.88) saturate(0.95);
+  }
+  .gallery-item:hover img {
+    transform: scale(1.07);
+    filter: brightness(0.7) saturate(1.1);
+  }
+
+  /* Span variants */
+  .gallery-item--tall  { grid-row: span 2; }
+  .gallery-item--wide  { grid-column: span 2; }
+
+  /* Hover overlay */
+  .gallery-item-overlay {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0);
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 16px;
+    transition: background 0.3s;
+  }
+  .gallery-item:hover .gallery-item-overlay {
+    background: rgba(185,138,55,0.10);
+  }
+  .gallery-hover-icon {
+    font-size: 18px;
+    color: var(--gold);
+    opacity: 0;
+    transform: translateY(8px) rotate(0deg);
+    transition: opacity 0.25s, transform 0.25s;
+    font-family: var(--font-display);
+    letter-spacing: 1px;
+  }
+  .gallery-item:hover .gallery-hover-icon {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Mobile: simpler 2-col grid */
+  @media (max-width: 700px) {
+    .gallery-grid {
+      grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: 180px;
+    }
+    .gallery-item--tall  { grid-row: span 1; }
+    .gallery-item--wide  { grid-column: span 2; }
+    .gallery-header { flex-direction: column; align-items: flex-start; }
+    .gallery-ig-btn { margin-left: 0; }
   }
 
   /* social */
