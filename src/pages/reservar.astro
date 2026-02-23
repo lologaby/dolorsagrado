@@ -20,8 +20,8 @@ const artists = [
       <p class="kicker">Agenda tu visita</p>
       <h1 class="h1">Reservar <span class="gold-text">cita</span></h1>
       <p class="lead">
-        Completa el formulario y nos pondremos en contacto para confirmar disponibilidad.
-        También puedes contactar a tu artista directamente abajo.
+        Completa el formulario y te confirmamos disponibilidad en 24–48 h.
+        También puedes contactar a tu artista directamente.
       </p>
       <p class="muted" style="margin-top:8px">⚠ Tatuajes solamente para adultos (+18).</p>
     </div>
@@ -36,12 +36,12 @@ const artists = [
         <div class="form-header">
           <p class="kicker">Formulario de solicitud</p>
           <h2 class="h3">Tu próxima pieza empieza aquí</h2>
-          <div class="form-steps">
-            <div class="form-step"><span class="step-num">1</span> Información</div>
+          <div class="form-steps" aria-label="Pasos del formulario">
+            <div class="form-step active"><span class="step-num">1</span><span class="step-label">Información</span></div>
             <div class="form-step-line"></div>
-            <div class="form-step"><span class="step-num">2</span> Tu idea</div>
+            <div class="form-step"><span class="step-num">2</span><span class="step-label">Tu idea</span></div>
             <div class="form-step-line"></div>
-            <div class="form-step"><span class="step-num">3</span> Enviar</div>
+            <div class="form-step"><span class="step-num">3</span><span class="step-label">Enviar</span></div>
           </div>
         </div>
 
@@ -53,19 +53,18 @@ const artists = [
           enctype="text/plain"
           id="booking-form"
         >
+          <!-- Step 1 -->
           <fieldset class="form-section">
             <legend class="form-section-title">
               <span class="form-section-num">1</span> Tu información
             </legend>
-            <div class="form-row">
-              <div class="form-field">
-                <label class="form-label" for="nombre">Nombre completo *</label>
-                <input class="form-input" id="nombre" name="nombre" type="text" placeholder="Tu nombre completo" required autocomplete="name" />
-              </div>
-              <div class="form-field">
-                <label class="form-label" for="telefono">Teléfono *</label>
-                <input class="form-input" id="telefono" name="telefono" type="tel" placeholder="(787) 000-0000" required autocomplete="tel" />
-              </div>
+            <div class="form-field">
+              <label class="form-label" for="nombre">Nombre completo *</label>
+              <input class="form-input" id="nombre" name="nombre" type="text" placeholder="Tu nombre completo" required autocomplete="name" />
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="telefono">Teléfono *</label>
+              <input class="form-input" id="telefono" name="telefono" type="tel" placeholder="(787) 000-0000" required autocomplete="tel" />
             </div>
             <div class="form-field">
               <label class="form-label" for="email">Correo electrónico *</label>
@@ -73,31 +72,30 @@ const artists = [
             </div>
           </fieldset>
 
+          <!-- Step 2 -->
           <fieldset class="form-section">
             <legend class="form-section-title">
               <span class="form-section-num">2</span> Tu idea
             </legend>
-            <div class="form-row">
-              <div class="form-field">
-                <label class="form-label" for="servicio">Servicio *</label>
-                <select class="form-select" id="servicio" name="servicio" required>
-                  <option value="">Selecciona servicio...</option>
-                  <option value="Tattoo">Tattoo</option>
-                  <option value="Piercing">Piercing</option>
-                  <option value="Remoción Laser">Remoción Laser</option>
-                </select>
-              </div>
-              <div class="form-field">
-                <label class="form-label" for="artista">Artista preferido</label>
-                <select class="form-select" id="artista" name="artista">
-                  <option value="Cualquiera">Cualquiera disponible</option>
-                  <option value="David Reyes">David Reyes</option>
-                  <option value="Ari Reyes">Ari Reyes</option>
-                  <option value="Joshua Reyes">Joshua Reyes</option>
-                  <option value="Armando Brignoni">Armando Brignoni</option>
-                  <option value="Tatito (Piercings)">Tatito (Piercings)</option>
-                </select>
-              </div>
+            <div class="form-field">
+              <label class="form-label" for="servicio">Servicio *</label>
+              <select class="form-select" id="servicio" name="servicio" required>
+                <option value="">Selecciona servicio...</option>
+                <option value="Tattoo">Tattoo</option>
+                <option value="Piercing">Piercing</option>
+                <option value="Remoción Laser">Remoción Laser</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="artista">Artista preferido</label>
+              <select class="form-select" id="artista" name="artista">
+                <option value="Cualquiera">Cualquiera disponible</option>
+                <option value="David Reyes">David Reyes</option>
+                <option value="Ari Reyes">Ari Reyes</option>
+                <option value="Joshua Reyes">Joshua Reyes</option>
+                <option value="Armando Brignoni">Armando Brignoni</option>
+                <option value="Tatito (Piercings)">Tatito (Piercings)</option>
+              </select>
             </div>
             <div class="form-field">
               <label class="form-label" for="fecha">Fecha/horario preferido</label>
@@ -106,38 +104,79 @@ const artists = [
             <div class="form-field">
               <label class="form-label" for="descripcion">Descripción de la idea *</label>
               <textarea class="form-textarea" id="descripcion" name="descripcion" required
-                placeholder="Tamaño aproximado, ubicación en el cuerpo, estilo (realismo, blackwork, tradicional...), referencias, presupuesto aproximado..."
+                placeholder="Tamaño aproximado, ubicación en el cuerpo, estilo, referencias, presupuesto..."
               ></textarea>
             </div>
           </fieldset>
 
+          <!-- Step 3 -->
           <fieldset class="form-section">
             <legend class="form-section-title">
               <span class="form-section-num">3</span> Confirmar y enviar
             </legend>
             <div class="form-field">
-              <label class="form-label" for="pago">Opción de pago</label>
+              <label class="form-label" for="pago">Opción de pago preferida</label>
               <select class="form-select" id="pago" name="pago">
-                <option value="Efectivo / tarjeta">Efectivo / Tarjeta</option>
+                <option value="Efectivo">Efectivo</option>
+                <option value="Tarjeta de crédito/débito">Tarjeta (Visa / MC / Amex / Discover)</option>
                 <option value="ATH Movil">ATH Móvil</option>
                 <option value="Klarna Pay in 4">Klarna — Tattoo Now, Pay in 4</option>
                 <option value="Klarna Pay Later">Klarna — Tattoo Now, Pay Later</option>
                 <option value="Sin preferencia">Sin preferencia</option>
               </select>
-              <div class="pago-logos">
-                <img src="https://x.klarnacdn.net/payment-method/assets/badges/generic/klarna.svg" alt="Klarna" width="44" height="17" />
-                <svg viewBox="0 0 110 34" width="48" height="17" xmlns="http://www.w3.org/2000/svg" aria-label="ATH Móvil">
-                  <defs>
-                    <linearGradient id="athGradForm" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" style="stop-color:#ED6D23"/>
-                      <stop offset="100%" style="stop-color:#F9A822"/>
-                    </linearGradient>
-                  </defs>
-                  <text x="2" y="26" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="24" fill="url(#athGradForm)" letter-spacing="-1">ATH</text>
-                  <text x="62" y="26" font-family="Arial,sans-serif" font-weight="700" font-size="13" fill="#ffffff" opacity="0.75">Móvil</text>
-                </svg>
+
+              <!-- Payment logos -->
+              <div class="pago-logos" aria-label="Métodos de pago aceptados">
+                <!-- Efectivo -->
+                <span class="pay-chip pay-chip--cash" title="Efectivo">
+                  <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="6" width="22" height="14" rx="2"/><path d="M1 10h22"/></svg>
+                  Cash
+                </span>
+                <!-- Visa -->
+                <span class="pay-chip pay-chip--visa" title="Visa">
+                  <svg viewBox="0 0 38 14" width="32" height="12" aria-label="Visa">
+                    <text x="0" y="11" font-family="Arial,sans-serif" font-weight="900" font-size="13" fill="#1A1F71" letter-spacing="-0.5">VISA</text>
+                  </svg>
+                </span>
+                <!-- Mastercard -->
+                <span class="pay-chip pay-chip--mc" title="Mastercard">
+                  <svg viewBox="0 0 38 24" width="30" height="19">
+                    <circle cx="13" cy="12" r="9" fill="#EB001B"/>
+                    <circle cx="25" cy="12" r="9" fill="#F79E1B"/>
+                    <path d="M19 5.5a9 9 0 0 1 0 13 9 9 0 0 1 0-13z" fill="#FF5F00"/>
+                  </svg>
+                </span>
+                <!-- Amex -->
+                <span class="pay-chip pay-chip--amex" title="American Express">
+                  <svg viewBox="0 0 50 16" width="36" height="12">
+                    <text x="0" y="12" font-family="Arial,sans-serif" font-weight="900" font-size="11" fill="#007BC1" letter-spacing="0.5">AMEX</text>
+                  </svg>
+                </span>
+                <!-- Discover -->
+                <span class="pay-chip pay-chip--disc" title="Discover">
+                  <svg viewBox="0 0 56 16" width="40" height="12">
+                    <text x="0" y="12" font-family="Arial,sans-serif" font-weight="700" font-size="10" fill="#F76E20">DISCOVER</text>
+                  </svg>
+                </span>
+                <!-- ATH Móvil -->
+                <span class="pay-chip pay-chip--ath" title="ATH Móvil">
+                  <svg viewBox="0 0 60 18" width="40" height="14">
+                    <defs>
+                      <linearGradient id="athG" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#ED6D23"/>
+                        <stop offset="100%" style="stop-color:#F9A822"/>
+                      </linearGradient>
+                    </defs>
+                    <text x="1" y="14" font-family="Arial Black,sans-serif" font-weight="900" font-size="14" fill="url(#athG)" letter-spacing="-0.5">ATH</text>
+                  </svg>
+                </span>
+                <!-- Klarna -->
+                <span class="pay-chip pay-chip--klarna" title="Klarna">
+                  <img src="https://x.klarnacdn.net/payment-method/assets/badges/generic/klarna.svg" alt="Klarna" width="36" height="14" style="display:block" />
+                </span>
               </div>
             </div>
+
             <label class="form-check">
               <input type="checkbox" name="adulto" required />
               <span>Confirmo que soy mayor de 18 años. *</span>
@@ -151,12 +190,12 @@ const artists = [
             </svg>
           </button>
           <p class="muted" style="margin-top:10px;font-size:12px;text-align:center">
-            Se abrirá tu cliente de correo con la solicitud. Respondemos en 24-48 horas.
+            Se abrirá tu cliente de correo. Respondemos en 24–48 horas.
           </p>
         </form>
       </div>
 
-      <!-- SIDEBAR: direct contact -->
+      <!-- SIDEBAR -->
       <aside class="contact-sidebar fade-in">
         <div class="sidebar-phone card card-gold">
           <p class="kicker">Llamada directa</p>
@@ -193,10 +232,13 @@ const artists = [
           <a
             class="btn btn-outline-gold"
             style="margin-top:14px;width:100%;justify-content:center;"
-            href="https://www.google.com/maps/search/?api=1&query=Sacred+Pain+Tattoo+418+Av+65+Infanteria+San+Juan+PR+00926"
+            href="https://www.google.com/maps/dir/?api=1&destination=Sacred+Pain+Tattoo+418+Av+65+Infanteria+San+Juan+PR+00926"
             target="_blank"
             rel="noreferrer"
-          >Abrir en Maps</a>
+          >
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Cómo llegar
+          </a>
         </div>
       </aside>
     </div>
@@ -204,91 +246,120 @@ const artists = [
 </Layout>
 
 <style>
+  /* ── Page hero ──────────────────────────────────────── */
   .page-hero {
-    padding: 60px 0 40px;
+    padding: 52px 0 36px;
     border-bottom: 1px solid var(--border);
   }
   .page-hero .h1 { margin: 12px 0 14px; }
   .gold-text { color: var(--gold); }
 
+  /* ── Layout ─────────────────────────────────────────── */
   .booking-layout {
     display: grid;
-    gap: 32px;
-    margin-top: 48px;
+    gap: 28px;
+    margin-top: 40px;
   }
   @media (min-width: 960px) {
     .booking-layout {
-      grid-template-columns: 1fr 340px;
+      grid-template-columns: 1fr 320px;
       align-items: start;
     }
   }
 
-  /* Form */
+  /* ── Form wrapper ───────────────────────────────────── */
   .form-wrapper {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--r);
-    padding: 32px;
+    padding: 24px 20px;
+    /* critical: prevent any child from overflowing */
+    overflow: hidden;
+    min-width: 0;
   }
-  .form-header { margin-bottom: 28px; }
-  .form-header .h3 { margin-top: 8px; }
+  @media (min-width: 480px) { .form-wrapper { padding: 28px 24px; } }
+  @media (min-width: 640px) { .form-wrapper { padding: 32px; } }
 
+  .form-header { margin-bottom: 24px; }
+  .form-header .h3 { margin-top: 8px; font-size: clamp(18px, 3vw, 26px); }
+
+  /* ── Step indicator ─────────────────────────────────── */
   .form-steps {
     display: flex;
     align-items: center;
-    gap: 0;
-    margin-top: 20px;
+    margin-top: 18px;
+    overflow: hidden;
   }
   .form-step {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 1px;
+    gap: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
     text-transform: uppercase;
-    color: var(--muted);
+    color: var(--muted2);
     white-space: nowrap;
-  }
-  .step-num {
-    width: 24px; height: 24px;
-    border-radius: 50%;
-    background: rgba(185,138,55,0.15);
-    color: var(--gold);
-    display: grid; place-items: center;
-    font-size: 11px; font-weight: 700;
     flex-shrink: 0;
   }
+  .form-step.active { color: var(--gold); }
+  .step-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: rgba(185,138,55,0.12);
+    border: 1px solid rgba(185,138,55,0.25);
+    color: var(--muted2);
+    display: grid; place-items: center;
+    font-size: 10px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .form-step.active .step-num {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: #0a0608;
+  }
+  .step-label {
+    display: none;
+  }
+  @media (min-width: 400px) { .step-label { display: inline; } }
   .form-step-line {
     flex: 1;
     height: 1px;
     background: var(--border);
-    margin: 0 12px;
-    min-width: 20px;
+    margin: 0 8px;
+    min-width: 12px;
+    max-width: 60px;
   }
 
+  /* ── Form fields ────────────────────────────────────── */
+  .booking-form {
+    display: grid;
+    gap: 20px;
+  }
   .form-section {
     border: none;
     padding: 0;
     margin: 0;
     display: grid;
-    gap: 18px;
+    gap: 16px;
+    /* prevent overflow on all inputs inside */
+    min-width: 0;
   }
   .form-section + .form-section {
-    padding-top: 24px;
+    padding-top: 20px;
     border-top: 1px solid var(--border);
-    margin-top: 8px;
+    margin-top: 0;
   }
   .form-section-title {
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
     letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--gold);
-    margin-bottom: 4px;
+    margin-bottom: 2px;
   }
   .form-section-num {
     width: 22px; height: 22px;
@@ -296,53 +367,82 @@ const artists = [
     background: var(--gold);
     color: #0a0608;
     display: grid; place-items: center;
-    font-size: 11px; font-weight: 800;
+    font-size: 10px; font-weight: 800;
     flex-shrink: 0;
   }
 
-  .booking-form {
+  /* Ensure all inputs fill their container, never overflow */
+  .form-field {
     display: grid;
-    gap: 18px;
+    gap: 5px;
+    min-width: 0;
   }
-  .form-row {
-    display: grid;
-    gap: 16px;
-  }
-  @media (min-width: 560px) {
-    .form-row { grid-template-columns: 1fr 1fr; }
+  .form-input,
+  .form-select,
+  .form-textarea {
+    /* box-sizing already border-box from global reset */
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
+  /* Submit */
   .submit-btn {
     width: 100%;
     justify-content: center;
     padding: 15px 24px;
-    font-size: 14px;
-    margin-top: 6px;
+    font-size: 13px;
+    margin-top: 4px;
+    letter-spacing: 1.5px;
   }
 
-  /* Payment logos row under select */
+  /* ── Payment logos ───────────────────────────────────── */
   .pago-logos {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 12px;
-    margin-top: 8px;
-    opacity: 0.65;
+    gap: 6px;
+    margin-top: 10px;
   }
+  .pay-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 28px;
+    padding: 0 8px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.10);
+    flex-shrink: 0;
+  }
+  .pay-chip--cash {
+    gap: 5px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .pay-chip--visa  { background: #fff; border-color: #e0e0e0; }
+  .pay-chip--mc    { background: #fff; border-color: #e0e0e0; padding: 0 6px; }
+  .pay-chip--amex  { background: #fff; border-color: #e0e0e0; }
+  .pay-chip--disc  { background: #fff; border-color: #e0e0e0; }
+  .pay-chip--ath   { background: rgba(237,109,35,0.08); border-color: rgba(237,109,35,0.22); }
+  .pay-chip--klarna { background: rgba(255,179,199,0.07); border-color: rgba(255,179,199,0.18); padding: 0 7px; }
 
-  /* Sidebar */
+  /* ── Sidebar ─────────────────────────────────────────── */
   .contact-sidebar {
     display: grid;
     gap: 20px;
+    min-width: 0;
   }
-  .sidebar-phone {
-    padding: 22px;
-  }
+  .sidebar-phone { padding: 22px; }
   .phone-link {
     display: flex;
     align-items: center;
     gap: 10px;
     font-family: var(--font-display);
-    font-size: 28px;
+    font-size: clamp(22px, 5vw, 28px);
     color: var(--gold-lt);
     margin-top: 8px;
     transition: color 0.15s;
@@ -356,6 +456,7 @@ const artists = [
     padding: 20px;
     display: grid;
     gap: 4px;
+    min-width: 0;
   }
   .artist-row {
     display: flex;
@@ -365,33 +466,47 @@ const artists = [
     border-radius: 8px;
     transition: background 0.15s;
     text-decoration: none;
+    min-width: 0;
   }
-  .artist-row:hover {
-    background: rgba(255,255,255,0.04);
-    text-decoration: none;
-  }
+  .artist-row:hover { background: rgba(255,255,255,0.04); text-decoration: none; }
   .artist-row-info {
     flex: 1;
     display: grid;
     gap: 2px;
+    min-width: 0;
+    overflow: hidden;
   }
   .artist-row-name {
     font-size: 14px;
     font-weight: 600;
     color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .artist-row-handle {
     font-size: 11px;
     color: var(--muted2);
     letter-spacing: 0.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .artist-row-icon { color: var(--muted2); flex-shrink: 0; }
   .artist-row-avatar {
-    width: 40px;
-    height: 40px;
+    width: 40px; height: 40px;
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid var(--border-gold);
     flex-shrink: 0;
+  }
+
+  /* ── Mobile tweaks ───────────────────────────────────── */
+  @media (max-width: 479px) {
+    .page-hero { padding: 40px 0 28px; }
+    .booking-layout { margin-top: 28px; gap: 20px; }
+    .form-wrapper { padding: 20px 16px; border-radius: 8px; }
+    .artists-contact { padding: 16px 12px; }
+    .sidebar-phone { padding: 18px 16px; }
   }
 </style>
