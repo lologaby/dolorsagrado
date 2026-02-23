@@ -19,11 +19,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
     <div class="container nav-inner">
       <!-- Logo -->
       <a class="logo" href="/" aria-label="Sacred Pain Tattoo — Inicio">
-        <img
-          src="/images/logo.png"
-          alt="Sacred Pain Tattoo logo"
-          width="52" height="52"
-        />
+        <img src="/images/logo.png" alt="Sacred Pain Tattoo logo" width="48" height="48" />
         <span class="logo-text">
           <span class="logo-name">Sacred Pain</span>
           <span class="logo-sub">Tattoo &amp; Piercings · San Juan, PR</span>
@@ -41,58 +37,128 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
       <!-- CTA + hamburger -->
       <div class="nav-end">
         <a class="btn btn-gold hide-mobile" href="/reservar">Reservar cita</a>
-        <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
-          <span></span><span></span><span></span>
+        <button
+          class="hamburger"
+          id="hamburger"
+          aria-label="Abrir menú"
+          aria-expanded="false"
+          aria-controls="mobile-drawer"
+        >
+          <span class="bar bar1"></span>
+          <span class="bar bar2"></span>
+          <span class="bar bar3"></span>
         </button>
       </div>
     </div>
   </div>
+</header>
 
-  <!-- Mobile drawer -->
-  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
-    <nav aria-label="Menú móvil">
-      {nav.map(item => (
-        <a class="mobile-link" href={item.href}>{item.label}</a>
-      ))}
-      <a class="btn btn-gold mobile-cta" href="/reservar">Reservar cita</a>
-    </nav>
-    <a class="mobile-phone" href="tel:7875962562">
+<!-- Backdrop (tap to close) -->
+<div class="drawer-backdrop" id="drawer-backdrop" aria-hidden="true"></div>
+
+<!-- Mobile drawer (full-height side panel) -->
+<div class="mobile-drawer" id="mobile-drawer" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Menú de navegación">
+
+  <!-- Header of drawer -->
+  <div class="drawer-head">
+    <span class="drawer-brand">Sacred Pain</span>
+    <button class="drawer-close" id="drawer-close" aria-label="Cerrar menú">
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Nav links -->
+  <nav class="drawer-nav" aria-label="Menú móvil">
+    {nav.map(item => {
+      const isActive = item.href === '/' ? currentPath === '/' : currentPath.startsWith(item.href);
+      return (
+        <a
+          class={`drawer-link${isActive ? ' drawer-active' : ''}`}
+          href={item.href}
+          aria-current={isActive ? 'page' : undefined}
+        >
+          {item.label}
+          <svg class="drawer-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+        </a>
+      );
+    })}
+  </nav>
+
+  <!-- CTAs -->
+  <div class="drawer-ctas">
+    <a class="btn btn-gold" href="/reservar" style="width:100%;justify-content:center;font-size:13px">
+      Reservar cita
+    </a>
+    <a class="drawer-phone" href="tel:7875962562">
       <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92V20a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 4.37 6.18 2 2 0 0 1 6.36 4h3.08a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L10.91 11.4a16 16 0 0 0 6.69 6.69l.78-.78a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
       (787) 596-2562
     </a>
   </div>
-</header>
+
+  <!-- Footer info -->
+  <div class="drawer-footer">
+    <p>418 Av 65 Infantería, San Juan PR</p>
+    <p><strong>Lun–Sáb</strong> 11 AM – 8 PM &nbsp;·&nbsp; <strong>Dom</strong> Cerrado</p>
+  </div>
+</div>
 
 <script>
-  const btn = document.getElementById('hamburger')!;
-  const menu = document.getElementById('mobile-menu')!;
-  const header = document.getElementById('header')!;
+  const btn        = document.getElementById('hamburger')!;
+  const drawer     = document.getElementById('mobile-drawer')!;
+  const backdrop   = document.getElementById('drawer-backdrop')!;
+  const closeBtn   = document.getElementById('drawer-close')!;
+
+  function openMenu() {
+    drawer.classList.add('open');
+    backdrop.classList.add('open');
+    btn.classList.add('active');
+    btn.setAttribute('aria-expanded', 'true');
+    drawer.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    drawer.classList.remove('open');
+    backdrop.classList.remove('open');
+    btn.classList.remove('active');
+    btn.setAttribute('aria-expanded', 'false');
+    drawer.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
 
   btn.addEventListener('click', () => {
-    const open = menu.classList.toggle('open');
-    btn.setAttribute('aria-expanded', String(open));
-    menu.setAttribute('aria-hidden', String(!open));
-    btn.classList.toggle('active', open);
+    if (drawer.classList.contains('open')) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
   });
 
+  closeBtn.addEventListener('click', closeMenu);
+  backdrop.addEventListener('click', closeMenu);
+
   // Close on link click
-  menu.querySelectorAll('a').forEach(a =>
-    a.addEventListener('click', () => {
-      menu.classList.remove('open');
-      btn.classList.remove('active');
-      btn.setAttribute('aria-expanded', 'false');
-    })
+  drawer.querySelectorAll('a').forEach(a =>
+    a.addEventListener('click', closeMenu)
   );
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && drawer.classList.contains('open')) closeMenu();
+  });
 </script>
 
 <style>
   .header {
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 200;
   }
 
-  /* announce bar */
+  /* ── Announce ─────────────────────────────────── */
   .announce {
     background: var(--gold);
     color: #000;
@@ -104,9 +170,9 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
     text-transform: uppercase;
   }
 
-  /* nav bar */
+  /* ── Nav bar ──────────────────────────────────── */
   .nav-bar {
-    background: rgba(8,8,8,0.88);
+    background: rgba(8,8,8,0.92);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
     border-bottom: 1px solid var(--border);
@@ -115,12 +181,12 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-top: 14px;
-    padding-bottom: 14px;
+    padding-top: 12px;
+    padding-bottom: 12px;
     gap: 16px;
   }
 
-  /* logo */
+  /* ── Logo ─────────────────────────────────────── */
   .logo {
     display: flex;
     align-items: center;
@@ -129,137 +195,235 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
     text-decoration: none;
   }
   .logo img {
-    width: 48px;
-    height: 48px;
+    width: 44px; height: 44px;
     border-radius: 50%;
     border: 2px solid var(--border-gold);
     object-fit: cover;
   }
-  .logo-text {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.15;
-  }
+  .logo-text { display: flex; flex-direction: column; line-height: 1.15; }
   .logo-name {
     font-family: var(--font-display);
-    font-size: 22px;
+    font-size: 20px;
     letter-spacing: 1px;
     color: var(--text);
   }
   .logo-sub {
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    color: var(--muted2);
+    font-size: 9px; font-weight: 500;
+    letter-spacing: 1px; color: var(--muted2);
     text-transform: uppercase;
+  }
+  @media (max-width: 380px) {
+    .logo-sub { display: none; }
+    .logo-name { font-size: 18px; }
+    .logo img { width: 38px; height: 38px; }
   }
 
-  /* desktop nav */
-  .desktop-nav {
-    display: none;
-    align-items: center;
-    gap: 4px;
-  }
+  /* ── Desktop nav ──────────────────────────────── */
+  .desktop-nav { display: none; align-items: center; gap: 4px; }
   @media (min-width: 880px) { .desktop-nav { display: flex; } }
   .nav-link {
-    padding: 7px 12px;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
+    padding: 7px 12px; border-radius: 4px;
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 1.5px; text-transform: uppercase;
     color: var(--muted);
     transition: color 0.15s, background 0.15s;
   }
-  .nav-link:hover {
-    color: var(--text);
-    background: rgba(255,255,255,0.06);
-    text-decoration: none;
-  }
-  .nav-active {
-    color: var(--gold);
-    background: rgba(185,138,55,0.08);
-  }
+  .nav-link:hover { color: var(--text); background: rgba(255,255,255,0.06); text-decoration: none; }
+  .nav-active { color: var(--gold); background: rgba(185,138,55,0.08); }
 
-  /* nav end */
-  .nav-end {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
+  /* ── Nav end ──────────────────────────────────── */
+  .nav-end { display: flex; align-items: center; gap: 10px; }
+  .hide-mobile { display: none; }
+  @media (min-width: 880px) { .hide-mobile { display: inline-flex; } }
 
-  /* hamburger */
+  /* ── Hamburger ────────────────────────────────── */
   .hamburger {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     gap: 5px;
-    width: 44px;
-    height: 44px;
+    width: 44px; height: 44px;
     background: transparent;
     border: 1px solid var(--border);
     border-radius: 6px;
     cursor: pointer;
-    padding: 0 10px;
-    position: relative;
-    z-index: 101;
+    padding: 0;
+    flex-shrink: 0;
     -webkit-tap-highlight-color: transparent;
+    transition: border-color 0.2s;
   }
+  .hamburger:hover { border-color: var(--gold); }
   @media (min-width: 880px) { .hamburger { display: none; } }
-  .hamburger span {
+  .bar {
     display: block;
-    width: 100%;
-    height: 1.5px;
+    width: 20px; height: 1.5px;
     background: var(--text);
-    transition: transform 0.25s, opacity 0.25s;
+    border-radius: 2px;
+    transition: transform 0.28s cubic-bezier(0.4,0,0.2,1), opacity 0.2s ease, width 0.2s ease;
     transform-origin: center;
   }
-  .hamburger.active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-  .hamburger.active span:nth-child(2) { opacity: 0; }
-  .hamburger.active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+  .hamburger.active .bar1 { transform: translateY(6.5px) rotate(45deg); }
+  .hamburger.active .bar2 { opacity: 0; width: 0; }
+  .hamburger.active .bar3 { transform: translateY(-6.5px) rotate(-45deg); }
 
-  /* mobile menu */
-  .mobile-menu {
+  /* ── Backdrop ─────────────────────────────────── */
+  .drawer-backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(14,12,13,0.97);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    padding: 100px 28px 36px;
+    background: rgba(0,0,0,0.65);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 299;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .drawer-backdrop.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  @media (min-width: 880px) { .drawer-backdrop { display: none !important; } }
+
+  /* ── Mobile drawer ────────────────────────────── */
+  .mobile-drawer {
+    position: fixed;
+    top: 0; right: 0;
+    width: min(320px, 88vw);
+    height: 100dvh;
+    background: #0d0b0c;
+    border-left: 1px solid rgba(185,138,55,0.18);
+    z-index: 300;
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    z-index: 99;
     overflow-y: auto;
-    visibility: hidden;
-    opacity: 0;
+    overscroll-behavior: contain;
     transform: translateX(100%);
-    transition: transform 0.32s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease, visibility 0s 0.32s;
+    transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
+    will-change: transform;
   }
-  .mobile-menu.open {
-    visibility: visible;
-    opacity: 1;
+  .mobile-drawer.open {
     transform: translateX(0);
-    transition: transform 0.32s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease, visibility 0s;
   }
-  @media (min-width: 880px) { .mobile-menu { display: none !important; } }
-  .mobile-link {
-    font-family: var(--font-display);
-    font-size: 36px;
-    letter-spacing: 2px;
-    color: var(--muted);
-    padding: 10px 0;
-    border-bottom: 1px solid var(--border);
-    transition: color 0.15s;
-  }
-  .mobile-link:hover { color: var(--text); text-decoration: none; }
-  .mobile-cta { margin-top: 24px; width: 100%; justify-content: center; font-size: 14px; }
-  .mobile-phone {
+  @media (min-width: 880px) { .mobile-drawer { display: none !important; } }
+
+  /* Drawer head */
+  .drawer-head {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-top: 20px;
-    font-size: 13px;
-    color: var(--muted);
+    justify-content: space-between;
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    flex-shrink: 0;
   }
+  .drawer-brand {
+    font-family: var(--font-display);
+    font-size: 18px;
+    color: var(--text);
+    letter-spacing: 1px;
+  }
+  .drawer-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px; height: 40px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 6px;
+    color: var(--text);
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+    -webkit-tap-highlight-color: transparent;
+    flex-shrink: 0;
+  }
+  .drawer-close:hover {
+    background: rgba(220,50,50,0.12);
+    border-color: rgba(220,50,50,0.35);
+    color: #ff6b6b;
+  }
+
+  /* Drawer nav links */
+  .drawer-nav {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 0;
+    flex: 1;
+  }
+  .drawer-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    transition: color 0.15s, background 0.15s, padding-left 0.15s;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .drawer-link:hover, .drawer-link:focus-visible {
+    color: var(--text);
+    background: rgba(255,255,255,0.04);
+    padding-left: 28px;
+    text-decoration: none;
+  }
+  .drawer-active {
+    color: var(--gold) !important;
+    background: rgba(185,138,55,0.07);
+    border-left: 3px solid var(--gold);
+    padding-left: 21px;
+  }
+  .drawer-active:hover { padding-left: 21px; }
+  .drawer-arrow { flex-shrink: 0; color: var(--muted2); }
+  .drawer-active .drawer-arrow { color: var(--gold); }
+
+  /* Drawer CTAs */
+  .drawer-ctas {
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    flex-shrink: 0;
+  }
+  .drawer-phone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px 20px;
+    min-height: 48px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--muted);
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .drawer-phone:hover {
+    color: var(--text);
+    border-color: rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.04);
+    text-decoration: none;
+  }
+
+  /* Drawer footer */
+  .drawer-footer {
+    padding: 16px 24px 28px;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    flex-shrink: 0;
+  }
+  .drawer-footer p {
+    font-size: 11px;
+    color: var(--muted2);
+    margin: 3px 0;
+    letter-spacing: 0.3px;
+  }
+  .drawer-footer strong { color: var(--muted); }
 </style>

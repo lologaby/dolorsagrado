@@ -288,7 +288,9 @@ button, input, select, textarea { font-family: inherit; }
 .card-body { padding: 24px; }
 
 /* ── Grid helpers ────────────────────────────────────────── */
-.grid { display: grid; gap: 20px; }
+.grid { display: grid; gap: 16px; }
+@media (min-width: 480px)  { .grid { gap: 20px; } }
+@media (min-width: 480px)  { .sm\:cols-2 { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 640px)  { .sm\:cols-2 { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 880px)  { .md\:cols-2 { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 880px)  { .md\:cols-3 { grid-template-columns: repeat(3, 1fr); } }
@@ -300,8 +302,10 @@ button, input, select, textarea { font-family: inherit; }
 .section-sm   { padding: 48px 0; }
 .section-lg   { padding: 120px 0; }
 @media (max-width: 640px) {
-  .section    { padding: 56px 0; }
-  .section-lg { padding: 72px 0; }
+  .section    { padding: 48px 0; }
+  .section-sm { padding: 32px 0; }
+  .section-lg { padding: 60px 0; }
+  .container  { padding: 0 16px; }
 }
 
 /* ── Marquee ─────────────────────────────────────────────── */
@@ -543,15 +547,20 @@ main { animation: fadeUp 0.5s ease both; }
 .info-bar {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px 40px;
+  gap: 14px 32px;
   padding: 20px 0;
 }
 .info-item {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   font-size: 13px;
   color: var(--muted);
+  flex-wrap: wrap;
 }
 .info-item svg { color: var(--gold); flex-shrink: 0; }
+@media (max-width: 640px) {
+  .info-bar { flex-direction: column; gap: 12px; padding: 16px 0; }
+  .info-item { font-size: 12px; }
+}
 .info-item strong { color: var(--text); font-weight: 600; }
