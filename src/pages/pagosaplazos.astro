@@ -1,42 +1,370 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+const steps = [
+  { num: '01', title: 'Reserva tu cita', desc: 'Completa el formulario de reserva normalmente y selecciona Klarna como método de pago.' },
+  { num: '02', title: 'Aprobación instantánea', desc: 'Al momento del pago, Klarna evalúa tu solicitud en segundos. Sin papeleo ni crédito tradicional.' },
+  { num: '03', title: 'Paga en cuotas', desc: 'Divide el costo en 4 pagos quincenales sin intereses, o elige pagar en 6–36 meses.' },
+  { num: '04', title: 'Disfruta tu pieza', desc: 'Sacred Pain recibe el pago completo — tú pagas a tu ritmo directamente a Klarna.' },
+];
+
+const plans = [
+  { name: 'Pay in 4', tag: 'Sin intereses', desc: '4 pagos quincenales iguales. 0% de interés. Aprobación inmediata.', icon: '4×' },
+  { name: 'Monthly Financing', tag: '6–36 meses', desc: 'Financia desde $200+ en pagos mensuales fijos. Sujeto a aprobación de crédito.', icon: '$' },
+];
 ---
 
 <Layout
-	title="Pagos a plazos — Sacred Pain Tattoo"
-	description="Opciones de pago para tu próxima pieza: paga ahora o después (según disponibilidad)."
+  title="Pagos a plazos con Klarna — Sacred Pain Tattoo"
+  description="Paga tu tatuaje o piercing a plazos con Klarna. 4 pagos sin intereses o financiamiento mensual en Sacred Pain Tattoo."
 >
-	<section class="section">
-		<div class="container">
-			<h1 class="h1">Pagos a plazos</h1>
-			<p class="lead">
-				Consulta por opciones de pago disponibles para tu próxima pieza. La disponibilidad y términos dependen del proveedor.
-			</p>
+  <!-- Hero -->
+  <section class="klarna-hero">
+    <div class="container klarna-hero-inner fade-in">
+      <div class="klarna-hero-text">
+        <div class="klarna-pill">
+          <img
+            src="https://x.klarnacdn.net/payment-method/assets/badges/generic/klarna.svg"
+            alt="Klarna"
+            width="60"
+            height="24"
+          />
+          <span>Socio oficial</span>
+        </div>
+        <h1 class="h1">Tatuaté ahora,<br/><span class="klarna-pink">paga después</span></h1>
+        <p class="lead">
+          Divide el costo de tu próxima pieza en pagos cómodos con Klarna.
+          Sin intereses en Pay in 4, o financia a plazos mensuales.
+        </p>
+        <div class="klarna-hero-actions">
+          <a class="btn klarna-btn" href="/reservar">
+            Reservar con Klarna
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a class="btn btn-outline-gold" href="https://www.klarna.com/us/customer-service/" target="_blank" rel="noreferrer">
+            Más sobre Klarna
+          </a>
+        </div>
+      </div>
+      <div class="klarna-hero-badge">
+        <img
+          src="https://x.klarnacdn.net/payment-method/assets/badges/generic/klarna.svg"
+          alt="Klarna badge"
+          class="klarna-badge-img"
+        />
+        <p class="klarna-badge-text">Aceptado en Sacred Pain Tattoo</p>
+      </div>
+    </div>
+  </section>
 
-			<div class="grid cols-2 section">
-				<article class="card">
-					<h2 class="h2">Opciones</h2>
-					<p class="lead">Pregunta por alternativas como planes de pago “pague después” cuando aplique.</p>
-				</article>
-				<article class="card">
-					<h2 class="h2">Cómo coordinar</h2>
-					<p class="lead">Empieza por una consulta: idea, tamaño, ubicación y referencias.</p>
-					<div class="actions">
-						<a class="btn primary" href="/consultas">Ir a Consultas</a>
-						<a class="btn" href="/contacto">Contacto</a>
-					</div>
-				</article>
-			</div>
-		</div>
-	</section>
+  <hr class="divider" />
+
+  <!-- Plans -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header fade-in">
+        <p class="kicker">Opciones de pago</p>
+        <h2 class="h2">Elige cómo pagar</h2>
+        <p class="lead">Dos opciones flexibles para tu presupuesto.</p>
+      </div>
+
+      <div class="klarna-plans fade-in">
+        {plans.map(p => (
+          <div class="klarna-plan card">
+            <div class="card-body">
+              <div class="plan-top">
+                <span class="plan-icon">{p.icon}</span>
+                <span class="plan-tag">{p.tag}</span>
+              </div>
+              <h3 class="h3" style="font-size:24px;margin:12px 0 8px">{p.name}</h3>
+              <p style="font-size:14px;color:var(--muted);line-height:1.65">{p.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="klarna-features fade-in">
+        <div class="klarna-feature">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <span>Sin cargos ocultos</span>
+        </div>
+        <div class="klarna-feature">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <span>Aprobación en segundos</span>
+        </div>
+        <div class="klarna-feature">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <span>No afecta tu crédito</span>
+        </div>
+        <div class="klarna-feature">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <span>Protección al comprador</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- How it works -->
+  <section class="section" style="background:var(--dark)">
+    <div class="container">
+      <div class="section-header fade-in">
+        <p class="kicker">Cómo funciona</p>
+        <h2 class="h2">4 pasos sencillos</h2>
+      </div>
+
+      <div class="klarna-steps">
+        {steps.map(s => (
+          <div class="klarna-step fade-in">
+            <span class="klarna-step-num">{s.num}</span>
+            <div>
+              <h3 class="h3" style="font-size:20px;margin-bottom:6px">{s.title}</h3>
+              <p style="font-size:14px;color:var(--muted);line-height:1.65">{s.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- Example -->
+  <section class="section">
+    <div class="container">
+      <div class="klarna-example fade-in">
+        <div>
+          <p class="kicker">Ejemplo</p>
+          <h2 class="h2">Tatuaje de $400</h2>
+          <p class="lead" style="margin-top:12px">
+            Con Pay in 4, pagas solo <strong style="color:var(--text)">$100 hoy</strong> y
+            el resto en 3 pagos quincenales de $100. Cero intereses.
+          </p>
+        </div>
+        <div class="example-breakdown">
+          <div class="example-payment">
+            <span class="example-label">Hoy</span>
+            <span class="example-amount">$100</span>
+          </div>
+          <div class="example-payment">
+            <span class="example-label">2 semanas</span>
+            <span class="example-amount">$100</span>
+          </div>
+          <div class="example-payment">
+            <span class="example-label">4 semanas</span>
+            <span class="example-amount">$100</span>
+          </div>
+          <div class="example-payment">
+            <span class="example-label">6 semanas</span>
+            <span class="example-amount">$100</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- CTA -->
+  <section class="section-sm">
+    <div class="container" style="text-align:center">
+      <img
+        src="https://x.klarnacdn.net/payment-method/assets/badges/generic/klarna.svg"
+        alt="Klarna"
+        width="80"
+        style="margin:0 auto 20px;display:block"
+      />
+      <h2 class="h2" style="margin-bottom:12px">¿Listo para tu pieza?</h2>
+      <p class="lead" style="margin:0 auto 28px;text-align:center">
+        Reserva ahora y selecciona Klarna al momento del pago. Sin intereses, sin complicaciones.
+      </p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <a class="btn klarna-btn" href="/reservar">Reservar cita</a>
+        <a class="btn" href="tel:7875962562">Llamar al estudio</a>
+      </div>
+    </div>
+  </section>
 </Layout>
 
 <style>
-	.actions {
-		display: flex;
-		gap: 10px;
-		flex-wrap: wrap;
-		margin-top: 12px;
-	}
-</style>
+  /* Klarna pink */
+  .klarna-pink { color: #FFB3C7; }
 
+  /* Hero */
+  .klarna-hero {
+    background: linear-gradient(135deg, var(--surface) 0%, rgba(255,179,199,0.04) 100%);
+    padding: 72px 0 64px;
+    border-bottom: 1px solid var(--border);
+  }
+  .klarna-hero-inner {
+    display: grid;
+    gap: 40px;
+    align-items: center;
+  }
+  @media (min-width: 760px) { .klarna-hero-inner { grid-template-columns: 1fr auto; } }
+  .klarna-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 14px 6px 8px;
+    border-radius: 2px;
+    background: rgba(255,179,199,0.08);
+    border: 1px solid rgba(255,179,199,0.20);
+    margin-bottom: 20px;
+  }
+  .klarna-pill span {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #FFB3C7;
+  }
+  .klarna-hero-text .h1 { margin-bottom: 18px; }
+  .klarna-hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+
+  .klarna-btn {
+    background: #FFB3C7;
+    color: #0a0608;
+    border-color: #FFB3C7;
+    font-weight: 700;
+  }
+  .klarna-btn:hover {
+    background: #ffc9d8;
+    border-color: #ffc9d8;
+    color: #0a0608;
+    box-shadow: 0 4px 20px rgba(255,179,199,0.25);
+  }
+
+  .klarna-hero-badge {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 36px;
+    text-align: center;
+    min-width: 220px;
+  }
+  .klarna-badge-img {
+    width: 120px;
+    height: auto;
+    margin: 0 auto 16px;
+    display: block;
+  }
+  .klarna-badge-text {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* Plans */
+  .klarna-plans {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    margin-bottom: 32px;
+  }
+  .klarna-plan { transition: border-color 0.2s, transform 0.2s; }
+  .klarna-plan:hover { border-color: rgba(255,179,199,0.3); transform: translateY(-3px); }
+  .plan-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .plan-icon {
+    width: 44px; height: 44px;
+    border-radius: 8px;
+    background: rgba(255,179,199,0.12);
+    color: #FFB3C7;
+    display: grid; place-items: center;
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .plan-tag {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #FFB3C7;
+    padding: 4px 10px;
+    background: rgba(255,179,199,0.08);
+    border-radius: 2px;
+  }
+
+  /* Features */
+  .klarna-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px 36px;
+  }
+  .klarna-feature {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .klarna-feature svg { color: #FFB3C7; flex-shrink: 0; }
+
+  /* Steps */
+  .klarna-steps {
+    display: grid;
+    gap: 0;
+    margin-top: 8px;
+  }
+  .klarna-step {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .klarna-step:last-child { border-bottom: none; }
+  .klarna-step-num {
+    font-family: var(--font-display);
+    font-size: 36px;
+    color: rgba(255,179,199,0.25);
+    line-height: 1;
+    flex-shrink: 0;
+    min-width: 48px;
+  }
+
+  /* Example */
+  .klarna-example {
+    display: grid;
+    gap: 36px;
+    align-items: center;
+  }
+  @media (min-width: 760px) { .klarna-example { grid-template-columns: 1fr 1fr; } }
+  .example-breakdown {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  @media (max-width: 500px) { .example-breakdown { grid-template-columns: repeat(2, 1fr); } }
+  .example-payment {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    padding: 16px 12px;
+    text-align: center;
+  }
+  .example-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .example-amount {
+    font-family: var(--font-display);
+    font-size: 28px;
+    color: #FFB3C7;
+  }
+</style>
