@@ -9,8 +9,9 @@ const steps = [
 ];
 
 const plans = [
-  { name: 'Pay in 4', tag: 'Sin intereses', desc: '4 pagos quincenales iguales. 0% de interés. Aprobación inmediata.', icon: '4×' },
-  { name: 'Monthly Financing', tag: '6–36 meses', desc: 'Financia desde $200+ en pagos mensuales fijos. Sujeto a aprobación de crédito.', icon: '$' },
+  { name: 'Pay in 4', tag: 'Sin intereses', desc: '4 pagos quincenales iguales. 0% de interés. Aprobación inmediata.', icon: '4×', brand: 'klarna' },
+  { name: 'Pay Later', tag: '6–36 meses', desc: 'Financia desde $200+ en pagos mensuales fijos. Sujeto a aprobación de crédito.', icon: '$', brand: 'klarna' },
+  { name: 'ATH Móvil', tag: 'Pago directo', desc: 'Transfiere directamente desde tu app de ATH Móvil. Sin comisiones. Inmediato.', icon: '⚡', brand: 'ath' },
 ];
 ---
 
@@ -22,19 +23,30 @@ const plans = [
   <section class="klarna-hero">
     <div class="container klarna-hero-inner fade-in">
       <div class="klarna-hero-text">
-        <div class="klarna-pill">
+        <div class="pay-logos">
           <img
             src="https://x.klarnacdn.net/payment-method/assets/badges/generic/klarna.svg"
             alt="Klarna"
-            width="60"
-            height="24"
+            width="72"
+            height="28"
+            class="pay-logo-klarna"
           />
-          <span>Auspiciado por Klarna</span>
+          <span class="pay-logo-sep">·</span>
+          <svg class="pay-logo-ath" viewBox="0 0 120 40" width="72" height="24" xmlns="http://www.w3.org/2000/svg" aria-label="ATH Móvil">
+            <defs>
+              <linearGradient id="athGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#ED6D23"/>
+                <stop offset="100%" style="stop-color:#F9A822"/>
+              </linearGradient>
+            </defs>
+            <text x="4" y="30" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="26" fill="url(#athGrad)" letter-spacing="-1">ATH</text>
+            <text x="68" y="30" font-family="Arial,sans-serif" font-weight="700" font-size="14" fill="#ffffff" opacity="0.85">Móvil</text>
+          </svg>
         </div>
         <h1 class="h1">Tattoo Now,<br/><span class="klarna-pink">Pay Later</span></h1>
         <p class="lead">
           Tattoo Now, Pay in 4 — divide el costo en 4 pagos sin intereses.<br/>
-          O financia a plazos mensuales. Auspiciado por Klarna.
+          O financia a plazos mensuales con Klarna. También aceptamos ATH Móvil.
         </p>
         <div class="klarna-hero-actions">
           <a class="btn klarna-btn" href="/reservar">
@@ -47,13 +59,24 @@ const plans = [
         </div>
       </div>
       <div class="klarna-hero-badge">
+        <p class="klarna-badge-label">Métodos de pago</p>
         <img
           src="https://x.klarnacdn.net/payment-method/assets/badges/generic/klarna.svg"
-          alt="Klarna badge"
+          alt="Klarna"
           class="klarna-badge-img"
         />
+        <div class="badge-divider"></div>
+        <svg class="ath-badge-logo" viewBox="0 0 110 34" width="80" height="26" xmlns="http://www.w3.org/2000/svg" aria-label="ATH Móvil">
+          <defs>
+            <linearGradient id="athGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#ED6D23"/>
+              <stop offset="100%" style="stop-color:#F9A822"/>
+            </linearGradient>
+          </defs>
+          <text x="2" y="26" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="24" fill="url(#athGrad3)" letter-spacing="-1">ATH</text>
+          <text x="62" y="26" font-family="Arial,sans-serif" font-weight="700" font-size="13" fill="#ffffff" opacity="0.8">Móvil</text>
+        </svg>
         <p class="klarna-badge-text">Aceptado en Sacred Pain Tattoo</p>
-        <p class="klarna-badge-sub">Auspiciado por Klarna</p>
       </div>
     </div>
   </section>
@@ -64,14 +87,14 @@ const plans = [
   <section class="section">
     <div class="container">
       <div class="section-header fade-in">
-        <p class="kicker">Opciones de pago · Auspiciado por Klarna</p>
+        <p class="kicker">Métodos de pago aceptados</p>
         <h2 class="h2">Tattoo Now, Pay in 4<br/><span style="font-size:0.7em;color:var(--muted)">o Pay Later a tu ritmo</span></h2>
-        <p class="lead">Dos opciones flexibles para tu presupuesto — sin intereses en Pay in 4.</p>
+        <p class="lead">Múltiples opciones para tu presupuesto — sin intereses en Pay in 4.</p>
       </div>
 
       <div class="klarna-plans fade-in">
         {plans.map(p => (
-          <div class="klarna-plan card">
+          <div class={`klarna-plan card${p.brand === 'ath' ? ' plan-ath' : ''}`}>
             <div class="card-body">
               <div class="plan-top">
                 <span class="plan-icon">{p.icon}</span>
@@ -79,6 +102,23 @@ const plans = [
               </div>
               <h3 class="h3" style="font-size:24px;margin:12px 0 8px">{p.name}</h3>
               <p style="font-size:14px;color:var(--muted);line-height:1.65">{p.desc}</p>
+              <div class="plan-brand-logo">
+                {p.brand === 'klarna' && (
+                  <img src="https://x.klarnacdn.net/payment-method/assets/badges/generic/klarna.svg" alt="Klarna" width="52" height="20" />
+                )}
+                {p.brand === 'ath' && (
+                  <svg viewBox="0 0 110 34" width="60" height="22" xmlns="http://www.w3.org/2000/svg" aria-label="ATH Móvil">
+                    <defs>
+                      <linearGradient id="athGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#ED6D23"/>
+                        <stop offset="100%" style="stop-color:#F9A822"/>
+                      </linearGradient>
+                    </defs>
+                    <text x="2" y="26" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="24" fill="url(#athGrad2)" letter-spacing="-1">ATH</text>
+                    <text x="62" y="26" font-family="Arial,sans-serif" font-weight="700" font-size="13" fill="#ffffff" opacity="0.8">Móvil</text>
+                  </svg>
+                )}
+              </div>
             </div>
           </div>
         ))}
@@ -170,15 +210,22 @@ const plans = [
   <!-- CTA -->
   <section class="section-sm">
     <div class="container" style="text-align:center">
-      <img
-        src="https://x.klarnacdn.net/payment-method/assets/badges/generic/klarna.svg"
-        alt="Klarna"
-        width="80"
-        style="margin:0 auto 20px;display:block"
-      />
+      <div class="cta-pay-logos">
+        <img src="https://x.klarnacdn.net/payment-method/assets/badges/generic/klarna.svg" alt="Klarna" width="64" height="24" />
+        <svg viewBox="0 0 110 34" width="64" height="22" xmlns="http://www.w3.org/2000/svg" aria-label="ATH Móvil">
+          <defs>
+            <linearGradient id="athGrad4" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#ED6D23"/>
+              <stop offset="100%" style="stop-color:#F9A822"/>
+            </linearGradient>
+          </defs>
+          <text x="2" y="26" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="24" fill="url(#athGrad4)" letter-spacing="-1">ATH</text>
+          <text x="62" y="26" font-family="Arial,sans-serif" font-weight="700" font-size="13" fill="#ffffff" opacity="0.8">Móvil</text>
+        </svg>
+      </div>
       <h2 class="h2" style="margin-bottom:12px">Tattoo Now, Pay Later</h2>
       <p class="lead" style="margin:0 auto 28px;text-align:center">
-        Reserva, elige Klarna al pagar, y empieza con tu primer cuota hoy.<br/>Sin intereses. Sin complicaciones. Auspiciado por Klarna.
+        Reserva, elige Klarna al pagar, y empieza con tu primera cuota hoy.<br/>Sin intereses. Sin complicaciones. También puedes pagar con ATH Móvil.
       </p>
       <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
         <a class="btn klarna-btn" href="/reservar">Tattoo Now →</a>
@@ -373,5 +420,60 @@ const plans = [
     font-family: var(--font-display);
     font-size: 28px;
     color: #FFB3C7;
+  }
+
+  /* Payment method logos — hero + badge */
+  .pay-logos {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  .pay-logo-sep {
+    color: var(--muted2);
+    font-size: 18px;
+    line-height: 1;
+  }
+  .pay-logo-klarna { display: block; }
+  .pay-logo-ath    { display: block; }
+
+  /* Badge improvements */
+  .klarna-badge-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--muted2);
+    margin-bottom: 18px;
+  }
+  .badge-divider {
+    width: 40px; height: 1px;
+    background: var(--border);
+    margin: 16px auto;
+  }
+  .ath-badge-logo { display: block; margin: 0 auto; }
+  .klarna-badge-sub { display: none; } /* cleaned up */
+
+  /* ATH plan card accent */
+  .plan-ath { border-color: rgba(237,109,35,0.18); }
+  .plan-ath:hover { border-color: rgba(237,109,35,0.45) !important; }
+  .plan-ath .plan-icon { background: rgba(237,109,35,0.10); color: #ED6D23; }
+  .plan-ath .plan-tag  { background: rgba(237,109,35,0.10); color: #F9A822; }
+
+  /* Plan brand logo footer */
+  .plan-brand-logo {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* CTA pay logos row */
+  .cta-pay-logos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin: 0 auto 24px;
+    flex-wrap: wrap;
   }
 </style>

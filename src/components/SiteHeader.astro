@@ -12,7 +12,9 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 <header class="header" id="header">
   <!-- Announcement bar -->
   <div class="announce">
-    <span>Tattoo Now, Pay in 4 &nbsp;·&nbsp; Tattoo Now, Pay Later &nbsp;·&nbsp; Auspiciado por Klarna</span>
+    <span>Tattoo Now, Pay in 4 &nbsp;·&nbsp; Tattoo Now, Pay Later &nbsp;·&nbsp;
+      <img src="https://x.klarnacdn.net/payment-method/assets/badges/generic/klarna.svg" alt="Klarna" width="36" height="14" style="vertical-align:middle;display:inline-block;margin-left:2px" />
+    </span>
   </div>
 
   <div class="nav-bar">

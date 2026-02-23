@@ -118,11 +118,25 @@ const artists = [
             <div class="form-field">
               <label class="form-label" for="pago">Opción de pago</label>
               <select class="form-select" id="pago" name="pago">
-                <option value="Efectivo / tarjeta">Efectivo / tarjeta</option>
+                <option value="Efectivo / tarjeta">Efectivo / Tarjeta</option>
+                <option value="ATH Movil">ATH Móvil</option>
                 <option value="Klarna Pay in 4">Klarna — Tattoo Now, Pay in 4</option>
                 <option value="Klarna Pay Later">Klarna — Tattoo Now, Pay Later</option>
                 <option value="Sin preferencia">Sin preferencia</option>
               </select>
+              <div class="pago-logos">
+                <img src="https://x.klarnacdn.net/payment-method/assets/badges/generic/klarna.svg" alt="Klarna" width="44" height="17" />
+                <svg viewBox="0 0 110 34" width="48" height="17" xmlns="http://www.w3.org/2000/svg" aria-label="ATH Móvil">
+                  <defs>
+                    <linearGradient id="athGradForm" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style="stop-color:#ED6D23"/>
+                      <stop offset="100%" style="stop-color:#F9A822"/>
+                    </linearGradient>
+                  </defs>
+                  <text x="2" y="26" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="24" fill="url(#athGradForm)" letter-spacing="-1">ATH</text>
+                  <text x="62" y="26" font-family="Arial,sans-serif" font-weight="700" font-size="13" fill="#ffffff" opacity="0.75">Móvil</text>
+                </svg>
+              </div>
             </div>
             <label class="form-check">
               <input type="checkbox" name="adulto" required />
@@ -304,6 +318,15 @@ const artists = [
     padding: 15px 24px;
     font-size: 14px;
     margin-top: 6px;
+  }
+
+  /* Payment logos row under select */
+  .pago-logos {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+    opacity: 0.65;
   }
 
   /* Sidebar */
