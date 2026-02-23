@@ -1,29 +1,339 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+const gallery = [
+  '/images/artist-david.jpeg',
+  '/images/hero-studio.jpeg',
+  '/images/piercing-gallery-1.jpg',
+  '/images/piercing-gallery-2.jpg',
+  '/images/piercing-gallery-3.jpg',
+  '/images/piercing-gallery-4.jpg',
+  '/images/piercing-gallery-5.jpg',
+  '/images/piercing-gallery-6.jpg',
+];
 ---
 
-<Layout title="David Reyes — Sacred Pain Tattoo" description="Perfil de artista: David Reyes.">
-	<section class="section">
-		<div class="container">
-			<h1 class="h1">David Reyes</h1>
-			<p class="lead">Artista · <a href="https://www.instagram.com/davidreyesart" target="_blank" rel="noreferrer">@davidreyesart</a></p>
-			<div class="card section">
-				<p class="lead">Para citas e información, usa la consulta dedicada.</p>
-				<div class="actions">
-					<a class="btn primary" href="/david-consulta">Consulta David Reyes</a>
-					<a class="btn" href="https://www.instagram.com/davidreyesart" target="_blank" rel="noreferrer">Instagram</a>
-				</div>
-			</div>
-		</div>
-	</section>
+<Layout
+  title="David Reyes — Sacred Pain Tattoo"
+  description="David Reyes · Black & Grey Realism y Color Realism · 20+ años de experiencia en tatuajes. Sacred Pain, San Juan PR."
+>
+  <!-- ═══════════════════════════════════ HERO DEL ARTISTA -->
+  <section class="artist-hero">
+    <div class="artist-hero-bg">
+      <img src="/images/artist-david.jpeg" alt="" aria-hidden="true" />
+      <div class="artist-hero-overlay"></div>
+    </div>
+    <div class="container artist-hero-content fade-in">
+      <div class="artist-avatar-wrap">
+        <img
+          src="/images/avatars/david.jpg"
+          alt="David Reyes"
+          class="artist-profile-img"
+        />
+      </div>
+      <div class="artist-meta">
+        <p class="kicker">Sacred Pain · San Juan, PR</p>
+        <h1 class="h1">David Reyes</h1>
+        <p class="artist-specialty">Black &amp; Grey Realism · Color Realism</p>
+        <p class="artist-handle">
+          <a href="https://www.instagram.com/davidreyesart" target="_blank" rel="noreferrer">@davidreyesart</a>
+          &nbsp;·&nbsp; 61K+ seguidores
+        </p>
+        <div class="artist-ctas">
+          <a class="btn btn-gold" href="/reservar?artista=David+Reyes">Reservar con David</a>
+          <a class="btn btn-outline-gold" href="https://www.instagram.com/davidreyesart" target="_blank" rel="noreferrer">Instagram</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ BIO -->
+  <section class="section">
+    <div class="container bio-grid fade-in">
+      <div>
+        <p class="kicker">Sobre el artista</p>
+        <h2 class="h2">20+ años<br/>de experiencia</h2>
+      </div>
+      <div class="bio-text">
+        <p class="lead">
+          David Reyes es el artista fundador de Sacred Pain Tattoo. Especializado en
+          <strong>Black &amp; Grey Realism</strong> y <strong>Color Realism</strong>,
+          sus piezas se caracterizan por el fotorrealismo, el alto contraste y la profundidad
+          cinematográfica.
+        </p>
+        <p class="lead" style="margin-top:16px">
+          Con más de 20 años de experiencia y 61,000+ seguidores en Instagram,
+          David es uno de los artistas del tatuaje más reconocidos de Puerto Rico.
+          Acepta consultas previas — lee toda la información antes de solicitar tu cita.
+        </p>
+        <div class="bio-stats">
+          <div class="bio-stat">
+            <span class="bio-stat-num">20+</span>
+            <span class="bio-stat-label">Años tatuando</span>
+          </div>
+          <div class="bio-stat-divider"></div>
+          <div class="bio-stat">
+            <span class="bio-stat-num">61K+</span>
+            <span class="bio-stat-label">Seguidores IG</span>
+          </div>
+          <div class="bio-stat-divider"></div>
+          <div class="bio-stat">
+            <span class="bio-stat-num">B&G</span>
+            <span class="bio-stat-label">Especialidad</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ══════════════════════════════════════ GALERÍA -->
+  <section class="gallery-section">
+    <div class="container fade-in" style="padding-bottom:32px">
+      <p class="kicker">Portfolio</p>
+      <h2 class="h2">El arte de David</h2>
+    </div>
+    <div class="artist-gallery-grid">
+      {gallery.map((img, i) => (
+        <a
+          class={`ag-item${i === 0 ? ' ag-item--tall' : ''}`}
+          href="https://www.instagram.com/davidreyesart"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Ver en Instagram"
+        >
+          <img src={img} alt="Tatuaje por David Reyes" loading="lazy" />
+          <div class="ag-overlay"><span>↗</span></div>
+        </a>
+      ))}
+    </div>
+    <div class="container" style="padding-top:28px;text-align:center" class="fade-in">
+      <a class="btn btn-outline-gold" href="https://www.instagram.com/davidreyesart" target="_blank" rel="noreferrer">
+        Ver portafolio completo en Instagram
+      </a>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ═══════════════════════════════ RESERVAR CTA -->
+  <section class="section-sm">
+    <div class="container">
+      <div class="artist-cta-block card card-gold fade-in">
+        <div>
+          <p class="kicker">¿Listo para tu pieza?</p>
+          <h2 class="h2">Reserva con David</h2>
+          <p class="lead">Consultas previas disponibles. Selecciona tu fecha preferida y cuéntanos tu idea.</p>
+        </div>
+        <div class="artist-cta-btns">
+          <a class="btn btn-gold" href="/reservar?artista=David+Reyes">Reservar cita</a>
+          <a class="btn" href="tel:7875962562">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92V20a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 4.37 6.18 2 2 0 0 1 6.36 4h3.08a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L10.91 11.4a16 16 0 0 0 6.69 6.69l.78-.78a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Llamar al estudio
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ═══════════════════════════ AFTERCARE (al final) -->
+  <section class="section aftercare-section">
+    <div class="container fade-in">
+      <p class="kicker">Cuidado posterior</p>
+      <h2 class="h2">Aftercare del tatuaje</h2>
+      <p class="lead" style="margin-bottom:32px">
+        El cuidado post-tatuaje es tan importante como la sesión misma.
+        Sigue estas instrucciones para garantizar la mejor cicatrización posible.
+      </p>
+      <div class="aftercare-grid">
+        <div class="aftercare-card card">
+          <div class="card-body">
+            <p class="aftercare-num">01</p>
+            <h3 class="h3">Primeras 24 horas</h3>
+            <p>Mantén el vendaje original entre 2–4 horas. Lava suavemente con agua tibia y jabón sin fragancia. No refriegues.</p>
+          </div>
+        </div>
+        <div class="aftercare-card card">
+          <div class="card-body">
+            <p class="aftercare-num">02</p>
+            <h3 class="h3">Días 2–7</h3>
+            <p>Aplica una capa fina de crema sin fragancia (Lubriderm, Aquaphor). Lava 2–3 veces al día. Evita remojar en agua.</p>
+          </div>
+        </div>
+        <div class="aftercare-card card">
+          <div class="card-body">
+            <p class="aftercare-num">03</p>
+            <h3 class="h3">Semanas 2–4</h3>
+            <p>El tatuaje pelará — no arranques la piel. Hidrata diariamente. Evita el sol directo y la piscina hasta sanar completamente.</p>
+          </div>
+        </div>
+        <div class="aftercare-card card">
+          <div class="card-body">
+            <p class="aftercare-num">04</p>
+            <h3 class="h3">Lo que debes evitar</h3>
+            <p>Rascarte, exponerte al sol sin protector, nadar, usar ropa ajustada sobre el tatuaje, y cremas con alcohol o fragancia.</p>
+          </div>
+        </div>
+      </div>
+      <p style="margin-top:24px;font-size:13px;color:var(--muted)">
+        ¿Tienes dudas? Llámanos al <a href="tel:7875962562" style="color:var(--gold)">(787) 596-2562</a> o escríbenos por Instagram.
+      </p>
+    </div>
+  </section>
 </Layout>
 
 <style>
-	.actions {
-		display: flex;
-		gap: 10px;
-		flex-wrap: wrap;
-		margin-top: 12px;
-	}
-</style>
+  /* ── Hero ────────────────────────────────────────────── */
+  .artist-hero {
+    position: relative;
+    min-height: 70vh;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 56px;
+  }
+  .artist-hero-bg {
+    position: absolute; inset: 0; overflow: hidden;
+  }
+  .artist-hero-bg img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 25%;
+    filter: brightness(0.55);
+  }
+  .artist-hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(7,6,8,0.97) 0%, rgba(7,6,8,0.4) 60%, transparent 100%);
+  }
+  .artist-hero-content {
+    position: relative; z-index: 1;
+    display: flex;
+    align-items: flex-end;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .artist-profile-img {
+    width: 110px; height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--gold);
+    flex-shrink: 0;
+  }
+  .artist-meta h1 { margin: 8px 0 4px; }
+  .artist-specialty {
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: 18px;
+    color: var(--gold-lt);
+    margin-bottom: 4px;
+  }
+  .artist-handle { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+  .artist-handle a { color: var(--gold); }
+  .artist-ctas { display: flex; gap: 10px; flex-wrap: wrap; }
 
+  /* ── Bio ─────────────────────────────────────────────── */
+  .bio-grid {
+    display: grid;
+    gap: 40px;
+  }
+  @media (min-width: 760px) { .bio-grid { grid-template-columns: 1fr 2fr; align-items: start; } }
+  .bio-text .lead + .lead { margin-top: 14px; }
+  .bio-stats {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-top: 28px;
+    border: 1px solid var(--border-gold);
+    border-radius: var(--r);
+    padding: 16px 24px;
+    width: fit-content;
+  }
+  .bio-stat { text-align: center; padding: 0 20px; }
+  .bio-stat-num {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 28px;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .bio-stat-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .bio-stat-divider { width: 1px; height: 36px; background: var(--border-gold); }
+
+  /* ── Gallery ─────────────────────────────────────────── */
+  .gallery-section { background: #000; padding: 64px 0 0; }
+  .artist-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 220px;
+    gap: 3px;
+    margin-top: 24px;
+  }
+  .ag-item {
+    position: relative; overflow: hidden; display: block;
+    background: var(--dark);
+  }
+  .ag-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.4s;
+    filter: brightness(0.85);
+  }
+  .ag-item:hover img { transform: scale(1.07); filter: brightness(0.65); }
+  .ag-item--tall { grid-row: span 2; }
+  .ag-overlay {
+    position: absolute; inset: 0;
+    display: flex; align-items: flex-end; justify-content: flex-end;
+    padding: 12px;
+    transition: background 0.3s;
+  }
+  .ag-overlay span {
+    font-size: 16px; color: var(--gold);
+    opacity: 0; transform: translateY(6px);
+    transition: opacity 0.2s, transform 0.2s;
+    font-family: var(--font-display);
+  }
+  .ag-item:hover .ag-overlay { background: rgba(185,138,55,0.08); }
+  .ag-item:hover .ag-overlay span { opacity: 1; transform: translateY(0); }
+  @media (max-width: 640px) {
+    .artist-gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 160px; }
+    .ag-item--tall { grid-row: span 1; }
+  }
+
+  /* ── CTA block ───────────────────────────────────────── */
+  .artist-cta-block {
+    display: grid; gap: 28px; padding: 36px;
+    background: linear-gradient(135deg, var(--surface) 0%, rgba(185,138,55,0.05) 100%);
+  }
+  @media (min-width: 760px) {
+    .artist-cta-block { grid-template-columns: 1fr auto; align-items: center; }
+  }
+  .artist-cta-btns { display: flex; flex-direction: column; gap: 10px; min-width: 180px; }
+  .artist-cta-btns .btn { justify-content: center; }
+
+  /* ── Aftercare ───────────────────────────────────────── */
+  .aftercare-section { background: var(--dark); }
+  .aftercare-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+  .aftercare-num {
+    font-family: var(--font-display);
+    font-size: 48px;
+    color: var(--border-gold);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .aftercare-card .h3 { margin-bottom: 8px; font-size: 20px; }
+  .aftercare-card p { font-size: 14px; color: var(--muted); line-height: 1.65; }
+</style>

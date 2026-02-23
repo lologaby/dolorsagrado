@@ -1,30 +1,240 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+const gallery = [
+  '/images/piercing-gallery-1.jpg',
+  '/images/piercing-gallery-2.jpg',
+  '/images/piercing-gallery-3.jpg',
+  '/images/piercing-gallery-4.jpg',
+  '/images/piercing-gallery-5.jpg',
+  '/images/piercing-gallery-6.jpg',
+];
 ---
 
-<Layout title="Ari Reyes — Sacred Pain Tattoo" description="Perfil de artista: Ari Reyes.">
-	<section class="section">
-		<div class="container">
-			<h1 class="h1">Ari Reyes</h1>
-			<p class="lead">Artista · <a href="https://www.instagram.com/aryatari" target="_blank" rel="noreferrer">@aryatari</a></p>
+<Layout
+  title="Ari Reyes — Sacred Pain Tattoo"
+  description="Ari Reyes · Tatuajes, Sacred Pain Tattoo, San Juan PR."
+>
+  <!-- ═══════════════════════════════════ HERO DEL ARTISTA -->
+  <section class="artist-hero">
+    <div class="artist-hero-bg">
+      <img src="/images/piercing-gallery-1.jpg" alt="" aria-hidden="true" />
+      <div class="artist-hero-overlay"></div>
+    </div>
+    <div class="container artist-hero-content fade-in">
+      <div class="artist-meta">
+        <p class="kicker">Sacred Pain · San Juan, PR</p>
+        <h1 class="h1">Ari Reyes</h1>
+        <p class="artist-specialty">Tatuajes · Arte en la piel</p>
+        <p class="artist-handle">
+          <a href="https://www.instagram.com/aryatari" target="_blank" rel="noreferrer">@aryatari</a>
+        </p>
+        <div class="artist-ctas">
+          <a class="btn btn-gold" href="/consultas">Consultar disponibilidad</a>
+          <a class="btn btn-outline-gold" href="https://www.instagram.com/aryatari" target="_blank" rel="noreferrer">Instagram</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-			<div class="card section">
-				<p class="lead">Para disponibilidad y consultas, utiliza la sección de consultas o escríbenos.</p>
-				<div class="actions">
-					<a class="btn primary" href="/consultas">Consultas</a>
-					<a class="btn" href="https://www.instagram.com/aryatari" target="_blank" rel="noreferrer">Instagram</a>
-				</div>
-			</div>
-		</div>
-	</section>
+  <!-- ══════════════════════════════════════════════ BIO -->
+  <section class="section">
+    <div class="container bio-grid fade-in">
+      <div>
+        <p class="kicker">Sobre la artista</p>
+        <h2 class="h2">Arte<br/>con intención</h2>
+      </div>
+      <div class="bio-text">
+        <p class="lead">
+          Ari Reyes es parte del equipo de artistas de Sacred Pain Tattoo.
+          Su trabajo refleja una estética cuidada y personal — cada pieza
+          es un diálogo entre el artista y el cliente.
+        </p>
+        <p class="lead" style="margin-top:16px">
+          Para conocer disponibilidad y discutir tu idea,
+          utiliza la sección de consultas. Ari responderá a la brevedad.
+        </p>
+        <div style="margin-top:24px">
+          <a class="btn btn-gold" href="/consultas">Solicitar consulta</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ══════════════════════════════════════ GALERÍA -->
+  <section class="gallery-section">
+    <div class="container fade-in" style="padding-bottom:32px">
+      <p class="kicker">Portfolio</p>
+      <h2 class="h2">El arte de Ari</h2>
+    </div>
+    <div class="artist-gallery-grid">
+      {gallery.map((img, i) => (
+        <a
+          class={`ag-item${i === 0 ? ' ag-item--tall' : ''}`}
+          href="https://www.instagram.com/aryatari"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Ver en Instagram"
+        >
+          <img src={img} alt="Tatuaje por Ari Reyes" loading="lazy" />
+          <div class="ag-overlay"><span>↗</span></div>
+        </a>
+      ))}
+    </div>
+    <div class="container" style="padding-top:28px;text-align:center">
+      <a class="btn btn-outline-gold" href="https://www.instagram.com/aryatari" target="_blank" rel="noreferrer">
+        Ver portafolio completo en Instagram
+      </a>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ═══════════════════════════ RESERVAR CTA -->
+  <section class="section-sm">
+    <div class="container">
+      <div class="artist-cta-block card fade-in">
+        <div>
+          <p class="kicker">¿Listo para tu pieza?</p>
+          <h2 class="h2">Reserva con Ari</h2>
+          <p class="lead">Cuéntanos tu idea y coordinamos la sesión.</p>
+        </div>
+        <div class="artist-cta-btns">
+          <a class="btn btn-gold" href="/consultas">Solicitar consulta</a>
+          <a class="btn" href="tel:7875962562">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92V20a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 4.37 6.18 2 2 0 0 1 6.36 4h3.08a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L10.91 11.4a16 16 0 0 0 6.69 6.69l.78-.78a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Llamar al estudio
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ═══════════════════════════ AFTERCARE (al final) -->
+  <section class="section aftercare-section">
+    <div class="container fade-in">
+      <p class="kicker">Cuidado posterior</p>
+      <h2 class="h2">Aftercare del tatuaje</h2>
+      <p class="lead" style="margin-bottom:32px">
+        El cuidado post-tatuaje es fundamental para que la pieza sane bien y los colores duren.
+      </p>
+      <div class="aftercare-grid">
+        <div class="aftercare-card card">
+          <div class="card-body">
+            <p class="aftercare-num">01</p>
+            <h3 class="h3">Primeras 24 horas</h3>
+            <p>Mantén el vendaje original entre 2–4 horas. Lava suavemente con agua tibia y jabón sin fragancia.</p>
+          </div>
+        </div>
+        <div class="aftercare-card card">
+          <div class="card-body">
+            <p class="aftercare-num">02</p>
+            <h3 class="h3">Días 2–7</h3>
+            <p>Aplica crema sin fragancia (Lubriderm, Aquaphor). Lava 2–3 veces al día. Evita remojar en agua.</p>
+          </div>
+        </div>
+        <div class="aftercare-card card">
+          <div class="card-body">
+            <p class="aftercare-num">03</p>
+            <h3 class="h3">Semanas 2–4</h3>
+            <p>Hidrata diariamente. Evita el sol directo y la piscina hasta sanar por completo.</p>
+          </div>
+        </div>
+        <div class="aftercare-card card">
+          <div class="card-body">
+            <p class="aftercare-num">04</p>
+            <h3 class="h3">Lo que debes evitar</h3>
+            <p>Rascarte, exponerte al sol sin protector, nadar, y usar cremas con alcohol o fragancia.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </Layout>
 
 <style>
-	.actions {
-		display: flex;
-		gap: 10px;
-		flex-wrap: wrap;
-		margin-top: 12px;
-	}
-</style>
+  .artist-hero {
+    position: relative;
+    min-height: 65vh;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 56px;
+  }
+  .artist-hero-bg { position: absolute; inset: 0; overflow: hidden; }
+  .artist-hero-bg img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center;
+    filter: brightness(0.5);
+  }
+  .artist-hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(7,6,8,0.97) 0%, rgba(7,6,8,0.3) 60%, transparent 100%);
+  }
+  .artist-hero-content { position: relative; z-index: 1; }
+  .artist-meta h1 { margin: 8px 0 4px; }
+  .artist-specialty {
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: 18px;
+    color: var(--gold-lt);
+    margin-bottom: 4px;
+  }
+  .artist-handle { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+  .artist-handle a { color: var(--gold); }
+  .artist-ctas { display: flex; gap: 10px; flex-wrap: wrap; }
 
+  .bio-grid { display: grid; gap: 40px; }
+  @media (min-width: 760px) { .bio-grid { grid-template-columns: 1fr 2fr; align-items: start; } }
+
+  .gallery-section { background: #000; padding: 64px 0 0; }
+  .artist-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 220px;
+    gap: 3px;
+    margin-top: 24px;
+  }
+  .ag-item { position: relative; overflow: hidden; display: block; background: var(--dark); }
+  .ag-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s, filter 0.4s;
+    filter: brightness(0.85);
+  }
+  .ag-item:hover img { transform: scale(1.07); filter: brightness(0.65); }
+  .ag-item--tall { grid-row: span 2; }
+  .ag-overlay {
+    position: absolute; inset: 0;
+    display: flex; align-items: flex-end; justify-content: flex-end;
+    padding: 12px; transition: background 0.3s;
+  }
+  .ag-overlay span {
+    font-size: 16px; color: var(--gold);
+    opacity: 0; transform: translateY(6px);
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .ag-item:hover .ag-overlay { background: rgba(185,138,55,0.08); }
+  .ag-item:hover .ag-overlay span { opacity: 1; transform: translateY(0); }
+  @media (max-width: 640px) {
+    .artist-gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 160px; }
+    .ag-item--tall { grid-row: span 1; }
+  }
+
+  .artist-cta-block {
+    display: grid; gap: 28px; padding: 36px;
+    background: var(--surface);
+  }
+  @media (min-width: 760px) { .artist-cta-block { grid-template-columns: 1fr auto; align-items: center; } }
+  .artist-cta-btns { display: flex; flex-direction: column; gap: 10px; min-width: 180px; }
+  .artist-cta-btns .btn { justify-content: center; }
+
+  .aftercare-section { background: var(--dark); }
+  .aftercare-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+  .aftercare-num { font-family: var(--font-display); font-size: 48px; color: var(--border-gold); line-height: 1; margin-bottom: 8px; }
+  .aftercare-card .h3 { margin-bottom: 8px; font-size: 20px; }
+  .aftercare-card p { font-size: 14px; color: var(--muted); line-height: 1.65; }
+</style>
