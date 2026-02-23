@@ -6,6 +6,7 @@ const nav = [
   { href: '/laser',     label: 'Laser' },
   { href: '/contacto',  label: 'Contacto' },
 ];
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 ---
 
 <header class="header" id="header">
@@ -31,9 +32,10 @@ const nav = [
 
       <!-- Desktop nav -->
       <nav class="desktop-nav" aria-label="Navegación principal">
-        {nav.map(item => (
-          <a class="nav-link" href={item.href}>{item.label}</a>
-        ))}
+        {nav.map(item => {
+          const isActive = item.href === '/' ? currentPath === '/' : currentPath.startsWith(item.href);
+          return <a class={`nav-link${isActive ? ' nav-active' : ''}`} href={item.href} aria-current={isActive ? 'page' : undefined}>{item.label}</a>;
+        })}
       </nav>
 
       <!-- CTA + hamburger -->
@@ -173,6 +175,10 @@ const nav = [
     color: var(--text);
     background: rgba(255,255,255,0.06);
     text-decoration: none;
+  }
+  .nav-active {
+    color: var(--gold);
+    background: rgba(185,138,55,0.08);
   }
 
   /* nav end */

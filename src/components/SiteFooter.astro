@@ -9,11 +9,14 @@ const links = {
     { href: '/reservar',  label: 'Reservar cita' },
   ],
   info: [
-    { href: '/aftercare',        label: 'Aftercare' },
-    { href: '/tattooaftercare',  label: 'Tattoo Aftercare' },
-    { href: '/piercingaftercare',label: 'Piercing Aftercare' },
     { href: '/pagosaplazos',     label: 'Pagos a plazos' },
     { href: '/contacto',         label: 'Contacto / Cómo llegar' },
+  ],
+  artists: [
+    { href: '/davidreyes', label: 'David Reyes' },
+    { href: '/aryatari',   label: 'Ari Reyes' },
+    { href: '/joshua',     label: 'Joshua Reyes' },
+    { href: '/brignoni',   label: 'Armando Brignoni' },
   ],
 };
 ---
@@ -54,12 +57,13 @@ const links = {
         <p class="footer-col-title">Servicios</p>
         <nav>
           {links.services.map(l => <a class="footer-link" href={l.href}>{l.label}</a>)}
+          {links.info.map(l => <a class="footer-link" href={l.href}>{l.label}</a>)}
         </nav>
       </div>
       <div class="footer-links-col">
-        <p class="footer-col-title">Información</p>
+        <p class="footer-col-title">Artistas</p>
         <nav>
-          {links.info.map(l => <a class="footer-link" href={l.href}>{l.label}</a>)}
+          {links.artists.map(l => <a class="footer-link" href={l.href}>{l.label}</a>)}
         </nav>
       </div>
 
@@ -70,18 +74,15 @@ const links = {
         <address>
           418 Av 65 Infantería<br/>San Juan, PR 00926
         </address>
+        <p class="footer-hours">
+          <strong>Lun–Sáb</strong> 11 AM – 8 PM<br/>
+          <strong>Dom</strong> Cerrado
+        </p>
         <a
           class="btn btn-gold"
           style="margin-top:16px;width:100%;justify-content:center;"
           href="/reservar"
         >Reservar cita</a>
-        <a
-          class="btn"
-          style="margin-top:8px;width:100%;justify-content:center;"
-          href="https://www.google.com/maps/search/?api=1&query=Sacred+Pain+Tattoo+418+Av+65+Infanteria+San+Juan+PR+00926"
-          target="_blank"
-          rel="noreferrer"
-        >Ver en Maps</a>
       </div>
     </div>
 
@@ -195,6 +196,13 @@ const links = {
     color: var(--muted);
     line-height: 1.7;
   }
+  .footer-hours {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 10px;
+    line-height: 1.7;
+  }
+  .footer-hours strong { color: var(--text); font-weight: 600; }
 
   /* bottom */
   .footer-bottom {

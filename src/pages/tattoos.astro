@@ -7,10 +7,9 @@ const artists = [
     avatar: '/images/avatars/david.jpg',
     handle: '@davidreyesart',
     ig: 'https://www.instagram.com/davidreyesart',
+    slug: '/davidreyes',
     specialty: 'Custom tattoos',
-    bio: 'Artista con años de experiencia en tatuajes a medida. Acepta consultas previas — lee toda la información antes de solicitar cita.',
-    bookSlug: '/reservar?artista=David+Reyes',
-    consultSlug: '/david-consulta',
+    bio: 'Artista con 20+ años de experiencia en Black & Grey Realism y Color Realism. Acepta consultas previas.',
     image: '/images/artist-david.jpeg',
   },
   {
@@ -18,10 +17,9 @@ const artists = [
     avatar: '/images/avatars/ari.jpg',
     handle: '@aryatari',
     ig: 'https://www.instagram.com/aryatari',
+    slug: '/aryatari',
     specialty: 'Illustrative / Fine line',
-    bio: 'Especialista en tatuajes illustrativos y fine line. Revisa su Instagram para ver su portafolio más reciente.',
-    bookSlug: '/reservar?artista=Ari+Reyes',
-    consultSlug: '/reservar',
+    bio: 'Especialista en tatuajes illustrativos y fine line. Visita su perfil para ver portafolio y consultar.',
     image: '/images/artist-ari.jpg',
   },
   {
@@ -29,10 +27,9 @@ const artists = [
     avatar: '/images/avatars/joshua.jpg',
     handle: '@jousoytuartista',
     ig: 'https://www.instagram.com/jousoytuartista',
+    slug: '/joshua',
     specialty: 'Black & Grey / Realism',
     bio: 'Artista enfocado en Black & Grey y realismo. Disponible para walk-ins según disponibilidad.',
-    bookSlug: '/reservar?artista=Joshua+Reyes',
-    consultSlug: '/reservar',
     image: '/images/hero-studio.jpeg',
   },
   {
@@ -40,10 +37,9 @@ const artists = [
     avatar: '/images/avatars/brignoni.jpg',
     handle: '@brignoni.arts',
     ig: 'https://www.instagram.com/brignoni.arts',
+    slug: '/brignoni',
     specialty: 'Neo-traditional',
-    bio: 'Tatuajes Neo-traditional con paletas de color vibrantes. Consulta disponibilidad por Instagram.',
-    bookSlug: '/reservar?artista=Armando+Brignoni',
-    consultSlug: '/reservar',
+    bio: 'Tatuajes Neo-traditional con paletas de color vibrantes. Visita su perfil para más información.',
     image: '/images/artist-brignoni.jpg',
   },
 ];
@@ -91,11 +87,8 @@ const artists = [
               <hr class="gold-line" />
               <p class="lead" style="max-width:52ch">{a.bio}</p>
               <div class="artist-feature-actions">
-                <a class="btn btn-gold" href={a.bookSlug}>Reservar con {a.name.split(' ')[0]}</a>
-                <a class="btn btn-outline-gold" href={a.ig} target="_blank" rel="noreferrer">Ver Instagram</a>
-                {a.consultSlug === '/david-consulta' && (
-                  <a class="btn" href={a.consultSlug}>Consulta específica</a>
-                )}
+                <a class="btn btn-gold" href={a.slug}>Ver perfil y portfolio</a>
+                <a class="btn btn-outline-gold" href={a.ig} target="_blank" rel="noreferrer">Instagram</a>
               </div>
               <p class="muted" style="margin-top:10px">{a.handle}</p>
             </div>
