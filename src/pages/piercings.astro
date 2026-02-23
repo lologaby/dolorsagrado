@@ -1,0 +1,176 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const gallery = [
+  '/images/piercing-gallery-1.jpg',
+  '/images/piercing-gallery-2.jpg',
+  '/images/piercing-gallery-3.jpg',
+  '/images/piercing-gallery-4.jpg',
+  '/images/piercing-gallery-5.jpg',
+  '/images/piercing-gallery-6.jpg',
+  '/images/piercing-gallery-7.jpg',
+  '/images/piercing-gallery-8.jpg',
+];
+
+const prices = [
+  {
+    category: 'Piercings Básicos',
+    note: '*incluye joyería básica en titanio (esterilizada)',
+    items: [
+      { name: 'Oreja (Helix, Conch, Tragus, Lobe, Daith, Rook…)', price: '$60 c/u' },
+      { name: 'Oreja — Anti Tragus (pantilla)', price: '$80 c/u' },
+      { name: 'Nariz — Side Nostril', price: '$60 c/u' },
+      { name: 'Nariz — Double Nostril', price: '$120 c/u' },
+      { name: 'Ombligo (Upper & Lower)', price: '$60 c/u' },
+      { name: 'Cejas (Inner & Outer)', price: '$60 c/u' },
+      { name: 'Labios (Labret, Monroe, Medusa, Vertical Labret…)', price: '$60 c/u' },
+    ],
+  },
+  {
+    category: 'Advanced Piercings',
+    note: '*incluye joyería básica en titanio (esterilizada)',
+    items: [
+      { name: 'Nipple (Vertical & Horizontal)', price: '$80 c/u' },
+      { name: 'Tongue (Vertical only)', price: '$80 c/u' },
+      { name: 'Industrial', price: '$60 c/u' },
+    ],
+  },
+  {
+    category: 'Exotic Piercings',
+    note: '*incluye joyería básica en titanio (esterilizada)',
+    items: [
+      { name: 'Dermals — Titanium Grade Anchor', price: '$60 c/u' },
+      { name: 'Genitals (Vaginal & Penile)', price: '$200+ c/u' },
+      { name: 'Surface Piercings — NO FINGER PIERCINGS', price: '$80 c/u' },
+    ],
+  },
+];
+---
+
+<Layout
+  title="Piercings — Sacred Pain Tattoo"
+  description="Perforaciones profesionales en San Juan, PR. Precios, información y reservas."
+>
+  <!-- Hero -->
+  <section class="pierce-hero">
+    <div class="pierce-hero-bg">
+      <img src="/images/piercing-1.jpg" alt="Piercings Sacred Pain" loading="eager" />
+      <div class="pierce-hero-overlay"></div>
+    </div>
+    <div class="container pierce-hero-content">
+      <p class="kicker">Perforaciones</p>
+      <h1 class="h1">Piercings<br/><span class="gold-text">Profesionales</span></h1>
+      <p class="lead">
+        Tatito — <a href="https://www.instagram.com/tatitobodypiercings" target="_blank" rel="noreferrer" style="color:var(--gold)">@tatitobodypiercings</a>
+      </p>
+      <ul class="pierce-rules">
+        <li>Toda persona debe ser mayor de 18 años con identificación válida del gobierno.</li>
+        <li>Menores de 18 años (mínimo 16) deben venir con padre/madre o tutor legal con ID y acta de nacimiento.</li>
+      </ul>
+      <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap">
+        <a class="btn btn-gold" href="/reservar">Reservar piercing</a>
+        <a class="btn btn-outline-gold" href="#precios">Ver precios</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section class="section-sm">
+    <div class="container">
+      <p class="kicker">Galería</p>
+      <h2 class="h2" style="margin-bottom:24px">Nuestro trabajo</h2>
+      <div class="pierce-gallery">
+        {gallery.map((src, i) => (
+          <div class="pierce-gallery-item fade-in">
+            <img src={src} alt={`Piercing trabajo ${i + 1}`} loading="lazy" />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- Prices -->
+  <section class="section" id="precios">
+    <div class="container">
+      <p class="kicker">Listado de precios</p>
+      <h2 class="h2" style="margin-bottom:8px">Precios de Perforaciones</h2>
+      <p class="muted" style="margin-bottom:36px">Titanium &amp; Gold Jewelry disponible a un costo adicional.</p>
+
+      <div class="grid md\:cols-3">
+        {prices.map(cat => (
+          <div class="card card-body fade-in">
+            <h3 class="h3" style="font-size:20px;margin-bottom:6px">{cat.category}</h3>
+            <p class="muted" style="font-size:11px;margin-bottom:16px">{cat.note}</p>
+            <div class="price-list">
+              {cat.items.map(item => (
+                <div class="price-row">
+                  <span class="price-name">{item.name}</span>
+                  <span class="price-amt">{item.price}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div style="text-align:center;margin-top:40px" class="fade-in">
+        <a class="btn btn-gold" href="/reservar">Reservar perforación</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .pierce-hero {
+    position: relative; min-height: 60vh;
+    display: flex; align-items: flex-end; padding-bottom: 56px;
+  }
+  .pierce-hero-bg { position: absolute; inset: 0; overflow: hidden; }
+  .pierce-hero-bg img { width: 100%; height: 100%; object-fit: cover; object-position: center 35%; }
+  .pierce-hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(8,8,8,0.95) 0%, rgba(8,8,8,0.55) 50%, rgba(8,8,8,0.2) 100%);
+  }
+  .pierce-hero-content { position: relative; z-index: 1; }
+  .gold-text { color: var(--gold); }
+  .pierce-rules {
+    margin: 14px 0 0; padding-left: 18px;
+    color: var(--muted); font-size: 13px; line-height: 1.7;
+  }
+  .pierce-rules li { margin: 4px 0; }
+
+  /* Gallery */
+  .pierce-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  @media (min-width: 640px)  { .pierce-gallery { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 1024px) { .pierce-gallery { grid-template-columns: repeat(4, 1fr); } }
+  .pierce-gallery-item {
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: var(--r-sm);
+    border: 1px solid var(--border);
+  }
+  .pierce-gallery-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  .pierce-gallery-item:hover img { transform: scale(1.06); }
+
+  /* Prices */
+  .price-list { display: grid; gap: 10px; }
+  .price-row {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 12px; padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .price-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .price-name { color: var(--muted); flex: 1; }
+  .price-amt { color: var(--gold); font-weight: 700; white-space: nowrap; flex-shrink: 0; }
+</style>

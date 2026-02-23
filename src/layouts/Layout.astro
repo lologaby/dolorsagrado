@@ -1,23 +1,60 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+---
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+type Props = {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+};
+
+const {
+  title = 'Sacred Pain Tattoo — San Juan, PR',
+  description = 'El mejor estudio de tatuajes y perforaciones en San Juan, Puerto Rico. Artistas premiados, ambiente limpio y seguro. Reserva tu cita ahora.',
+  ogImage = 'https://img1.wsimg.com/isteam/ip/fd492585-183a-4eed-9c7d-78514a55ce82/IMG_9005.jpeg',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#080808" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- OG -->
+    <meta property="og:type"        content="website" />
+    <meta property="og:site_name"   content="Sacred Pain Tattoo" />
+    <meta property="og:title"       content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image"       content={ogImage} />
+    <meta name="twitter:card"       content="summary_large_image" />
+    <meta name="twitter:title"      content={title} />
+    <meta name="twitter:image"      content={ogImage} />
+
+    <title>{title}</title>
+
+    <link rel="icon" href="https://img1.wsimg.com/isteam/ip/fd492585-183a-4eed-9c7d-78514a55ce82/favicon/140178df-c1bd-4b15-9696-cfc937269b79.png/:/rs=w:32,h:32,m" />
+    <link rel="stylesheet" href="/styles/global.css" />
+
+    <!-- Fade-in on scroll -->
+    <script is:inline>
+      document.addEventListener('DOMContentLoaded', () => {
+        const obs = new IntersectionObserver((entries) => {
+          entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.12 });
+        document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+      });
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Saltar al contenido</a>
+    <SiteHeader />
+    <main id="main">
+      <slot />
+    </main>
+    <SiteFooter />
+  </body>
+</html>

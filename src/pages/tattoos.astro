@@ -1,0 +1,197 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const artists = [
+  {
+    name: 'David Reyes',
+    avatar: '/images/avatars/david.jpg',
+    handle: '@davidreyesart',
+    ig: 'https://www.instagram.com/davidreyesart',
+    specialty: 'Custom tattoos',
+    bio: 'Artista con años de experiencia en tatuajes a medida. Acepta consultas previas — lee toda la información antes de solicitar cita.',
+    bookSlug: '/reservar?artista=David+Reyes',
+    consultSlug: '/david-consulta',
+    image: '/images/artist-david.jpeg',
+  },
+  {
+    name: 'Ari Reyes',
+    avatar: '/images/avatars/ari.jpg',
+    handle: '@aryatari',
+    ig: 'https://www.instagram.com/aryatari',
+    specialty: 'Illustrative / Fine line',
+    bio: 'Especialista en tatuajes illustrativos y fine line. Revisa su Instagram para ver su portafolio más reciente.',
+    bookSlug: '/reservar?artista=Ari+Reyes',
+    consultSlug: '/reservar',
+    image: '/images/artist-ari.jpg',
+  },
+  {
+    name: 'Joshua Reyes',
+    avatar: '/images/avatars/joshua.jpg',
+    handle: '@jousoytuartista',
+    ig: 'https://www.instagram.com/jousoytuartista',
+    specialty: 'Black & Grey / Realism',
+    bio: 'Artista enfocado en Black & Grey y realismo. Disponible para walk-ins según disponibilidad.',
+    bookSlug: '/reservar?artista=Joshua+Reyes',
+    consultSlug: '/reservar',
+    image: '/images/hero-studio.jpeg',
+  },
+  {
+    name: 'Armando Brignoni',
+    avatar: '/images/avatars/brignoni.jpg',
+    handle: '@brignoni.arts',
+    ig: 'https://www.instagram.com/brignoni.arts',
+    specialty: 'Neo-traditional',
+    bio: 'Tatuajes Neo-traditional con paletas de color vibrantes. Consulta disponibilidad por Instagram.',
+    bookSlug: '/reservar?artista=Armando+Brignoni',
+    consultSlug: '/reservar',
+    image: '/images/artist-brignoni.jpg',
+  },
+];
+---
+
+<Layout
+  title="Tattoo Artists — Sacred Pain Tattoo"
+  description="Conoce los artistas de Sacred Pain Tattoo, San Juan PR. Reserva tu cita hoy."
+>
+  <!-- Hero -->
+  <section class="artists-hero">
+    <div class="artists-hero-bg">
+      <img src="/images/artist-david.jpeg" alt="" aria-hidden="true" loading="eager" />
+      <div class="artists-hero-overlay"></div>
+    </div>
+    <div class="container artists-hero-content">
+      <p class="kicker">Nuestros artistas</p>
+      <h1 class="h1">Tattoo<br/><span class="gold-text">Artists</span></h1>
+      <p class="lead">
+        Artistas profesionales con estilos únicos. Tatuajes solamente para adultos (+18).
+        Selecciona un artista para reservar tu cita o consultar disponibilidad.
+      </p>
+      <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap">
+        <a class="btn btn-gold" href="/reservar">Reservar cita</a>
+        <a class="btn btn-outline-gold" href="tel:7875962562">(787) 596-2562</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Artists list -->
+  <section class="section" style="padding-top:64px">
+    <div class="container">
+      <div class="artists-list">
+        {artists.map((a) => (
+          <article class="artist-feature card">
+            <div class="artist-feature-img">
+              <img src={a.image} alt={a.name} loading="lazy" />
+            </div>
+            <div class="artist-feature-body">
+              <div class="artist-name-row">
+                <img class="artist-profile-pic" src={a.avatar} alt={`${a.name} perfil`} loading="lazy" />
+                <p class="kicker" style="margin:0">{a.specialty}</p>
+              </div>
+              <h2 class="h2">{a.name}</h2>
+              <hr class="gold-line" />
+              <p class="lead" style="max-width:52ch">{a.bio}</p>
+              <div class="artist-feature-actions">
+                <a class="btn btn-gold" href={a.bookSlug}>Reservar con {a.name.split(' ')[0]}</a>
+                <a class="btn btn-outline-gold" href={a.ig} target="_blank" rel="noreferrer">Ver Instagram</a>
+                {a.consultSlug === '/david-consulta' && (
+                  <a class="btn" href={a.consultSlug}>Consulta específica</a>
+                )}
+              </div>
+              <p class="muted" style="margin-top:10px">{a.handle}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <section class="section-sm">
+    <div class="container" style="text-align:center">
+      <p class="kicker">¿No sabes cuál elegir?</p>
+      <h2 class="h2" style="margin-bottom:16px">Te ayudamos a encontrar<br/>el artista perfecto</h2>
+      <p class="lead" style="margin:0 auto 28px">
+        Selecciona "Cualquiera disponible" en el formulario y te conectamos con el artista
+        cuyo estilo mejor se adapte a tu idea.
+      </p>
+      <a class="btn btn-gold" href="/reservar">Ir al formulario de reserva</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Hero */
+  .artists-hero {
+    position: relative;
+    min-height: 55vh;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 56px;
+  }
+  .artists-hero-bg {
+    position: absolute; inset: 0; overflow: hidden;
+  }
+  .artists-hero-bg img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 25%;
+  }
+  .artists-hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(8,8,8,0.96) 0%, rgba(8,8,8,0.55) 50%, rgba(8,8,8,0.25) 100%);
+  }
+  .artists-hero-content { position: relative; z-index: 1; }
+  .gold-text { color: var(--gold); }
+
+  /* Artist cards */
+  .artists-list { display: grid; gap: 20px; }
+  .artist-feature {
+    display: grid;
+    overflow: hidden;
+  }
+  @media (min-width: 700px) {
+    .artist-feature {
+      grid-template-columns: 320px 1fr;
+    }
+  }
+  .artist-feature-img {
+    aspect-ratio: 4/5;
+    overflow: hidden;
+  }
+  @media (min-width: 700px) {
+    .artist-feature-img { aspect-ratio: auto; }
+  }
+  .artist-feature-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  .artist-feature:hover .artist-feature-img img { transform: scale(1.04); }
+  .artist-feature-body {
+    padding: 28px 28px 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .artist-feature-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+  .artist-name-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 10px;
+  }
+  .artist-profile-pic {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border-gold);
+    flex-shrink: 0;
+  }
+</style>

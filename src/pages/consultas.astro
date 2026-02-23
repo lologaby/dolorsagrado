@@ -1,0 +1,156 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Reservar cita — Sacred Pain Tattoo" description="Solicita una cita para tatuajes, piercings o laser.">
+	<section class="section">
+		<div class="container">
+			<h1 class="h1">Reservar cita</h1>
+			<p class="lead">
+				Completa el formulario para solicitar una cita o más información. Muchos artistas aceptan walk-ins,
+				pero siempre recomendamos verificar disponibilidad.
+			</p>
+			<p class="muted">Tatuajes solamente para adultos.</p>
+
+			<div class="grid cols-2 section">
+				<article class="card">
+					<h2 class="h2">Solicitud de cita</h2>
+					<form class="form" method="post" action="mailto:YOUR_EMAIL_HERE" enctype="text/plain">
+						<label class="field">
+							<span>Nombre completo</span>
+							<input name="nombre" type="text" required />
+						</label>
+						<label class="field">
+							<span>Correo electrónico</span>
+							<input name="email" type="email" required />
+						</label>
+						<label class="field">
+							<span>Teléfono</span>
+							<input name="telefono" type="tel" required />
+						</label>
+						<label class="field">
+							<span>Artista</span>
+							<select name="artista" required>
+								<option value="">Selecciona...</option>
+								<option value="Cualquiera">Cualquiera</option>
+								<option value="David Reyes">David Reyes</option>
+								<option value="Ari Reyes">Ari Reyes</option>
+								<option value="Armando Brignoni">Armando Brignoni</option>
+								<option value="Piercings / Tatito">Piercings / Tatito</option>
+							</select>
+						</label>
+						<label class="field">
+							<span>Servicio</span>
+							<select name="servicio" required>
+								<option value="">Selecciona...</option>
+								<option value="Tattoo">Tattoo</option>
+								<option value="Piercing">Piercing</option>
+								<option value="Laser">Laser</option>
+							</select>
+						</label>
+						<label class="field">
+							<span>Fecha / horario preferido</span>
+							<input name="horario" type="text" placeholder="Ej: Sábado en la tarde" />
+						</label>
+						<label class="field">
+							<span>Descripción / ideas</span>
+							<textarea name="mensaje" rows="4" placeholder="Tamaño, ubicación, referencias, presupuesto aproximado..."></textarea>
+						</label>
+						<label class="check">
+							<input type="checkbox" name="adulto" required />
+							<span>Confirmo que soy mayor de 18 años.</span>
+						</label>
+						<button class="btn primary" type="submit">Enviar solicitud</button>
+						<p class="muted small">
+							Al enviar, se abrirá tu app de correo con el resumen de la solicitud para que puedas revisarlo y enviarlo.
+						</p>
+					</form>
+				</article>
+				<article class="card">
+					<h2 class="h2">Contactar directamente</h2>
+					<p class="lead">También puedes llamar al estudio o escribir directo a tu artista.</p>
+					<ul class="list">
+						<li>
+							<strong>Estudio</strong><br />
+							<a href="tel:7875962562">(787) 596-2562</a>
+						</li>
+						<li>
+							<strong>David Reyes</strong><br />
+							<a href="https://www.instagram.com/davidreyesart" target="_blank" rel="noreferrer">@davidreyesart</a>
+						</li>
+						<li>
+							<strong>Ari Reyes</strong><br />
+							<a href="https://www.instagram.com/aryatari" target="_blank" rel="noreferrer">@aryatari</a>
+						</li>
+						<li>
+							<strong>Armando Brignoni</strong><br />
+							<a href="https://www.instagram.com/brignoni.arts" target="_blank" rel="noreferrer">@brignoni.arts</a>
+						</li>
+						<li>
+							<strong>Piercings / Tatito</strong><br />
+							<a href="https://www.instagram.com/tatitobodypiercings" target="_blank" rel="noreferrer">@tatitobodypiercings</a>
+						</li>
+					</ul>
+				</article>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.actions {
+		display: flex;
+		gap: 10px;
+		flex-wrap: wrap;
+		margin-top: 12px;
+	}
+	.form {
+		display: grid;
+		gap: 10px;
+	}
+	.field {
+		display: grid;
+		gap: 4px;
+		font-size: 14px;
+	}
+	.field span {
+		color: rgba(255, 255, 255, 0.8);
+	}
+	input,
+	select,
+	textarea {
+		width: 100%;
+		padding: 8px 10px;
+		border-radius: 10px;
+		border: 1px solid rgba(255, 255, 255, 0.18);
+		background: rgba(6, 12, 16, 0.8);
+		color: #fff;
+		font: inherit;
+	}
+	input:focus,
+	select:focus,
+	textarea:focus {
+		outline: 2px solid rgba(0, 200, 255, 0.7);
+		outline-offset: 1px;
+	}
+	.check {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		font-size: 13px;
+		color: rgba(255, 255, 255, 0.8);
+	}
+	.small {
+		font-size: 12px;
+		margin-top: 6px;
+	}
+	.list {
+		margin: 10px 0 0;
+		padding-left: 18px;
+		color: rgba(255, 255, 255, 0.78);
+	}
+	.list li {
+		margin: 6px 0;
+	}
+</style>
+

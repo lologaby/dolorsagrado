@@ -1,0 +1,252 @@
+---
+const nav = [
+  { href: '/',          label: 'Inicio' },
+  { href: '/tattoos',   label: 'Tattoos' },
+  { href: '/piercings', label: 'Piercings' },
+  { href: '/laser',     label: 'Laser' },
+  { href: '/aftercare', label: 'Aftercare' },
+  { href: '/contacto',  label: 'Contacto' },
+];
+---
+
+<header class="header" id="header">
+  <!-- Announcement bar -->
+  <div class="announce">
+    <span>Walk-ins Welcome &nbsp;·&nbsp; Atendemos sin cita &nbsp;·&nbsp; TATUATÉ AHORA, PAGUE DESPUÉS</span>
+  </div>
+
+  <div class="nav-bar">
+    <div class="container nav-inner">
+      <!-- Logo -->
+      <a class="logo" href="/" aria-label="Sacred Pain Tattoo — Inicio">
+        <img
+          src="/images/logo.png"
+          alt="Sacred Pain Tattoo logo"
+          width="52" height="52"
+        />
+        <span class="logo-text">
+          <span class="logo-name">Sacred Pain</span>
+          <span class="logo-sub">Tattoo &amp; Piercings · San Juan, PR</span>
+        </span>
+      </a>
+
+      <!-- Desktop nav -->
+      <nav class="desktop-nav" aria-label="Navegación principal">
+        {nav.map(item => (
+          <a class="nav-link" href={item.href}>{item.label}</a>
+        ))}
+      </nav>
+
+      <!-- CTA + hamburger -->
+      <div class="nav-end">
+        <a class="btn btn-gold hide-mobile" href="/reservar">Reservar cita</a>
+        <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile drawer -->
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <nav aria-label="Menú móvil">
+      {nav.map(item => (
+        <a class="mobile-link" href={item.href}>{item.label}</a>
+      ))}
+      <a class="btn btn-gold mobile-cta" href="/reservar">Reservar cita</a>
+    </nav>
+    <a class="mobile-phone" href="tel:7875962562">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92V20a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 4.37 6.18 2 2 0 0 1 6.36 4h3.08a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L10.91 11.4a16 16 0 0 0 6.69 6.69l.78-.78a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      (787) 596-2562
+    </a>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('hamburger')!;
+  const menu = document.getElementById('mobile-menu')!;
+  const header = document.getElementById('header')!;
+
+  btn.addEventListener('click', () => {
+    const open = menu.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(open));
+    menu.setAttribute('aria-hidden', String(!open));
+    btn.classList.toggle('active', open);
+  });
+
+  // Close on link click
+  menu.querySelectorAll('a').forEach(a =>
+    a.addEventListener('click', () => {
+      menu.classList.remove('open');
+      btn.classList.remove('active');
+      btn.setAttribute('aria-expanded', 'false');
+    })
+  );
+</script>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  /* announce bar */
+  .announce {
+    background: var(--gold);
+    color: #000;
+    text-align: center;
+    padding: 7px 16px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  /* nav bar */
+  .nav-bar {
+    background: rgba(8,8,8,0.88);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    gap: 16px;
+  }
+
+  /* logo */
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+    text-decoration: none;
+  }
+  .logo img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid var(--border-gold);
+    object-fit: cover;
+  }
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+  }
+  .logo-name {
+    font-family: var(--font-display);
+    font-size: 22px;
+    letter-spacing: 1px;
+    color: var(--text);
+  }
+  .logo-sub {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    color: var(--muted2);
+    text-transform: uppercase;
+  }
+
+  /* desktop nav */
+  .desktop-nav {
+    display: none;
+    align-items: center;
+    gap: 4px;
+  }
+  @media (min-width: 880px) { .desktop-nav { display: flex; } }
+  .nav-link {
+    padding: 7px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: color 0.15s, background 0.15s;
+  }
+  .nav-link:hover {
+    color: var(--text);
+    background: rgba(255,255,255,0.06);
+    text-decoration: none;
+  }
+
+  /* nav end */
+  .nav-end {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* hamburger */
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 0 8px;
+  }
+  @media (min-width: 880px) { .hamburger { display: none; } }
+  .hamburger span {
+    display: block;
+    width: 100%;
+    height: 1.5px;
+    background: var(--text);
+    transition: transform 0.25s, opacity 0.25s;
+    transform-origin: center;
+  }
+  .hamburger.active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  /* mobile menu */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    top: 0;
+    background: var(--dark);
+    padding: 100px 28px 36px;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 99;
+    overflow-y: auto;
+    transform: translateX(100%);
+    transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
+  }
+  .mobile-menu.open {
+    display: flex;
+    transform: translateX(0);
+  }
+  @media (max-width: 879px) { .mobile-menu { display: flex; } }
+  .mobile-link {
+    font-family: var(--font-display);
+    font-size: 36px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    transition: color 0.15s;
+  }
+  .mobile-link:hover { color: var(--text); text-decoration: none; }
+  .mobile-cta { margin-top: 24px; width: 100%; justify-content: center; font-size: 14px; }
+  .mobile-phone {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+</style>

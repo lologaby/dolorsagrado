@@ -1,0 +1,100 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Remoción Laser — Sacred Pain Tattoo"
+  description="Sacred Body by Jan — Remoción de tatuajes con Laser Pico Segundos en San Juan, PR."
+>
+  <!-- Hero -->
+  <section class="laser-hero">
+    <div class="laser-hero-bg">
+      <img src="/images/laser.jpeg" alt="Laser remoción Sacred Pain" loading="eager" />
+      <div class="laser-hero-overlay"></div>
+    </div>
+    <div class="container laser-hero-content">
+      <p class="kicker">Nuevo servicio</p>
+      <h1 class="h1">Remoción de<br/><span class="gold-text">Tatuajes</span><br/>con Laser</h1>
+      <p class="lead">
+        Sacred Body by Jan —
+        <a href="https://www.instagram.com/sacredbodybyjan" target="_blank" rel="noreferrer" style="color:var(--gold)">@sacredbodybyjan</a>
+      </p>
+      <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap">
+        <a class="btn btn-gold" href="/reservar">Solicitar evaluación</a>
+        <a class="btn btn-outline-gold" href="https://www.instagram.com/sacredbodybyjan" target="_blank" rel="noreferrer">Descubre más</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Info -->
+  <section class="section">
+    <div class="container">
+      <div class="laser-layout">
+        <div class="fade-in">
+          <p class="kicker">¿Cómo funciona?</p>
+          <h2 class="h2">Laser de Pico Segundos</h2>
+          <hr class="gold-line" />
+          <p class="lead" style="margin-bottom:18px">
+            El láser Pico para eliminación de tatuajes emite pulsos ultracortos de energía en picosegundos.
+            Estos pulsos fragmentan la tinta en partículas muy pequeñas que el cuerpo elimina a través
+            del sistema linfático.
+          </p>
+          <p class="lead">
+            Este método es más efectivo y rápido que los láseres tradicionales —
+            <strong style="color:var(--text)">reduce el daño a la piel</strong> y permite eliminar
+            una mayor variedad de colores con menos sesiones y menos riesgo de cicatrices.
+          </p>
+        </div>
+
+        <div class="laser-cards fade-in">
+          <div class="card card-body card-gold">
+            <p class="kicker">Ventajas</p>
+            <ul class="laser-list">
+              <li>Menos sesiones que láser tradicional</li>
+              <li>Mayor variedad de colores eliminados</li>
+              <li>Menor riesgo de cicatrices</li>
+              <li>Menos daño al tejido circundante</li>
+              <li>Resultados más rápidos y visibles</li>
+            </ul>
+          </div>
+          <div class="card card-body" style="margin-top:16px">
+            <p class="kicker">¿Cómo empezar?</p>
+            <p class="lead" style="margin-bottom:14px">
+              Contáctanos con fotos del tatuaje que deseas remover para una evaluación inicial.
+            </p>
+            <a class="btn btn-gold" style="width:100%;justify-content:center" href="/reservar">Solicitar consulta</a>
+            <a class="btn" style="width:100%;justify-content:center;margin-top:8px" href="tel:7875962562">(787) 596-2562</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .laser-hero {
+    position: relative; min-height: 65vh;
+    display: flex; align-items: flex-end; padding-bottom: 56px;
+  }
+  .laser-hero-bg { position: absolute; inset: 0; overflow: hidden; }
+  .laser-hero-bg img { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; }
+  .laser-hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(8,8,8,0.97) 0%, rgba(8,8,8,0.6) 45%, rgba(8,8,8,0.15) 100%);
+  }
+  .laser-hero-content { position: relative; z-index: 1; }
+  .gold-text { color: var(--gold); }
+
+  .laser-layout {
+    display: grid;
+    gap: 40px;
+    align-items: start;
+  }
+  @media (min-width: 880px) { .laser-layout { grid-template-columns: 1fr 380px; } }
+
+  .laser-list {
+    margin: 0; padding-left: 18px;
+    color: var(--muted); font-size: 14px; line-height: 1.8;
+  }
+  .laser-list li { margin: 4px 0; }
+</style>

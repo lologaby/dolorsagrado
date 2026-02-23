@@ -1,0 +1,57 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Piercing aftercare — Sacred Pain Tattoo" description="Guía básica de cuidado para piercings.">
+	<section class="section">
+		<div class="container">
+			<h1 class="h1">Piercing aftercare</h1>
+			<p class="lead">Guía básica. Sigue las instrucciones específicas de tu piercer.</p>
+
+			<div class="grid cols-2 section">
+				<div class="card">
+					<h2 class="h2">Rutina</h2>
+					<ul class="list">
+						<li>Solución salina (según indicaciones) para limpiar suavemente.</li>
+						<li>No manipules la joyería innecesariamente.</li>
+						<li>Mantén fundas y toallas limpias.</li>
+					</ul>
+				</div>
+				<div class="card">
+					<h2 class="h2">Evita</h2>
+					<ul class="list">
+						<li>Alcohol/peróxido si no fue recomendado.</li>
+						<li>Piscinas y jacuzzis al inicio de la cicatrización.</li>
+						<li>Dormir presionando el área (si aplica).</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="card section">
+				<h2 class="h2">¿Problemas o dudas?</h2>
+				<p class="lead">Escríbenos y te orientamos.</p>
+				<div class="actions">
+					<a class="btn primary" href="/contacto">Contacto</a>
+				</div>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.actions {
+		display: flex;
+		gap: 10px;
+		flex-wrap: wrap;
+		margin-top: 12px;
+	}
+	.list {
+		margin: 0;
+		padding-left: 18px;
+		color: rgba(255, 255, 255, 0.74);
+	}
+	.list li {
+		margin: 8px 0;
+	}
+</style>
+

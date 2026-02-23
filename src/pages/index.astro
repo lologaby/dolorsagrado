@@ -1,11 +1,418 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const artists = [
+  { name: 'David Reyes',     handle: '@davidreyesart',       ig: 'https://www.instagram.com/davidreyesart',       slug: '/davidreyes', specialty: 'Custom tattoos',    avatar: '/images/avatars/david.jpg' },
+  { name: 'Ari Reyes',       handle: '@aryatari',            ig: 'https://www.instagram.com/aryatari',            slug: '/aryatari',   specialty: 'Illustrative',      avatar: '/images/avatars/ari.jpg' },
+  { name: 'Joshua Reyes',    handle: '@jousoytuartista',     ig: 'https://www.instagram.com/jousoytuartista',     slug: '/tattoos',    specialty: 'Black & Grey',      avatar: '/images/avatars/joshua.jpg' },
+  { name: 'Armando Brignoni',handle: '@brignoni.arts',       ig: 'https://www.instagram.com/brignoni.arts',       slug: '/brignoni',   specialty: 'Neo-traditional',   avatar: '/images/avatars/brignoni.jpg' },
+  { name: 'Tatito',          handle: '@tatitobodypiercings', ig: 'https://www.instagram.com/tatitobodypiercings', slug: '/piercings',  specialty: 'Body Piercing',      avatar: '/images/avatars/tatito.jpg' },
+];
+
+const reviews = [
+  { text: '"The best in P.R — incredible work and a super clean studio."',        author: 'Roberto N.',   stars: 5 },
+  { text: '"Great receptionist and an amazing experience from start to finish."', author: 'Alex M.',      stars: 5 },
+  { text: '"La experiencia fue maravillosa. Desde la llegada te tratan con cariño y respeto."', author: 'Isabel L.', stars: 5 },
+  { text: '"Best of the best — would definitely recommend for anyone visiting PR!"', author: 'Christian V.', stars: 5 },
+];
 ---
 
 <Layout>
-	<Welcome />
+  <!-- ════════════════════════════════════════════════ HERO -->
+  <section class="hero">
+    <div class="hero-bg">
+      <img
+        src="/images/hero.jpeg"
+        alt=""
+        aria-hidden="true"
+        loading="eager"
+        decoding="async"
+      />
+      <div class="hero-overlay"></div>
+    </div>
+
+    <div class="container hero-content">
+      <div class="hero-text fade-in">
+        <div class="pill">Walk-ins Welcome · San Juan, PR</div>
+        <h1 class="display hero-headline">
+          Tu mejor<br/>
+          <span class="gold-text">elección</span><br/>
+          para el arte<br/>
+          corporal
+        </h1>
+        <p class="lead hero-lead">
+          Tatuajes, piercings y remoción con laser en San Juan, Puerto Rico.
+          Artistas premiados, ambiente limpio y seguro.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-gold" href="/reservar">Reservar cita</a>
+          <a class="btn btn-outline-gold" href="#servicios">Ver servicios</a>
+        </div>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-num">4.8</span>
+          <span class="stat-label">Google Reviews</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-num">187+</span>
+          <span class="stat-label">Reseñas</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-num">10+</span>
+          <span class="stat-label">Años de experiencia</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════ MARQUEE -->
+  <div class="marquee-track">
+    <div class="marquee-inner">
+      {[1,2].map(() => (
+        <>
+          <span>Tattoos</span><span class="sep">✦</span>
+          <span>Piercings</span><span class="sep">✦</span>
+          <span>Laser</span><span class="sep">✦</span>
+          <span>Sacred Pain</span><span class="sep">✦</span>
+          <span>San Juan, PR</span><span class="sep">✦</span>
+          <span>Walk-ins Welcome</span><span class="sep">✦</span>
+          <span>Artistas Premiados</span><span class="sep">✦</span>
+          <span>Reserva tu cita</span><span class="sep">✦</span>
+        </>
+      ))}
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ SERVICIOS -->
+  <section class="section" id="servicios">
+    <div class="container">
+      <div class="section-header fade-in">
+        <p class="kicker">Nuestros Servicios</p>
+        <h2 class="h2">Da rienda suelta a<br/>tu creatividad</h2>
+      </div>
+
+      <div class="grid md\:cols-3 services-grid">
+        <article class="service-card fade-in">
+          <img
+            src="/images/artist-david.jpeg"
+            alt="Tattoo — Sacred Pain"
+            loading="lazy"
+          />
+          <div class="service-card-overlay">
+            <p class="kicker">Servicio</p>
+            <h3 class="h3">Tattoos</h3>
+            <p style="color:var(--muted);font-size:13px;margin:6px 0 14px;">Conoce nuestros artistas · Solo adultos</p>
+            <a class="btn btn-gold" href="/tattoos">Ver artistas</a>
+          </div>
+        </article>
+
+        <article class="service-card fade-in">
+          <img
+            src="/images/piercing-1.jpg"
+            alt="Piercings — Sacred Pain"
+            loading="lazy"
+          />
+          <div class="service-card-overlay">
+            <p class="kicker">Servicio</p>
+            <h3 class="h3">Piercings</h3>
+            <p style="color:var(--muted);font-size:13px;margin:6px 0 14px;">Joyas de calidad · Ambiente estéril</p>
+            <a class="btn btn-gold" href="/piercings">Ver piercings</a>
+          </div>
+        </article>
+
+        <article class="service-card fade-in">
+          <img
+            src="/images/laser.jpeg"
+            alt="Laser — Sacred Pain"
+            loading="lazy"
+          />
+          <div class="service-card-overlay">
+            <p class="kicker">Servicio</p>
+            <h3 class="h3">Remoción Laser</h3>
+            <p style="color:var(--muted);font-size:13px;margin:6px 0 14px;">Evaluación y plan de sesiones</p>
+            <a class="btn btn-gold" href="/laser">Más información</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ════════════════════════════════════════ BOOKING CTA -->
+  <section class="section booking-cta">
+    <div class="container">
+      <div class="booking-cta-inner card card-gold fade-in">
+        <div class="booking-cta-text">
+          <p class="kicker">Agenda ahora</p>
+          <h2 class="h2">¿Listo para tu próxima pieza?</h2>
+          <p class="lead">
+            Reserva una cita con cualquiera de nuestros artistas, obtén información
+            sobre precios y disponibilidad, o pasa como walk-in.
+          </p>
+          <ul class="cta-features">
+            <li>Tatuajes a medida · Walk-ins disponibles</li>
+            <li>Opciones de pago a plazos (Klarna, Affirm)</li>
+            <li>Estudio limpio, seguro y certificado</li>
+          </ul>
+        </div>
+        <div class="booking-cta-actions">
+          <a class="btn btn-gold" href="/reservar">Reservar cita</a>
+          <a class="btn btn-outline-gold" href="tel:7875962562">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M22 16.92V20a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 4.37 6.18 2 2 0 0 1 6.36 4h3.08a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L10.91 11.4a16 16 0 0 0 6.69 6.69l.78-.78a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            Llamar al estudio
+          </a>
+          <a class="btn" href="/pagosaplazos">Pagos a plazos</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ══════════════════════════════════════════════ EQUIPO -->
+  <section class="section" id="equipo">
+    <div class="container">
+      <div class="section-header fade-in">
+        <p class="kicker">Conozca nuestro equipo</p>
+        <h2 class="h2">Los artistas detrás<br/>de Sacred Pain</h2>
+        <p class="lead">
+          Artistas profesionales y premiados con estilos únicos.
+          Bienvenidos al mejor estudio de Tatuajes y Perforaciones en San Juan, PR.
+        </p>
+      </div>
+
+      <div class="grid sm\:cols-2 md\:cols-3 artists-grid">
+        {artists.map(a => (
+          <article class="artist-card card fade-in">
+            <div class="card-body">
+              <div class="artist-header">
+                <img class="artist-avatar-img" src={a.avatar} alt={`${a.name} — perfil Instagram`} loading="lazy" />
+                <div>
+                  <h3 class="h3" style="font-size:22px">{a.name}</h3>
+                  <p style="font-size:12px;color:var(--gold);font-weight:600;letter-spacing:1px;margin-top:2px">{a.specialty}</p>
+                </div>
+              </div>
+              <hr class="gold-line" />
+              <p class="muted" style="margin-bottom:14px">{a.handle}</p>
+              <div class="artist-actions">
+                <a class="btn btn-gold" href="/reservar">Reservar</a>
+                <a class="btn" href={a.ig} target="_blank" rel="noreferrer">Instagram</a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ════════════════════════════════════════════ REVIEWS -->
+  <section class="section" id="reviews">
+    <div class="container">
+      <div class="section-header fade-in">
+        <p class="kicker">Reseñas</p>
+        <h2 class="h2">4.8 ★ en Google</h2>
+        <p class="lead">187+ reseñas verificadas. Lo que dicen nuestros clientes.</p>
+      </div>
+
+      <div class="grid sm\:cols-2 md\:cols-4 fade-in">
+        {reviews.map(r => (
+          <div class="review-card">
+            <div class="stars">{'★'.repeat(r.stars)}</div>
+            <p class="review-text">{r.text}</p>
+            <p class="review-author">{r.author}</p>
+          </div>
+        ))}
+      </div>
+
+      <div style="text-align:center;margin-top:32px" class="fade-in">
+        <a
+          class="btn btn-outline-gold"
+          href="https://maps.google.com/maps?cid=9668360326715706334"
+          target="_blank"
+          rel="noreferrer"
+        >Ver todas las reseñas en Google</a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ════════════════════════════════════════════ SOCIAL -->
+  <section class="section-sm" id="social">
+    <div class="container">
+      <div class="social-section fade-in">
+        <div>
+          <p class="kicker">Síguenos</p>
+          <h2 class="h2">@sacredpain</h2>
+          <p class="lead">Mira nuestro trabajo más reciente en Instagram, TikTok y Facebook.</p>
+        </div>
+        <div class="social-links">
+          <a class="btn btn-gold" href="https://www.instagram.com/sacredpain" target="_blank" rel="noreferrer">
+            Instagram
+          </a>
+          <a class="btn" href="https://www.tiktok.com/@sacredpain" target="_blank" rel="noreferrer">
+            TikTok
+          </a>
+          <a class="btn" href="https://www.facebook.com/sacred.pain" target="_blank" rel="noreferrer">
+            Facebook
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
 </Layout>
+
+<style>
+  /* ── Hero ─────────────────────────────────────────────── */
+  .hero {
+    position: relative;
+    min-height: 90vh;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 64px;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+  .hero-bg img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(8,8,8,0.96) 0%,
+      rgba(8,8,8,0.60) 45%,
+      rgba(8,8,8,0.30) 100%
+    );
+  }
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+  }
+  .hero-text { max-width: 660px; }
+  .hero-headline { margin: 16px 0 18px; }
+  .gold-text { color: var(--gold); }
+  .hero-lead { margin-bottom: 24px; }
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* stats bar */
+  .hero-stats {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-gold);
+    border-radius: 8px;
+    padding: 16px 24px;
+    width: fit-content;
+  }
+  .stat { text-align: center; padding: 0 20px; }
+  .stat-num {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 32px;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .stat-label {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .stat-divider {
+    width: 1px;
+    height: 40px;
+    background: var(--border-gold);
+  }
+
+  /* services */
+  .section-header { margin-bottom: 40px; }
+  .services-grid { margin-top: 12px; }
+  .services-grid .service-card { min-height: 480px; }
+
+  /* booking CTA */
+  .booking-cta-inner {
+    display: grid;
+    gap: 32px;
+    padding: 40px;
+    background: linear-gradient(135deg, var(--surface) 0%, rgba(196,158,71,0.05) 100%);
+  }
+  @media (min-width: 880px) {
+    .booking-cta-inner {
+      grid-template-columns: 1fr auto;
+      align-items: center;
+    }
+  }
+  .cta-features {
+    margin: 16px 0 0;
+    padding-left: 18px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .cta-features li { margin: 6px 0; }
+  .booking-cta-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 200px;
+  }
+  .booking-cta-actions .btn { justify-content: center; }
+
+  /* artists */
+  .artist-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 4px;
+  }
+  .artist-avatar-img {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border-gold);
+    flex-shrink: 0;
+  }
+
+  /* social */
+  .social-section {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: flex-start;
+  }
+  @media (min-width: 640px) {
+    .social-section {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+  .social-links {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+</style>

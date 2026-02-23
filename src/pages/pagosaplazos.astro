@@ -1,0 +1,42 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+	title="Pagos a plazos — Sacred Pain Tattoo"
+	description="Opciones de pago para tu próxima pieza: paga ahora o después (según disponibilidad)."
+>
+	<section class="section">
+		<div class="container">
+			<h1 class="h1">Pagos a plazos</h1>
+			<p class="lead">
+				Consulta por opciones de pago disponibles para tu próxima pieza. La disponibilidad y términos dependen del proveedor.
+			</p>
+
+			<div class="grid cols-2 section">
+				<article class="card">
+					<h2 class="h2">Opciones</h2>
+					<p class="lead">Pregunta por alternativas como planes de pago “pague después” cuando aplique.</p>
+				</article>
+				<article class="card">
+					<h2 class="h2">Cómo coordinar</h2>
+					<p class="lead">Empieza por una consulta: idea, tamaño, ubicación y referencias.</p>
+					<div class="actions">
+						<a class="btn primary" href="/consultas">Ir a Consultas</a>
+						<a class="btn" href="/contacto">Contacto</a>
+					</div>
+				</article>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.actions {
+		display: flex;
+		gap: 10px;
+		flex-wrap: wrap;
+		margin-top: 12px;
+	}
+</style>
+

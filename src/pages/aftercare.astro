@@ -1,0 +1,39 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Aftercare — Sacred Pain Tattoo" description="Guías de cuidado para tattoos y piercings.">
+	<section class="section">
+		<div class="container">
+			<h1 class="h1">Aftercare</h1>
+			<p class="lead">Selecciona la guía que necesitas.</p>
+
+			<div class="grid cols-2 section">
+				<article class="card">
+					<h2 class="h2">Tattoo aftercare</h2>
+					<p class="lead">Cuidado del tatuaje durante los primeros días y semanas.</p>
+					<div class="actions">
+						<a class="btn primary" href="/tattooaftercare">Abrir guía</a>
+					</div>
+				</article>
+				<article class="card">
+					<h2 class="h2">Piercing aftercare</h2>
+					<p class="lead">Cuidado del piercing durante cicatrización.</p>
+					<div class="actions">
+						<a class="btn primary" href="/piercingaftercare">Abrir guía</a>
+					</div>
+				</article>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.actions {
+		display: flex;
+		gap: 10px;
+		flex-wrap: wrap;
+		margin-top: 12px;
+	}
+</style>
+

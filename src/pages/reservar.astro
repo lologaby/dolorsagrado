@@ -1,0 +1,289 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const artists = [
+  { name: 'David Reyes',      handle: '@davidreyesart',        ig: 'https://www.instagram.com/davidreyesart',       specialty: 'Custom tattoos',  avatar: '/images/avatars/david.jpg' },
+  { name: 'Ari Reyes',        handle: '@aryatari',             ig: 'https://www.instagram.com/aryatari',            specialty: 'Illustrative',    avatar: '/images/avatars/ari.jpg' },
+  { name: 'Joshua Reyes',     handle: '@jousoytuartista',      ig: 'https://www.instagram.com/jousoytuartista',     specialty: 'Black & Grey',    avatar: '/images/avatars/joshua.jpg' },
+  { name: 'Armando Brignoni', handle: '@brignoni.arts',        ig: 'https://www.instagram.com/brignoni.arts',       specialty: 'Neo-traditional', avatar: '/images/avatars/brignoni.jpg' },
+  { name: 'Tatito',           handle: '@tatitobodypiercings',  ig: 'https://www.instagram.com/tatitobodypiercings', specialty: 'Body Piercing',   avatar: '/images/avatars/tatito.jpg' },
+];
+---
+
+<Layout
+  title="Reservar cita — Sacred Pain Tattoo"
+  description="Reserva tu cita de tattoo, piercing o laser en Sacred Pain Tattoo, San Juan PR."
+>
+  <!-- Page header -->
+  <section class="page-hero">
+    <div class="container">
+      <p class="kicker">Agenda tu visita</p>
+      <h1 class="h1">Reservar <span class="gold-text">cita</span></h1>
+      <p class="lead">
+        Completa el formulario y nos pondremos en contacto para confirmar disponibilidad.
+        También puedes contactar a tu artista directamente abajo.
+      </p>
+      <p class="muted" style="margin-top:8px">⚠ Tatuajes solamente para adultos (+18).</p>
+    </div>
+  </section>
+
+  <!-- Main content -->
+  <section class="section" style="padding-top:0">
+    <div class="container booking-layout">
+
+      <!-- FORM -->
+      <div class="form-wrapper fade-in">
+        <div class="form-header">
+          <p class="kicker">Formulario de solicitud</p>
+          <h2 class="h3">Tu próxima pieza empieza aquí</h2>
+        </div>
+
+        <form
+          class="booking-form"
+          name="booking"
+          method="POST"
+          action="mailto:sacredpaintattoo@gmail.com"
+          enctype="text/plain"
+          id="booking-form"
+        >
+          <div class="form-row">
+            <div class="form-field">
+              <label class="form-label" for="nombre">Nombre completo *</label>
+              <input class="form-input" id="nombre" name="nombre" type="text" placeholder="Tu nombre completo" required />
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="telefono">Teléfono *</label>
+              <input class="form-input" id="telefono" name="telefono" type="tel" placeholder="(787) 000-0000" required />
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="email">Correo electrónico *</label>
+            <input class="form-input" id="email" name="email" type="email" placeholder="tu@correo.com" required />
+          </div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label class="form-label" for="servicio">Servicio *</label>
+              <select class="form-select" id="servicio" name="servicio" required>
+                <option value="">Selecciona servicio...</option>
+                <option value="Tattoo">Tattoo</option>
+                <option value="Piercing">Piercing</option>
+                <option value="Remoción Laser">Remoción Laser</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="artista">Artista preferido</label>
+              <select class="form-select" id="artista" name="artista">
+                <option value="Cualquiera">Cualquiera disponible</option>
+                <option value="David Reyes">David Reyes</option>
+                <option value="Ari Reyes">Ari Reyes</option>
+                <option value="Joshua Reyes">Joshua Reyes</option>
+                <option value="Armando Brignoni">Armando Brignoni</option>
+                <option value="Tatito (Piercings)">Tatito (Piercings)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="fecha">Fecha/horario preferido</label>
+            <input class="form-input" id="fecha" name="fecha" type="text" placeholder="Ej: Sábados por la tarde, cualquier día entre semana..." />
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="descripcion">Descripción de la idea *</label>
+            <textarea class="form-textarea" id="descripcion" name="descripcion" required
+              placeholder="Describe tu idea: tamaño aproximado, ubicación en el cuerpo, estilo (realismo, blackwork, tradicional...), referencias o imágenes que te inspiran, presupuesto aproximado..."
+            ></textarea>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="pago">Opción de pago</label>
+            <select class="form-select" id="pago" name="pago">
+              <option value="Efectivo / tarjeta">Efectivo / tarjeta</option>
+              <option value="Klarna">Klarna (paga después)</option>
+              <option value="Affirm">Affirm (paga a plazos)</option>
+              <option value="Sin preferencia">Sin preferencia</option>
+            </select>
+          </div>
+
+          <label class="form-check">
+            <input type="checkbox" name="adulto" required />
+            <span>Confirmo que soy mayor de 18 años. *</span>
+          </label>
+
+          <button class="btn btn-gold submit-btn" type="submit">
+            Enviar solicitud de cita
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+          <p class="muted" style="margin-top:8px;font-size:11px;">
+            Al enviar, se abrirá tu cliente de correo con la solicitud lista para enviar. Te responderemos en 24-48 horas.
+          </p>
+        </form>
+      </div>
+
+      <!-- SIDEBAR: direct contact -->
+      <aside class="contact-sidebar fade-in">
+        <div class="sidebar-phone card card-gold">
+          <p class="kicker">Llamada directa</p>
+          <a class="phone-link" href="tel:7875962562">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M22 16.92V20a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 4.37 6.18 2 2 0 0 1 6.36 4h3.08a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L10.91 11.4a16 16 0 0 0 6.69 6.69l.78-.78a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            (787) 596-2562
+          </a>
+          <p class="muted" style="margin-top:8px;font-size:12px;">Llama al estudio para consultas rápidas o walk-ins.</p>
+        </div>
+
+        <div class="artists-contact">
+          <p class="kicker" style="margin-bottom:16px">Contactar artista directo</p>
+          {artists.map(a => (
+            <a class="artist-row" href={a.ig} target="_blank" rel="noreferrer">
+              <img class="artist-row-avatar" src={a.avatar} alt={a.name} loading="lazy" />
+              <div class="artist-row-info">
+                <span class="artist-row-name">{a.name}</span>
+                <span class="artist-row-handle">{a.handle} · {a.specialty}</span>
+              </div>
+              <svg class="artist-row-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+          ))}
+        </div>
+
+        <div class="card" style="padding:18px;margin-top:0">
+          <p class="kicker">Ubicación</p>
+          <p style="font-size:14px;color:var(--muted);line-height:1.6;">
+            418 Av 65 Infantería<br/>San Juan, PR 00926
+          </p>
+          <a
+            class="btn btn-outline-gold"
+            style="margin-top:14px;width:100%;justify-content:center;"
+            href="https://www.google.com/maps/search/?api=1&query=Sacred+Pain+Tattoo+418+Av+65+Infanteria+San+Juan+PR+00926"
+            target="_blank"
+            rel="noreferrer"
+          >Abrir en Maps</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-hero {
+    padding: 60px 0 40px;
+    border-bottom: 1px solid var(--border);
+  }
+  .page-hero .h1 { margin: 12px 0 14px; }
+  .gold-text { color: var(--gold); }
+
+  .booking-layout {
+    display: grid;
+    gap: 32px;
+    margin-top: 48px;
+  }
+  @media (min-width: 960px) {
+    .booking-layout {
+      grid-template-columns: 1fr 340px;
+      align-items: start;
+    }
+  }
+
+  /* Form */
+  .form-wrapper {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 32px;
+  }
+  .form-header { margin-bottom: 28px; }
+  .form-header .h3 { margin-top: 8px; }
+
+  .booking-form {
+    display: grid;
+    gap: 18px;
+  }
+  .form-row {
+    display: grid;
+    gap: 16px;
+  }
+  @media (min-width: 560px) {
+    .form-row { grid-template-columns: 1fr 1fr; }
+  }
+
+  .submit-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 15px 24px;
+    font-size: 14px;
+    margin-top: 6px;
+  }
+
+  /* Sidebar */
+  .contact-sidebar {
+    display: grid;
+    gap: 20px;
+  }
+  .sidebar-phone {
+    padding: 22px;
+  }
+  .phone-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-size: 28px;
+    color: var(--gold-lt);
+    margin-top: 8px;
+    transition: color 0.15s;
+  }
+  .phone-link:hover { color: var(--gold); text-decoration: none; }
+
+  .artists-contact {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 20px;
+    display: grid;
+    gap: 4px;
+  }
+  .artist-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 8px;
+    border-radius: 8px;
+    transition: background 0.15s;
+    text-decoration: none;
+  }
+  .artist-row:hover {
+    background: rgba(255,255,255,0.04);
+    text-decoration: none;
+  }
+  .artist-row-info {
+    flex: 1;
+    display: grid;
+    gap: 2px;
+  }
+  .artist-row-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .artist-row-handle {
+    font-size: 11px;
+    color: var(--muted2);
+    letter-spacing: 0.5px;
+  }
+  .artist-row-icon { color: var(--muted2); flex-shrink: 0; }
+  .artist-row-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border-gold);
+    flex-shrink: 0;
+  }
+</style>

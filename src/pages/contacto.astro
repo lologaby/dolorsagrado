@@ -1,0 +1,49 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Contacto — Sacred Pain Tattoo" description="Dirección, teléfono y redes sociales.">
+	<section class="section">
+		<div class="container">
+			<h1 class="h1">Contacto</h1>
+			<p class="lead">Visítanos en San Juan o escríbenos por redes.</p>
+
+			<div class="grid cols-2 section">
+				<div class="card">
+					<h2 class="h2">Dirección</h2>
+					<p class="lead">418 Av 65 Infantería, San Juan, PR 00926</p>
+					<div class="actions">
+						<a
+							class="btn primary"
+							href="https://www.google.com/maps/search/?api=1&query=Sacred+Pain+Tattoo+418+Av+65+Infanteria+San+Juan+PR+00926"
+							target="_blank"
+							rel="noreferrer"
+						>
+							Abrir en Maps
+						</a>
+						<a class="btn" href="tel:7875962562">(787) 596-2562</a>
+					</div>
+				</div>
+				<div class="card">
+					<h2 class="h2">Redes</h2>
+					<p class="lead">Síguenos y envíanos mensaje directo.</p>
+					<div class="actions">
+						<a class="btn primary" href="https://www.instagram.com/sacredpain" target="_blank" rel="noreferrer">Instagram</a>
+						<a class="btn" href="https://www.facebook.com/sacred.pain" target="_blank" rel="noreferrer">Facebook</a>
+						<a class="btn" href="https://www.tiktok.com/@sacredpain" target="_blank" rel="noreferrer">TikTok</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.actions {
+		display: flex;
+		gap: 10px;
+		flex-wrap: wrap;
+		margin-top: 12px;
+	}
+</style>
+
