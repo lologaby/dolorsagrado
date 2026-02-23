@@ -2,6 +2,6 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://dolorsagrado.dottix.com',
+  site: 'https://dolorsagrado.dot0x.com',
   output: 'static',
 });
