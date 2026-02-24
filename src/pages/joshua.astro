@@ -137,12 +137,13 @@ const pieces3d = [
           <p>Cargando modelo 3D…</p>
         </div>
 
-        <!-- Placeholder state (while no .glb uploaded) -->
+        <!-- Preview badge (while real .glb is pending) -->
         <div class="s3d-placeholder" id="s3d-placeholder">
           <div class="s3d-placeholder-inner">
-            <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" opacity="0.4"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-            <p class="s3d-placeholder-title">Modelo en preparación</p>
-            <p class="s3d-placeholder-sub">Joshua está finalizando el render en Blender.<br/>Pronto podrás rotar e inspeccionar esta pieza.</p>
+            <p class="s3d-placeholder-title">
+              <svg width="11" height="11" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+              Preview · Modelo final en Blender próximamente
+            </p>
           </div>
         </div>
 
@@ -293,184 +294,560 @@ const pieces3d = [
 <script type="module">
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.167.1/build/three.module.js';
 import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.167.1/examples/jsm/controls/OrbitControls.js';
-import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.167.1/examples/jsm/loaders/GLTFLoader.js';
-import { DRACOLoader } from 'https://cdn.jsdelivr.net/npm/three@0.167.1/examples/jsm/loaders/DRACOLoader.js';
+import { GLTFLoader }    from 'https://cdn.jsdelivr.net/npm/three@0.167.1/examples/jsm/loaders/GLTFLoader.js';
+import { DRACOLoader }   from 'https://cdn.jsdelivr.net/npm/three@0.167.1/examples/jsm/loaders/DRACOLoader.js';
 
-/* ── DOM refs ──────────────────────────────────────── */
-const canvas       = document.getElementById('canvas-3d');
-const loadingEl    = document.getElementById('s3d-loading');
-const placeholderEl= document.getElementById('s3d-placeholder');
-const uiEl         = document.getElementById('s3d-ui');
-const pieceNameEl  = document.getElementById('s3d-piece-name');
-const btnReset     = document.getElementById('btn-reset');
-const btnAuto      = document.getElementById('btn-autorotate');
-const btnFS        = document.getElementById('btn-fullscreen');
-const tabs         = document.querySelectorAll('.s3d-tab');
-const wrap         = document.querySelector('.s3d-viewer-wrap');
+/* ── DOM ───────────────────────────────────────────── */
+const canvas        = document.getElementById('canvas-3d');
+const loadingEl     = document.getElementById('s3d-loading');
+const placeholderEl = document.getElementById('s3d-placeholder');
+const uiEl          = document.getElementById('s3d-ui');
+const pieceNameEl   = document.getElementById('s3d-piece-name');
+const btnReset      = document.getElementById('btn-reset');
+const btnAuto       = document.getElementById('btn-autorotate');
+const btnFS         = document.getElementById('btn-fullscreen');
+const tabs          = document.querySelectorAll('.s3d-tab');
+const wrap          = document.querySelector('.s3d-viewer-wrap');
 
-/* ── Three.js setup ────────────────────────────────── */
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+/* ── Renderer ──────────────────────────────────────── */
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.outputColorSpace  = THREE.SRGBColorSpace;
 renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.2;
+renderer.shadowMap.type    = THREE.PCFSoftShadowMap;
+renderer.toneMapping       = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.35;
 
-const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x0e0c0d);
+const scene  = new THREE.Scene();
+scene.background = new THREE.Color(0x0a0809);
+scene.fog = new THREE.FogExp2(0x0a0809, 0.18);
 
-const camera = new THREE.PerspectiveCamera(45, 1, 0.01, 100);
-camera.position.set(0, 0.1, 2.2);
+const camera = new THREE.PerspectiveCamera(42, 1, 0.01, 50);
+camera.position.set(0, 0.12, 2.6);
 
-/* ── Lighting ──────────────────────────────────────── */
-const ambientLight = new THREE.AmbientLight(0xfff5e6, 0.55);
-scene.add(ambientLight);
+/* ── Lights ────────────────────────────────────────── */
+scene.add(new THREE.AmbientLight(0xfff3e0, 0.50));
 
-const keyLight = new THREE.DirectionalLight(0xffecd0, 2.2);
-keyLight.position.set(2, 3, 2);
-keyLight.castShadow = true;
-keyLight.shadow.mapSize.set(2048, 2048);
-scene.add(keyLight);
+const key = new THREE.DirectionalLight(0xfff0d8, 2.8);
+key.position.set(1.8, 3, 2.5);
+key.castShadow = true;
+key.shadow.mapSize.set(2048, 2048);
+key.shadow.camera.near = 0.5; key.shadow.camera.far = 12;
+key.shadow.camera.left = -2;  key.shadow.camera.right = 2;
+key.shadow.camera.top  =  2;  key.shadow.camera.bottom = -2;
+scene.add(key);
 
-const fillLight = new THREE.DirectionalLight(0xa0b4cc, 0.6);
-fillLight.position.set(-2, 1, 1);
-scene.add(fillLight);
+const fill = new THREE.DirectionalLight(0x8ab0cc, 0.55);
+fill.position.set(-2.5, 0.5, 1);
+scene.add(fill);
 
-const rimLight = new THREE.DirectionalLight(0xb98a37, 0.8);
-rimLight.position.set(0, -1, -2);
-scene.add(rimLight);
+const rim = new THREE.DirectionalLight(0xc49a47, 0.9);
+rim.position.set(0.3, -1.5, -2.5);
+scene.add(rim);
 
-// Ground plane / studio feel
-const gridHelper = new THREE.GridHelper(6, 20, 0x1a1618, 0x1a1618);
-gridHelper.position.y = -0.85;
-scene.add(gridHelper);
+// Subtle point light below — uplight
+const up = new THREE.PointLight(0xff9955, 0.25, 6);
+up.position.set(0, -1.5, 0.5);
+scene.add(up);
+
+// Floor grid
+const grid = new THREE.GridHelper(8, 28, 0x1c1618, 0x161214);
+grid.position.y = -1.05;
+scene.add(grid);
 
 /* ── Controls ──────────────────────────────────────── */
 const controls = new OrbitControls(camera, canvas);
-controls.enableDamping = true;
-controls.dampingFactor = 0.07;
-controls.minDistance = 0.5;
-controls.maxDistance = 5;
-controls.autoRotate = true;
-controls.autoRotateSpeed = 1.2;
+controls.enableDamping  = true;
+controls.dampingFactor  = 0.06;
+controls.minDistance    = 0.8;
+controls.maxDistance    = 4.5;
+controls.autoRotate     = true;
+controls.autoRotateSpeed = 1.5;
 controls.target.set(0, 0, 0);
 
-/* ── DRACO loader ──────────────────────────────────── */
-const dracoLoader = new DRACOLoader();
-dracoLoader.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.167.1/examples/jsm/libs/draco/');
-const gltfLoader = new GLTFLoader();
-gltfLoader.setDRACOLoader(dracoLoader);
+/* ── GLTF / DRACO ──────────────────────────────────── */
+const draco = new DRACOLoader();
+draco.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.167.1/examples/jsm/libs/draco/');
+const gltf = new GLTFLoader();
+gltf.setDRACOLoader(draco);
+
+/* ══════════════════════════════════════════════════════
+   PROCEDURAL ARM BUILDER
+   Creates a convincing anatomical arm with:
+   - Shoulder cap, bicep, tricep bulge
+   - Elbow joint
+   - Forearm with pronator taper
+   - Wrist and hand with thumb + 4 fingers
+   - Canvas-painted tattoo texture overlaid on skin
+   ══════════════════════════════════════════════════════ */
+
+function buildArm(tattooStyle = 0) {
+  const group = new THREE.Group();
+
+  /* ── Skin material ── */
+  const skinColor  = new THREE.Color(0x9a7055);   // medium-warm latino skin
+  const skinRough  = 0.70;
+
+  function skin(color = skinColor) {
+    return new THREE.MeshStandardMaterial({
+      color,
+      roughness: skinRough,
+      metalness: 0.0,
+    });
+  }
+
+  /* ── Helper: smooth cylinder with end-sphere joints ── */
+  function limbSegment(rTop, rBot, height, y, mat) {
+    const g = new THREE.Group();
+    const cyl = new THREE.Mesh(new THREE.CylinderGeometry(rTop, rBot, height, 28, 4, false), mat);
+    cyl.castShadow = cyl.receiveShadow = true;
+    g.add(cyl);
+    const capT = new THREE.Mesh(new THREE.SphereGeometry(rTop, 20, 12), mat);
+    capT.position.y =  height / 2;
+    capT.castShadow = true;
+    g.add(capT);
+    const capB = new THREE.Mesh(new THREE.SphereGeometry(rBot, 20, 12), mat);
+    capB.position.y = -height / 2;
+    capB.castShadow = true;
+    g.add(capB);
+    g.position.y = y;
+    return g;
+  }
+
+  /* ── Shoulder cap ── */
+  const shoulder = new THREE.Mesh(
+    new THREE.SphereGeometry(0.165, 28, 18),
+    skin(new THREE.Color(0x9a7055))
+  );
+  shoulder.scale.set(1, 1.1, 0.9);
+  shoulder.position.y = 0.72;
+  shoulder.castShadow = true;
+  group.add(shoulder);
+
+  /* ── Upper arm: bicep/tricep implied by slight ovoid + taper ── */
+  const upperArm = limbSegment(0.140, 0.118, 0.60, 0.36, skin());
+  // Bicep bulge
+  const bicep = new THREE.Mesh(
+    new THREE.SphereGeometry(0.145, 20, 14),
+    skin()
+  );
+  bicep.scale.set(0.9, 1.15, 0.78);
+  bicep.position.set(0.02, 0.52, 0.06);
+  bicep.castShadow = true;
+  group.add(bicep);
+  group.add(upperArm);
+
+  /* ── Elbow ── */
+  const elbow = new THREE.Mesh(new THREE.SphereGeometry(0.115, 24, 16), skin());
+  elbow.scale.set(1, 0.88, 0.95);
+  elbow.castShadow = true;
+  group.add(elbow);
+
+  /* ── Forearm: tapers more aggressively ── */
+  const forearm = limbSegment(0.108, 0.082, 0.58, -0.30, skin());
+  // Extensor muscle bulge on back of forearm
+  const ext = new THREE.Mesh(
+    new THREE.SphereGeometry(0.098, 16, 12),
+    skin()
+  );
+  ext.scale.set(0.85, 1.4, 0.7);
+  ext.position.set(-0.015, -0.18, -0.04);
+  ext.castShadow = true;
+  group.add(ext);
+  group.add(forearm);
+
+  /* ── Wrist ── */
+  const wrist = new THREE.Mesh(new THREE.SphereGeometry(0.080, 22, 14), skin());
+  wrist.scale.set(1.05, 0.80, 0.88);
+  wrist.position.y = -0.605;
+  wrist.castShadow = true;
+  group.add(wrist);
+
+  /* ── Palm ── */
+  const palm = new THREE.Mesh(
+    new THREE.BoxGeometry(0.150, 0.180, 0.068),
+    skin()
+  );
+  palm.geometry = new THREE.CylinderGeometry(0.075, 0.075, 0.18, 10, 1, false);
+  // actually use a flattened sphere for organic feel
+  palm.geometry = new THREE.SphereGeometry(0.09, 20, 14);
+  palm.scale.set(1.5, 1.9, 0.72);
+  palm.position.y = -0.770;
+  palm.castShadow = true;
+  group.add(palm);
+
+  /* ── Fingers ── (4 fingers + thumb, simplified capsule) ── */
+  function finger(rx, ry, rz, len, x, y, z) {
+    const fg = new THREE.Group();
+    const f = new THREE.Mesh(
+      new THREE.CapsuleGeometry(0.016, len, 6, 10),
+      skin(new THREE.Color(0x8f6848))
+    );
+    f.castShadow = true;
+    fg.add(f);
+    fg.rotation.set(rx, ry, rz);
+    fg.position.set(x, y, z);
+    return fg;
+  }
+  const fingerData = [
+    { x: -0.055, len: 0.10, rz: -0.08 },
+    { x: -0.018, len: 0.12, rz: -0.02 },
+    { x:  0.018, len: 0.11, rz:  0.02 },
+    { x:  0.055, len: 0.09, rz:  0.08 },
+  ];
+  fingerData.forEach(d => {
+    const f = finger(0, 0, d.rz, d.len, d.x, -0.91 - d.len / 2, 0);
+    group.add(f);
+  });
+  // Thumb — angled out
+  const thumb = finger(-0.3, 0, -0.9, 0.075, -0.10, -0.77, 0.03);
+  group.add(thumb);
+
+  /* ══════════════════════════════════════════════
+     TATTOO TEXTURE — painted on canvas, projected
+     Each tattooStyle (0-3) draws a different design
+     ═════════════════════════════════════════════= */
+
+  const texSize = 512;
+  const tc = document.createElement('canvas');
+  tc.width = tc.height = texSize;
+  const ctx = tc.getContext('2d');
+
+  // Clear transparent
+  ctx.clearRect(0, 0, texSize, texSize);
+
+  const styles = [
+    drawBlackGrey,
+    drawGeometric,
+    drawPortrait,
+    drawDotwork,
+  ];
+  styles[tattooStyle % styles.length](ctx, texSize);
+
+  const tattooTex = new THREE.CanvasTexture(tc);
+
+  /* Tattoo is an overlapping cylinder (slightly larger radius) */
+  const tattooGeo = new THREE.CylinderGeometry(0.112, 0.086, 0.54, 28, 1, true);
+  const tattooMat = new THREE.MeshStandardMaterial({
+    map:         tattooTex,
+    transparent: true,
+    alphaTest:   0.02,
+    roughness:   0.85,
+    metalness:   0.0,
+    depthWrite:  false,
+    side:        THREE.FrontSide,
+  });
+  const tattoo = new THREE.Mesh(tattooGeo, tattooMat);
+  tattoo.position.y = -0.30;
+  tattoo.renderOrder = 1;
+  group.add(tattoo);
+
+  /* Slight global rotation so arm is angled naturally */
+  group.rotation.x = 0.18;
+  group.rotation.z = 0.06;
+
+  return group;
+}
+
+/* ── Tattoo drawing functions ───────────────────────── */
+
+function drawBlackGrey(ctx, s) {
+  // Skull + roses sleeve - very B&G
+  // Background wash
+  ctx.fillStyle = 'rgba(10,8,10,0.0)';
+  ctx.fillRect(0, 0, s, s);
+
+  // Dark ink wash base
+  const grd = ctx.createLinearGradient(0, 0, s, s);
+  grd.addColorStop(0, 'rgba(18,14,18,0.72)');
+  grd.addColorStop(0.5, 'rgba(30,20,25,0.55)');
+  grd.addColorStop(1, 'rgba(10,8,10,0.68)');
+  ctx.fillStyle = grd;
+  ctx.fillRect(0, 0, s, s);
+
+  // Skull shape
+  ctx.fillStyle = 'rgba(220,210,205,0.88)';
+  ctx.beginPath();
+  ctx.ellipse(s*0.5, s*0.28, s*0.14, s*0.16, 0, 0, Math.PI*2);
+  ctx.fill();
+
+  // Skull highlights
+  ctx.fillStyle = 'rgba(255,248,240,0.6)';
+  ctx.beginPath();
+  ctx.ellipse(s*0.47, s*0.24, s*0.055, s*0.06, -0.3, 0, Math.PI*2);
+  ctx.fill();
+
+  // Eye sockets
+  ctx.fillStyle = 'rgba(12,8,12,0.95)';
+  ctx.beginPath(); ctx.ellipse(s*0.44, s*0.28, s*0.038, s*0.032, 0, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.ellipse(s*0.56, s*0.28, s*0.038, s*0.032, 0, 0, Math.PI*2); ctx.fill();
+
+  // Nose
+  ctx.beginPath(); ctx.moveTo(s*0.50, s*0.32); ctx.lineTo(s*0.47, s*0.35); ctx.lineTo(s*0.53, s*0.35); ctx.closePath();
+  ctx.fillStyle = 'rgba(12,8,12,0.85)'; ctx.fill();
+
+  // Rose — left
+  drawRose(ctx, s*0.22, s*0.55, s*0.10);
+  // Rose — right
+  drawRose(ctx, s*0.78, s*0.55, s*0.09);
+  // Rose — bottom center
+  drawRose(ctx, s*0.50, s*0.76, s*0.11);
+
+  // Flowing lines
+  ctx.strokeStyle = 'rgba(180,160,150,0.55)';
+  ctx.lineWidth = 1.5;
+  for (let i = 0; i < 8; i++) {
+    ctx.beginPath();
+    ctx.moveTo(Math.random()*s, 0);
+    ctx.bezierCurveTo(Math.random()*s, s*0.3, Math.random()*s, s*0.7, Math.random()*s, s);
+    ctx.stroke();
+  }
+
+  // Shading stipple
+  ctx.fillStyle = 'rgba(8,6,8,0.06)';
+  for (let i = 0; i < 1200; i++) {
+    const x = Math.random()*s, y = Math.random()*s;
+    ctx.beginPath(); ctx.arc(x, y, Math.random()*1.5, 0, Math.PI*2); ctx.fill();
+  }
+}
+
+function drawRose(ctx, cx, cy, r) {
+  ctx.save();
+  ctx.translate(cx, cy);
+  // Petals
+  const petals = 12;
+  for (let i = 0; i < petals; i++) {
+    const a = (i / petals) * Math.PI * 2;
+    const pr = r * (0.45 + 0.3 * Math.sin(i * 2.1));
+    ctx.fillStyle = `rgba(${30 + i*8},${18 + i*5},${22 + i*4},${0.75 - i*0.03})`;
+    ctx.beginPath();
+    ctx.ellipse(Math.cos(a)*r*0.38, Math.sin(a)*r*0.38, pr*0.55, pr*0.35, a, 0, Math.PI*2);
+    ctx.fill();
+  }
+  // Center
+  ctx.fillStyle = 'rgba(15,10,15,0.9)';
+  ctx.beginPath(); ctx.arc(0, 0, r*0.18, 0, Math.PI*2); ctx.fill();
+  ctx.restore();
+}
+
+function drawGeometric(ctx, s) {
+  // Sacred geometry / mandalas / blackwork
+
+  ctx.fillStyle = 'rgba(5,4,6,0.65)';
+  ctx.fillRect(0, 0, s, s);
+
+  // Mandala center
+  const cx = s*0.5, cy = s*0.38;
+  const rings = [s*0.20, s*0.28, s*0.35, s*0.40];
+  ctx.strokeStyle = 'rgba(228,218,210,0.90)';
+
+  rings.forEach((r, ri) => {
+    const segs = 6 + ri * 6;
+    ctx.lineWidth = ri === 0 ? 2.5 : 1.0 - ri*0.1;
+    ctx.beginPath();
+    for (let i = 0; i <= segs; i++) {
+      const a = (i / segs) * Math.PI * 2;
+      i === 0 ? ctx.moveTo(cx + Math.cos(a)*r, cy + Math.sin(a)*r)
+              : ctx.lineTo(cx + Math.cos(a)*r, cy + Math.sin(a)*r);
+    }
+    ctx.closePath(); ctx.stroke();
+  });
+
+  // Star of David / hex pattern
+  for (let i = 0; i < 6; i++) {
+    const a = (i / 6) * Math.PI * 2 - Math.PI / 6;
+    ctx.strokeStyle = 'rgba(200,188,178,0.80)';
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + Math.cos(a)*s*0.40, cy + Math.sin(a)*s*0.40);
+    ctx.stroke();
+    // small diamonds
+    const bx = cx + Math.cos(a)*s*0.26, by = cy + Math.sin(a)*s*0.26;
+    ctx.beginPath();
+    ctx.moveTo(bx, by - s*0.04);
+    ctx.lineTo(bx + s*0.03, by);
+    ctx.lineTo(bx, by + s*0.04);
+    ctx.lineTo(bx - s*0.03, by);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(210,195,180,0.70)'; ctx.fill();
+  }
+
+  // Triangle overlays
+  ctx.strokeStyle = 'rgba(255,245,235,0.50)'; ctx.lineWidth = 1.5;
+  [[s*.5,s*.05, s*.15,s*.48, s*.85,s*.48],
+   [s*.5,s*.48, s*.15,s*.05, s*.85,s*.05]].forEach(([x1,y1,x2,y2,x3,y3]) => {
+    ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.lineTo(x3,y3); ctx.closePath(); ctx.stroke();
+  });
+
+  // Bottom half: repeating chevron lines
+  ctx.strokeStyle = 'rgba(190,175,160,0.55)'; ctx.lineWidth = 1;
+  for (let row = 0; row < 10; row++) {
+    const y = s*0.58 + row*s*0.042;
+    ctx.beginPath();
+    for (let xi = 0; xi <= 16; xi++) {
+      const xp = (xi/16)*s;
+      const yp = y + Math.sin((xi/16)*Math.PI*4)*s*0.012;
+      xi === 0 ? ctx.moveTo(xp, yp) : ctx.lineTo(xp, yp);
+    }
+    ctx.stroke();
+  }
+}
+
+function drawPortrait(ctx, s) {
+  // B&G portrait — Dia de los Muertos / Calavera style
+
+  ctx.fillStyle = 'rgba(8,6,10,0.55)';
+  ctx.fillRect(0, 0, s, s);
+
+  // Face oval
+  const grd = ctx.createRadialGradient(s*.5, s*.32, s*.02, s*.5, s*.32, s*.22);
+  grd.addColorStop(0, 'rgba(235,220,205,0.92)');
+  grd.addColorStop(0.6, 'rgba(195,178,160,0.78)');
+  grd.addColorStop(1, 'rgba(140,118,95,0.0)');
+  ctx.fillStyle = grd;
+  ctx.beginPath();
+  ctx.ellipse(s*.5, s*.32, s*.18, s*.23, 0, 0, Math.PI*2);
+  ctx.fill();
+
+  // Calavera floral eye L
+  ctx.strokeStyle = 'rgba(18,12,20,0.95)'; ctx.lineWidth = 1.5;
+  for (let p = 0; p < 7; p++) {
+    const a = (p/7)*Math.PI*2;
+    ctx.beginPath();
+    ctx.ellipse(s*.41 + Math.cos(a)*s*.04, s*.28 + Math.sin(a)*s*.04, s*.018, s*.010, a, 0, Math.PI*2);
+    ctx.stroke();
+  }
+  // Calavera floral eye R
+  for (let p = 0; p < 7; p++) {
+    const a = (p/7)*Math.PI*2;
+    ctx.beginPath();
+    ctx.ellipse(s*.59 + Math.cos(a)*s*.04, s*.28 + Math.sin(a)*s*.04, s*.018, s*.010, a, 0, Math.PI*2);
+    ctx.stroke();
+  }
+
+  // Nose
+  ctx.beginPath(); ctx.moveTo(s*.5, s*.33); ctx.lineTo(s*.46, s*.38); ctx.lineTo(s*.54, s*.38); ctx.closePath();
+  ctx.fillStyle = 'rgba(20,14,22,0.75)'; ctx.fill();
+
+  // Stitched smile
+  ctx.strokeStyle = 'rgba(15,10,18,0.90)'; ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.arc(s*.5, s*.40, s*.085, Math.PI*0.05, Math.PI*0.95);
+  ctx.stroke();
+  for (let t = 0; t < 6; t++) {
+    const a = Math.PI*0.12 + t*(Math.PI*0.75/5);
+    const px = s*.5 + Math.cos(a)*s*.085, py = s*.40 + Math.sin(a)*s*.085;
+    ctx.beginPath(); ctx.moveTo(px, py - s*.012); ctx.lineTo(px, py + s*.012); ctx.stroke();
+  }
+
+  // Floral halo
+  ctx.strokeStyle = 'rgba(200,185,165,0.55)'; ctx.lineWidth = 1;
+  for (let i = 0; i < 18; i++) {
+    const a = (i/18)*Math.PI*2;
+    ctx.beginPath();
+    ctx.ellipse(s*.5 + Math.cos(a)*s*.22, s*.32 + Math.sin(a)*s*.22, s*.04, s*.025, a, 0, Math.PI*2);
+    ctx.stroke();
+  }
+
+  // Lower decorative bands
+  ctx.fillStyle = 'rgba(12,9,14,0.55)';
+  for (let b = 0; b < 5; b++) {
+    ctx.fillRect(0, s*(.62 + b*.072), s, s*.030);
+  }
+  ctx.fillStyle = 'rgba(200,180,155,0.25)';
+  for (let b = 0; b < 5; b++) {
+    ctx.fillRect(s*.05, s*(.635 + b*.072), s*.9, s*.012);
+  }
+}
+
+function drawDotwork(ctx, s) {
+  // Dotwork botanical / mandala
+
+  ctx.fillStyle = 'rgba(6,5,8,0.60)';
+  ctx.fillRect(0, 0, s, s);
+
+  // Central botanical — lotus / flower
+  const cx = s*.5, cy = s*.35;
+
+  // Large petals
+  for (let i = 0; i < 8; i++) {
+    const a = (i/8)*Math.PI*2 - Math.PI/8;
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(a);
+    ctx.fillStyle = 'rgba(220,205,190,0.25)';
+    ctx.beginPath();
+    ctx.ellipse(0, -s*.16, s*.05, s*.14, 0, 0, Math.PI*2);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(200,185,168,0.60)'; ctx.lineWidth = 0.8;
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // Dot stipple — fills the arm in a botanical pattern
+  const stipple = (x, y, r, density, alpha) => {
+    for (let i = 0; i < density; i++) {
+      const a2 = Math.random()*Math.PI*2;
+      const d = Math.random()*r;
+      const px = x + Math.cos(a2)*d, py = y + Math.sin(a2)*d;
+      const sz = Math.random()*1.8 + 0.3;
+      ctx.fillStyle = `rgba(215,200,182,${alpha * (0.5 + Math.random()*0.5)})`;
+      ctx.beginPath(); ctx.arc(px, py, sz, 0, Math.PI*2); ctx.fill();
+    }
+  };
+
+  stipple(cx, cy, s*.38, 1800, 0.55);
+
+  // Concentric dot rings
+  for (let ring = 1; ring <= 5; ring++) {
+    const r = ring * s*.07;
+    const count = ring * 12;
+    for (let d = 0; d < count; d++) {
+      const a = (d/count)*Math.PI*2;
+      const sz = ring < 3 ? 1.8 : 1.2;
+      ctx.fillStyle = `rgba(210,195,175,${0.7 - ring*0.08})`;
+      ctx.beginPath();
+      ctx.arc(cx + Math.cos(a)*r, cy + Math.sin(a)*r, sz, 0, Math.PI*2);
+      ctx.fill();
+    }
+  }
+
+  // Stem with leaves
+  ctx.strokeStyle = 'rgba(190,175,158,0.65)'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(cx, s*.48); ctx.lineTo(cx, s*.95); ctx.stroke();
+  [[s*.5, s*.60, 18, -28], [s*.5, s*.70, -18, 28],
+   [s*.5, s*.80, 15, -22]].forEach(([x, y, lx, ly]) => {
+    ctx.beginPath(); ctx.moveTo(x, y); ctx.quadraticCurveTo(x+lx, y-8, x+lx, y+ly); ctx.stroke();
+    stipple(x + lx/2, y + ly/3, s*.06, 150, 0.45);
+  });
+}
 
 /* ── State ─────────────────────────────────────────── */
 let currentModel = null;
 let autoRotate   = true;
 
-/* ── Placeholder arm (shown until real .glb is loaded) */
-function buildPlaceholderArm() {
-  const group = new THREE.Group();
-
-  const skinMat = new THREE.MeshStandardMaterial({
-    color: 0x8d6b4a,
-    roughness: 0.65,
-    metalness: 0.02,
-  });
-
-  // Upper arm
-  const upper = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.12, 0.10, 0.70, 32),
-    skinMat
-  );
-  upper.position.y = 0.35;
-  upper.castShadow = true;
-  group.add(upper);
-
-  // Elbow
-  const elbow = new THREE.Mesh(
-    new THREE.SphereGeometry(0.105, 32, 16),
-    skinMat
-  );
-  elbow.castShadow = true;
-  group.add(elbow);
-
-  // Forearm — slight taper
-  const forearm = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.095, 0.075, 0.62, 32),
-    skinMat
-  );
-  forearm.position.y = -0.32;
-  forearm.castShadow = true;
-  group.add(forearm);
-
-  // Wrist
-  const wrist = new THREE.Mesh(
-    new THREE.SphereGeometry(0.08, 32, 16),
-    skinMat
-  );
-  wrist.position.y = -0.64;
-  group.add(wrist);
-
-  // Hand (simple box)
-  const hand = new THREE.Mesh(
-    new THREE.BoxGeometry(0.14, 0.20, 0.07),
-    skinMat
-  );
-  hand.position.y = -0.78;
-  hand.castShadow = true;
-  group.add(hand);
-
-  // Tattoo ink overlay — dark band painted on forearm
-  const inkMat = new THREE.MeshStandardMaterial({
-    color: 0x1a1a2e,
-    roughness: 0.9,
-    metalness: 0,
-    transparent: true,
-    opacity: 0.72,
-  });
-  const ink = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.097, 0.077, 0.58, 32),
-    inkMat
-  );
-  ink.position.y = -0.32;
-  group.add(ink);
-
-  // Gold accent lines (simulating tattoo lines)
-  for (let i = 0; i < 5; i++) {
-    const lineMat = new THREE.MeshStandardMaterial({ color: 0xb98a37, roughness: 0.4, metalness: 0.3 });
-    const lineGeo = new THREE.TorusGeometry(0.088 + i * 0.001, 0.003, 8, 32);
-    const line = new THREE.Mesh(lineGeo, lineMat);
-    line.rotation.x = Math.PI / 2;
-    line.position.y = -0.15 + i * 0.09;
-    group.add(line);
-  }
-
-  group.rotation.x = 0.25;
-  return group;
-}
-
-/* ── Resize handler ────────────────────────────────── */
+/* ── Resize ────────────────────────────────────────── */
 function resize() {
-  const w = wrap.clientWidth;
-  const h = wrap.clientHeight;
-  renderer.setSize(w, h);
+  const w = wrap.clientWidth, h = wrap.clientHeight;
+  renderer.setSize(w, h, false);
   camera.aspect = w / h;
   camera.updateProjectionMatrix();
 }
-const ro = new ResizeObserver(resize);
-ro.observe(wrap);
+new ResizeObserver(resize).observe(wrap);
 
 /* ── Load piece ────────────────────────────────────── */
-function loadPiece(modelPath, title, isPlaceholder) {
-  // Clear scene
+function loadPiece(modelPath, title, isPlaceholder, tattooIdx) {
   if (currentModel) { scene.remove(currentModel); currentModel = null; }
-
   pieceNameEl.textContent = title;
+
+  const idx = parseInt(tattooIdx ?? 0);
 
   if (isPlaceholder) {
     placeholderEl.style.display = 'flex';
-    uiEl.style.opacity = '0.6';
+    uiEl.style.opacity = '1';
     loadingEl.style.display = 'none';
-    const arm = buildPlaceholderArm();
+    const arm = buildArm(idx);
     currentModel = arm;
     scene.add(arm);
     return;
@@ -480,39 +857,27 @@ function loadPiece(modelPath, title, isPlaceholder) {
   uiEl.style.opacity = '1';
   loadingEl.style.display = 'flex';
 
-  gltfLoader.load(
+  gltf.load(
     modelPath,
-    (gltf) => {
+    (data) => {
       loadingEl.style.display = 'none';
-      const model = gltf.scene;
-
-      // Normalize model size / center
-      const box = new THREE.Box3().setFromObject(model);
-      const size = box.getSize(new THREE.Vector3());
-      const center = box.getCenter(new THREE.Vector3());
-      const maxDim = Math.max(size.x, size.y, size.z);
-      model.scale.setScalar(1.4 / maxDim);
-      model.position.sub(center.multiplyScalar(1.4 / maxDim));
-
-      model.traverse(child => {
-        if (child.isMesh) {
-          child.castShadow = true;
-          child.receiveShadow = true;
-        }
-      });
-
+      const model = data.scene;
+      const box   = new THREE.Box3().setFromObject(model);
+      const size  = box.getSize(new THREE.Vector3());
+      const center= box.getCenter(new THREE.Vector3());
+      const scale = 1.6 / Math.max(size.x, size.y, size.z);
+      model.scale.setScalar(scale);
+      model.position.sub(center.multiplyScalar(scale));
+      model.traverse(c => { if (c.isMesh) { c.castShadow = c.receiveShadow = true; } });
       currentModel = model;
       scene.add(model);
       controls.reset();
     },
-    (xhr) => {
-      // progress — could update a bar here
-    },
-    (err) => {
-      console.warn('Model load error:', err);
+    null,
+    () => {
       loadingEl.style.display = 'none';
       placeholderEl.style.display = 'flex';
-      const arm = buildPlaceholderArm();
+      const arm = buildArm(idx);
       currentModel = arm;
       scene.add(arm);
     }
@@ -520,7 +885,8 @@ function loadPiece(modelPath, title, isPlaceholder) {
 }
 
 /* ── Tabs ──────────────────────────────────────────── */
-tabs.forEach(tab => {
+tabs.forEach((tab, idx) => {
+  tab.dataset.idx = idx;
   tab.addEventListener('click', () => {
     tabs.forEach(t => { t.classList.remove('s3d-tab--active'); t.setAttribute('aria-selected', 'false'); });
     tab.classList.add('s3d-tab--active');
@@ -528,50 +894,35 @@ tabs.forEach(tab => {
     loadPiece(
       tab.dataset.model,
       tab.querySelector('.s3d-tab-title').textContent,
-      tab.dataset.placeholder === 'true'
+      tab.dataset.placeholder === 'true',
+      tab.dataset.idx
     );
   });
 });
 
-/* ── Control buttons ───────────────────────────────── */
-btnReset.addEventListener('click', () => {
-  controls.reset();
-  camera.position.set(0, 0.1, 2.2);
-});
-
+btnReset.addEventListener('click', () => { controls.reset(); camera.position.set(0, 0.12, 2.6); });
 btnAuto.addEventListener('click', () => {
   autoRotate = !autoRotate;
   controls.autoRotate = autoRotate;
   btnAuto.classList.toggle('s3d-btn--active', autoRotate);
 });
-
 btnFS.addEventListener('click', () => {
-  if (!document.fullscreenElement) {
-    wrap.requestFullscreen().catch(() => {});
-  } else {
-    document.exitFullscreen();
-  }
+  if (!document.fullscreenElement) wrap.requestFullscreen?.().catch(()=>{});
+  else document.exitFullscreen?.();
 });
 
 /* ── Render loop ───────────────────────────────────── */
-function animate() {
+(function animate() {
   requestAnimationFrame(animate);
   controls.update();
   renderer.render(scene, camera);
-}
+})();
 
-/* ── Init ──────────────────────────────────────────── */
+/* ── Boot ──────────────────────────────────────────── */
 resize();
-animate();
-
-// Load first piece immediately
-const firstTab = tabs[0];
-if (firstTab) {
-  loadPiece(
-    firstTab.dataset.model,
-    firstTab.querySelector('.s3d-tab-title').textContent,
-    firstTab.dataset.placeholder === 'true'
-  );
+if (tabs[0]) {
+  tabs[0].dataset.idx = '0';
+  loadPiece(tabs[0].dataset.model, tabs[0].querySelector('.s3d-tab-title').textContent, tabs[0].dataset.placeholder === 'true', 0);
   btnAuto.classList.add('s3d-btn--active');
 }
 </script>
@@ -742,35 +1093,31 @@ if (firstTab) {
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* Placeholder overlay */
+  /* Preview badge — bottom bar, non-intrusive */
   .s3d-placeholder {
-    position: absolute; inset: 0;
+    position: absolute;
+    bottom: 12px; left: 12px;
     display: none;
-    align-items: flex-end;
-    justify-content: flex-start;
-    padding: 24px;
     z-index: 8;
     pointer-events: none;
   }
   .s3d-placeholder-inner {
-    background: rgba(14,12,13,0.80);
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--border-gold);
-    border-radius: 8px;
-    padding: 16px 20px;
-    max-width: 280px;
+    background: rgba(14,12,13,0.78);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(185,138,55,0.30);
+    border-radius: 6px;
+    padding: 6px 12px;
   }
   .s3d-placeholder-title {
-    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
     font-weight: 700;
     color: var(--gold);
-    margin: 8px 0 4px;
-    letter-spacing: 0.5px;
-  }
-  .s3d-placeholder-sub {
-    font-size: 11px;
-    color: var(--muted);
-    line-height: 1.55;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
   }
 
   /* Viewer UI (top right) */
