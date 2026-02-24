@@ -291,25 +291,24 @@ const pieces3d = [
 </Layout>
 
 <!-- ─── Three.js UE5-style Viewer ────────────────────────────── -->
+<!-- importmap: resolves bare 'three' specifier used internally by addons -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.167.1/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.167.1/examples/jsm/"
+  }
+}
+</script>
 <script type="module">
 /* ═══════════════════════════════════════════════════════════════
    UE5-STYLE 3D VIEWER — Three.js r167
-   Features:
-   · MeshPhysicalMaterial with subsurface-scattering approximation
-   · 4096-px tattoo canvas textures with normal/roughness variation
-   · Cinematic ACES filmic tone-map + auto-exposure simulation
-   · Bokeh-style animated depth-of-field vignette (post quad)
-   · Ambient particles (floating ink dust)
-   · Volumetric rim-light lens flare sprite
-   · High-res shadow maps + PCF-Soft
-   · Animated environment-probe colour cycling (studio shift)
-   · Smooth camera dolly-in on load
    ═══════════════════════════════════════════════════════════════ */
 
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.167.1/build/three.module.js';
-import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.167.1/examples/jsm/controls/OrbitControls.js';
-import { GLTFLoader }    from 'https://cdn.jsdelivr.net/npm/three@0.167.1/examples/jsm/loaders/GLTFLoader.js';
-import { DRACOLoader }   from 'https://cdn.jsdelivr.net/npm/three@0.167.1/examples/jsm/loaders/DRACOLoader.js';
+import * as THREE        from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GLTFLoader }    from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader }   from 'three/addons/loaders/DRACOLoader.js';
 
 /* ── DOM ─────────────────────────────────────────────────────── */
 const canvas        = document.getElementById('canvas-3d');
