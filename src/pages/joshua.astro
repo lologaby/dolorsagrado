@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import TattooViewer from '../components/tattoo-viewer/TattooViewer';
 
 const gallery = [
   '/images/piercing-gallery-1.jpg',
@@ -8,50 +9,6 @@ const gallery = [
   '/images/piercing-gallery-4.jpg',
   '/images/piercing-gallery-5.jpg',
   '/images/piercing-gallery-6.jpg',
-];
-
-/*
-  3D Pieces — cada entry tiene:
-    id:      slug único
-    title:   nombre de la pieza
-    style:   descripción del estilo
-    model:   path al archivo .glb en /public/models/
-    thumb:   imagen de preview (foto real del tatuaje)
-    placeholder: true mientras no exista el .glb
-*/
-const pieces3d = [
-  {
-    id: 'tat1-arm',
-    title: 'Tatuaje · Brazo',
-    style: 'Modelo Blender · 3D real',
-    model: '/models/tat1-arm.glb',
-    thumb: '/images/piercing-gallery-1.jpg',
-    placeholder: false,
-  },
-  {
-    id: 'sleeve-01',
-    title: 'Sleeve Black & Grey',
-    style: 'Full sleeve · Realismo oscuro',
-    model: '/models/joshua-sleeve-01.glb',
-    thumb: '/images/piercing-gallery-2.jpg',
-    placeholder: true,
-  },
-  {
-    id: 'forearm-02',
-    title: 'Antebrazo Geométrico',
-    style: 'Forearm · Blackwork + geometría',
-    model: '/models/joshua-forearm-02.glb',
-    thumb: '/images/piercing-gallery-3.jpg',
-    placeholder: true,
-  },
-  {
-    id: 'upper-arm-03',
-    title: 'Brazo Superior · Retrato',
-    style: 'Upper arm · Retrato Black & Grey',
-    model: '/models/joshua-upper-arm-03.glb',
-    thumb: '/images/piercing-gallery-4.jpg',
-    placeholder: true,
-  },
 ];
 ---
 
@@ -81,55 +38,22 @@ const pieces3d = [
     </div>
   </section>
 
-  <!-- ═══════════════════════════════ 3D VIEWER SECTION -->
+  <!-- ═══════════════════════════════ 3D TATTOO VISUALIZER -->
   <section class="section-3d" id="piezas-3d">
     <div class="container-3d">
-
-      <!-- Section header -->
       <div class="s3d-header fade-in">
         <p class="kicker">Experiencia inmersiva</p>
-        <h2 class="h2">Piezas en <span class="gold-text">3D</span></h2>
+        <h2 class="h2">Tattoo <span class="gold-text">Visualizer</span></h2>
         <p class="lead s3d-lead">
-          Cada tatuaje de Joshua modelado en Blender. Rota, acerca y examina
-          cada detalle como si lo tuvieras en frente.
+          Sube tu diseño y visualízalo en 3D sobre el cuerpo. Rota, acerca
+          y elige la zona donde quieres tu tatuaje.
         </p>
-        <div class="s3d-controls-hint">
-          <span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg> Arrastrar · Rotar</span>
-          <span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 3l-9 9M3 21l9-9M14 3h7v7M10 21H3v-7"/></svg> Pellizcar · Zoom</span>
-          <span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3"/></svg> Click derecho · Pan</span>
-        </div>
       </div>
 
-      <!-- Multi-viewer grid: one canvas per piece -->
-      <div class="s3d-grid fade-in">
-        {pieces3d.map((p, i) => (
-          <div class="s3d-card" data-piece={p.id} data-model={p.model} data-placeholder={p.placeholder ? 'true' : 'false'} data-idx={i}>
-            <div class="s3d-card-canvas-wrap">
-              <canvas class="s3d-canvas-item" aria-label={p.title}></canvas>
-              <div class="s3d-card-loading">
-                <div class="s3d-spinner"></div>
-              </div>
-              {p.placeholder && (
-                <div class="s3d-card-preview-badge">Preview</div>
-              )}
-              <div class="s3d-card-actions">
-                <button class="s3d-btn s3d-btn-reset" title="Resetear cámara">
-                  <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-                </button>
-                <button class="s3d-btn s3d-btn-fs" title="Pantalla completa">
-                  <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
-                </button>
-              </div>
-            </div>
-            <div class="s3d-card-info">
-              <span class="s3d-card-title">{p.title}</span>
-              <span class="s3d-card-style">{p.style}</span>
-            </div>
-          </div>
-        ))}
+      <div class="s3d-viewer-react fade-in">
+        <TattooViewer client:only="react" modelUrl="/models/tat1-arm.glb" />
       </div>
 
-      <!-- CTA under grid -->
       <div class="s3d-cta fade-in">
         <p class="s3d-cta-text">¿Quieres un diseño personalizado de Joshua?</p>
         <a class="btn btn-gold" href="/reservar">Reservar con Joshua</a>
@@ -254,340 +178,6 @@ const pieces3d = [
 </Layout>
 
 <!-- ─── Three.js UE5-style Viewer ────────────────────────────── -->
-<!-- importmap: resolves bare 'three' specifier used internally by addons -->
-<script type="importmap">
-{
-  "imports": {
-    "three": "https://cdn.jsdelivr.net/npm/three@0.167.1/build/three.module.js",
-    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.167.1/examples/jsm/"
-  }
-}
-</script>
-<script type="module">
-/* ═══════════════════════════════════════════════════════════════
-   UE5-STYLE MULTI-VIEWER — Three.js r167
-   Each .s3d-card gets its own independent renderer, scene,
-   camera and OrbitControls. Clean matte-black void, no grid,
-   no particles, no flare.
-   ═══════════════════════════════════════════════════════════════ */
-
-import * as THREE        from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { GLTFLoader }    from 'three/addons/loaders/GLTFLoader.js';
-import { DRACOLoader }   from 'three/addons/loaders/DRACOLoader.js';
-
-/* ── Shared loaders ──────────────────────────────────────────── */
-const draco = new DRACOLoader();
-draco.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.167.1/examples/jsm/libs/draco/');
-const gltfLoader = new GLTFLoader();
-gltfLoader.setDRACOLoader(draco);
-
-/* ══════════════════════════════════════════════════════════════
-   SKIN MATERIAL — MeshPhysical + sheen approximates SSS
-   ══════════════════════════════════════════════════════════════ */
-function makeSkinMat(color = 0x9a7055) {
-  return new THREE.MeshPhysicalMaterial({
-    color:              new THREE.Color(color),
-    roughness:          0.68,
-    metalness:          0.0,
-    sheen:              0.55,
-    sheenRoughness:     0.75,
-    sheenColor:         new THREE.Color(0xff8060),
-    thickness:          0.12,
-    attenuationColor:   new THREE.Color(0xff9970),
-    attenuationDistance:0.4,
-    specularIntensity:  0.55,
-    specularColor:      new THREE.Color(0xffe8d0),
-    clearcoat:          0.08,
-    clearcoatRoughness: 0.55,
-  });
-}
-
-/* ══════════════════════════════════════════════════════════════
-   PROCEDURAL ARM
-   ══════════════════════════════════════════════════════════════ */
-function buildArm(tattooStyle = 0, maxAniso = 1) {
-  const group = new THREE.Group();
-  const S = makeSkinMat;
-
-  function limbSegment(rTop, rBot, height, y, mat) {
-    const g = new THREE.Group();
-    const cyl = new THREE.Mesh(new THREE.CylinderGeometry(rTop, rBot, height, 40, 6, false), mat.clone());
-    cyl.castShadow = cyl.receiveShadow = true; g.add(cyl);
-    [height/2, -height/2].forEach((py, i) => {
-      const cap = new THREE.Mesh(new THREE.SphereGeometry(i===0?rTop:rBot, 28, 18), mat.clone());
-      cap.position.y = py; cap.castShadow = true; g.add(cap);
-    });
-    g.position.y = y; return g;
-  }
-
-  const shoulder = new THREE.Mesh(new THREE.SphereGeometry(0.168,36,24), S());
-  shoulder.scale.set(1,1.12,0.90); shoulder.position.y=0.74; shoulder.castShadow=true; group.add(shoulder);
-  const delt = new THREE.Mesh(new THREE.SphereGeometry(0.138,24,18), S());
-  delt.scale.set(1.08,0.7,0.72); delt.position.set(0.06,0.68,0.06); delt.castShadow=true; group.add(delt);
-  group.add(limbSegment(0.142,0.120,0.62,0.37,S()));
-  const bicep = new THREE.Mesh(new THREE.SphereGeometry(0.148,28,20), S());
-  bicep.scale.set(0.88,1.18,0.76); bicep.position.set(0.018,0.53,0.07); bicep.castShadow=true; group.add(bicep);
-  const tricep = new THREE.Mesh(new THREE.SphereGeometry(0.128,22,16), S());
-  tricep.scale.set(0.78,1.4,0.60); tricep.position.set(-0.02,0.40,-0.07); tricep.castShadow=true; group.add(tricep);
-  const elbow = new THREE.Mesh(new THREE.SphereGeometry(0.118,30,20), S(0x8c6545));
-  elbow.scale.set(1,0.86,0.94); elbow.castShadow=true; group.add(elbow);
-  group.add(limbSegment(0.110,0.080,0.60,-0.31,S()));
-  const ext = new THREE.Mesh(new THREE.SphereGeometry(0.100,20,14), S());
-  ext.scale.set(0.82,1.42,0.68); ext.position.set(-0.012,-0.19,-0.045); ext.castShadow=true; group.add(ext);
-  const wrist = new THREE.Mesh(new THREE.SphereGeometry(0.078,28,18), S(0x8c6545));
-  wrist.scale.set(1.08,0.78,0.86); wrist.position.y=-0.615; wrist.castShadow=true; group.add(wrist);
-  const palm = new THREE.Mesh(new THREE.SphereGeometry(0.092,28,20), S());
-  palm.scale.set(1.52,1.92,0.70); palm.position.y=-0.778; palm.castShadow=true; group.add(palm);
-
-  function finger(rz,len,x){
-    const fg=new THREE.Group();
-    const f=new THREE.Mesh(new THREE.CapsuleGeometry(0.015,len,8,14),S(0x8c6848));
-    f.castShadow=true; fg.add(f); fg.rotation.z=rz; fg.position.set(x,-0.92-len/2,0); return fg;
-  }
-  [[-0.09,0.100,-0.056],[-0.022,0.122,-0.018],[0.022,0.112,0.018],[0.09,0.090,0.056]].forEach(([rz,len,x])=>group.add(finger(rz,len,x)));
-  const thumb=new THREE.Group();
-  const tf=new THREE.Mesh(new THREE.CapsuleGeometry(0.018,0.076,8,10),S(0x8c6848));
-  tf.castShadow=true; thumb.add(tf); thumb.rotation.set(-0.28,0,-0.92); thumb.position.set(-0.102,-0.772,0.028); group.add(thumb);
-
-  /* Tattoo texture */
-  const texSize = 1024;
-  const tc = document.createElement('canvas'); tc.width=tc.height=texSize;
-  const ctx = tc.getContext('2d'); ctx.clearRect(0,0,texSize,texSize);
-  [drawBlackGrey,drawGeometric,drawPortrait,drawDotwork][tattooStyle%4](ctx,texSize);
-  const tattooTex = new THREE.CanvasTexture(tc);
-  tattooTex.anisotropy = maxAniso;
-  const tattooMat = new THREE.MeshPhysicalMaterial({
-    map:tattooTex, transparent:true, alphaTest:0.015,
-    roughness:0.60, metalness:0.0, depthWrite:false, side:THREE.FrontSide,
-    specularIntensity:0.3, specularColor:new THREE.Color(0xffe0c0),
-  });
-  const tattoo = new THREE.Mesh(new THREE.CylinderGeometry(0.114,0.083,0.56,40,1,true), tattooMat);
-  tattoo.position.y=-0.31; tattoo.renderOrder=1; group.add(tattoo);
-  group.rotation.x=0.16; group.rotation.z=0.05;
-  return group;
-}
-
-/* ── Tattoo draw functions ───────────────────────────────────── */
-function drawBlackGrey(ctx,s){
-  const grd=ctx.createLinearGradient(0,0,s*.3,s);
-  grd.addColorStop(0,'rgba(14,10,14,0.82)'); grd.addColorStop(0.4,'rgba(28,18,24,0.65)'); grd.addColorStop(1,'rgba(8,6,8,0.78)');
-  ctx.fillStyle=grd; ctx.fillRect(0,0,s,s);
-  const cr=ctx.createRadialGradient(s*.50,s*.25,s*.02,s*.50,s*.25,s*.17);
-  cr.addColorStop(0,'rgba(240,230,218,0.96)'); cr.addColorStop(0.55,'rgba(210,195,178,0.88)'); cr.addColorStop(0.85,'rgba(160,142,118,0.60)'); cr.addColorStop(1,'rgba(80,65,50,0.0)');
-  ctx.fillStyle=cr; ctx.beginPath(); ctx.ellipse(s*.50,s*.25,s*.145,s*.175,0,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle='rgba(255,250,242,0.72)'; ctx.beginPath(); ctx.ellipse(s*.465,s*.20,s*.048,s*.055,-0.35,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle='rgba(30,20,30,0.35)'; ctx.beginPath(); ctx.ellipse(s*.44,s*.31,s*.06,s*.035,0.3,0,Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.ellipse(s*.56,s*.31,s*.06,s*.035,-0.3,0,Math.PI*2); ctx.fill();
-  [s*.435,s*.565].forEach(ex=>{const eg=ctx.createRadialGradient(ex,s*.27,0,ex,s*.27,s*.042); eg.addColorStop(0,'rgba(4,2,6,1)'); eg.addColorStop(1,'rgba(10,6,12,0.5)'); ctx.fillStyle=eg; ctx.beginPath(); ctx.ellipse(ex,s*.27,s*.040,s*.034,0,0,Math.PI*2); ctx.fill();});
-  ctx.fillStyle='rgba(8,4,10,0.90)'; ctx.beginPath(); ctx.moveTo(s*.500,s*.31); ctx.lineTo(s*.468,s*.345); ctx.lineTo(s*.532,s*.345); ctx.closePath(); ctx.fill();
-  ctx.strokeStyle='rgba(18,12,20,0.88)'; ctx.lineWidth=s*.003;
-  for(let t=0;t<6;t++){const tx=s*.43+t*s*.025; ctx.fillStyle='rgba(220,208,192,0.88)'; ctx.beginPath(); ctx.roundRect(tx,s*.365,s*.020,s*.030,s*.003); ctx.fill(); ctx.stroke();}
-  ctx.strokeStyle='rgba(30,20,28,0.65)'; ctx.lineWidth=s*.003;
-  [[s*.50,s*.10,s*.47,s*.22],[s*.50,s*.10,s*.54,s*.19],[s*.50,s*.10,s*.50,s*.06]].forEach(([x1,y1,x2,y2])=>{ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();});
-  drawRose(ctx,s*.18,s*.58,s*.11,s); drawRose(ctx,s*.82,s*.58,s*.10,s); drawRose(ctx,s*.50,s*.78,s*.12,s); drawRose(ctx,s*.32,s*.45,s*.075,s); drawRose(ctx,s*.68,s*.45,s*.075,s);
-  ctx.strokeStyle='rgba(185,165,148,0.40)'; ctx.lineWidth=s*.003;
-  for(let i=0;i<14;i++){ctx.beginPath(); ctx.moveTo(Math.random()*s,0); const c1x=Math.random()*s,c2x=Math.random()*s; ctx.bezierCurveTo(c1x,s*.25+Math.random()*s*.15,c2x,s*.6+Math.random()*s*.15,Math.random()*s,s); ctx.stroke();}
-  for(let i=0;i<3500;i++){const x=Math.random()*s,y=Math.random()*s; ctx.fillStyle=`rgba(6,4,8,${0.03+Math.random()*0.06})`; ctx.beginPath(); ctx.arc(x,y,Math.random()*s*.002+s*.0003,0,Math.PI*2); ctx.fill();}
-}
-function drawRose(ctx,cx,cy,r,s){
-  ctx.save(); ctx.translate(cx,cy);
-  for(let i=0;i<16;i++){const a=(i/16)*Math.PI*2,pr=r*(0.5+0.28*Math.sin(i*1.9+0.6)),lum=15+i*6; ctx.fillStyle=`rgba(${lum},${Math.max(0,lum-8)},${Math.max(0,lum-4)},${0.80-i*0.022})`; ctx.beginPath(); ctx.ellipse(Math.cos(a)*r*.40,Math.sin(a)*r*.40,pr*.58,pr*.34,a,0,Math.PI*2); ctx.fill();}
-  for(let i=0;i<10;i++){const a=(i/10)*Math.PI*2+0.3; ctx.fillStyle=`rgba(${50+i*8},${35+i*5},${40+i*5},0.70)`; ctx.beginPath(); ctx.ellipse(Math.cos(a)*r*.22,Math.sin(a)*r*.22,r*.22,r*.14,a,0,Math.PI*2); ctx.fill();}
-  const cg=ctx.createRadialGradient(0,0,0,0,0,r*.14); cg.addColorStop(0,'rgba(8,5,8,0.98)'); cg.addColorStop(1,'rgba(18,12,18,0.5)');
-  ctx.fillStyle=cg; ctx.beginPath(); ctx.arc(0,0,r*.16,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle='rgba(255,240,220,0.18)'; ctx.beginPath(); ctx.ellipse(-r*.04,-r*.05,r*.06,r*.04,-0.5,0,Math.PI*2); ctx.fill();
-  ctx.restore();
-}
-function drawGeometric(ctx,s){
-  ctx.fillStyle='rgba(5,4,7,0.72)'; ctx.fillRect(0,0,s,s);
-  const cx=s*.50,cy=s*.36;
-  [s*.42,s*.36,s*.30,s*.22,s*.14].forEach((r,ri)=>{const segs=(ri+4)*8; ctx.strokeStyle=`rgba(225,212,195,${0.90-ri*0.10})`; ctx.lineWidth=ri===0?s*.0035:ri===1?s*.0018:s*.0010; ctx.beginPath(); for(let i=0;i<=segs;i++){const a=(i/segs)*Math.PI*2; i===0?ctx.moveTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r):ctx.lineTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r);} ctx.closePath(); ctx.stroke();});
-  for(let i=0;i<6;i++){const a=(i/6)*Math.PI*2-Math.PI/6; ctx.strokeStyle='rgba(210,195,175,0.72)'; ctx.lineWidth=s*.0014; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+Math.cos(a)*s*.42,cy+Math.sin(a)*s*.42); ctx.stroke(); [s*.14,s*.24,s*.34].forEach(d=>{const bx=cx+Math.cos(a)*d,by=cy+Math.sin(a)*d; ctx.fillStyle='rgba(218,202,180,0.78)'; ctx.beginPath(); ctx.moveTo(bx,by-s*.020); ctx.lineTo(bx+s*.014,by); ctx.lineTo(bx,by+s*.020); ctx.lineTo(bx-s*.014,by); ctx.closePath(); ctx.fill();});}
-  for(let i=0;i<6;i++){const a=(i/6)*Math.PI*2,fx=cx+Math.cos(a)*s*.12,fy=cy+Math.sin(a)*s*.12; ctx.strokeStyle='rgba(200,185,165,0.55)'; ctx.lineWidth=s*.0010; ctx.beginPath(); ctx.arc(fx,fy,s*.12,0,Math.PI*2); ctx.stroke();}
-  [[s*.50,s*.01,s*.09,s*.44,s*.91,s*.44],[s*.50,s*.44,s*.09,s*.01,s*.91,s*.01]].forEach(([x1,y1,x2,y2,x3,y3])=>{ctx.strokeStyle='rgba(245,235,218,0.52)'; ctx.lineWidth=s*.0018; ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.lineTo(x3,y3); ctx.closePath(); ctx.stroke();});
-  for(let row=0;row<12;row++){const y=s*.52+row*s*.040; ctx.strokeStyle=`rgba(188,172,152,${0.60-row*0.025})`; ctx.lineWidth=s*.0009; ctx.beginPath(); for(let xi=0;xi<=24;xi++){const xp=(xi/24)*s,yp=y+Math.sin((xi/24)*Math.PI*6)*s*.009; xi===0?ctx.moveTo(xp,yp):ctx.lineTo(xp,yp);} ctx.stroke();}
-  const og=ctx.createRadialGradient(cx,cy,0,cx,cy,s*.08); og.addColorStop(0,'rgba(240,225,202,0.65)'); og.addColorStop(1,'rgba(0,0,0,0)');
-  ctx.fillStyle=og; ctx.beginPath(); ctx.arc(cx,cy,s*.08,0,Math.PI*2); ctx.fill();
-}
-function drawPortrait(ctx,s){
-  ctx.fillStyle='rgba(7,5,9,0.62)'; ctx.fillRect(0,0,s,s);
-  const fg=ctx.createRadialGradient(s*.50,s*.31,s*.01,s*.50,s*.31,s*.24);
-  fg.addColorStop(0,'rgba(238,222,202,0.96)'); fg.addColorStop(0.50,'rgba(205,182,158,0.84)'); fg.addColorStop(0.80,'rgba(158,128,98,0.50)'); fg.addColorStop(1,'rgba(80,55,35,0.0)');
-  ctx.fillStyle=fg; ctx.beginPath(); ctx.ellipse(s*.50,s*.31,s*.19,s*.245,0,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle='rgba(25,15,28,0.30)'; ctx.beginPath(); ctx.ellipse(s*.50,s*.46,s*.12,s*.045,0,0,Math.PI*2); ctx.fill();
-  [[s*.40,s*.28],[s*.60,s*.28]].forEach(([ex,ey])=>{for(let p=0;p<8;p++){const a=(p/8)*Math.PI*2; ctx.strokeStyle='rgba(12,8,16,0.92)'; ctx.lineWidth=s*.003; ctx.beginPath(); ctx.ellipse(ex+Math.cos(a)*s*.038,ey+Math.sin(a)*s*.038,s*.022,s*.012,a,0,Math.PI*2); ctx.stroke();} ctx.fillStyle='rgba(6,3,8,0.95)'; ctx.beginPath(); ctx.arc(ex,ey,s*.010,0,Math.PI*2); ctx.fill();});
-  ctx.fillStyle='rgba(20,12,24,0.60)'; ctx.beginPath(); ctx.moveTo(s*.50,s*.325); ctx.lineTo(s*.466,s*.375); ctx.lineTo(s*.534,s*.375); ctx.closePath(); ctx.fill();
-  const mg=ctx.createLinearGradient(s*.40,s*.40,s*.60,s*.40); mg.addColorStop(0,'rgba(18,10,20,0)'); mg.addColorStop(0.5,'rgba(18,10,20,0.88)'); mg.addColorStop(1,'rgba(18,10,20,0)');
-  ctx.strokeStyle=mg; ctx.lineWidth=s*.004; ctx.beginPath(); ctx.arc(s*.50,s*.415,s*.088,Math.PI*.06,Math.PI*.94); ctx.stroke();
-  for(let t=0;t<7;t++){const a=Math.PI*.10+t*(Math.PI*.76/6),px=s*.50+Math.cos(a)*s*.088,py=s*.415+Math.sin(a)*s*.088; ctx.strokeStyle='rgba(10,6,12,0.88)'; ctx.lineWidth=s*.003; ctx.beginPath(); ctx.moveTo(px,py-s*.013); ctx.lineTo(px,py+s*.013); ctx.stroke();}
-  ctx.strokeStyle='rgba(195,178,155,0.50)'; ctx.lineWidth=s*.0012;
-  for(let i=0;i<22;i++){const a=(i/22)*Math.PI*2; ctx.beginPath(); ctx.ellipse(s*.50+Math.cos(a)*s*.24,s*.31+Math.sin(a)*s*.22,s*.038,s*.022,a,0,Math.PI*2); ctx.stroke();}
-  for(let b=0;b<6;b++){ctx.fillStyle=`rgba(10,7,12,${0.52-b*.04})`; ctx.fillRect(0,s*(.60+b*.068),s,s*.025); ctx.fillStyle='rgba(205,182,155,0.20)'; ctx.fillRect(s*.04,s*(.614+b*.068),s*.92,s*.010);}
-}
-function drawDotwork(ctx,s){
-  ctx.fillStyle='rgba(5,4,7,0.65)'; ctx.fillRect(0,0,s,s);
-  const cx=s*.50,cy=s*.34;
-  for(let i=0;i<12;i++){const a=(i/12)*Math.PI*2-Math.PI/12; ctx.save(); ctx.translate(cx,cy); ctx.rotate(a); const pg=ctx.createLinearGradient(0,0,0,-s*.22); pg.addColorStop(0,'rgba(218,202,178,0.35)'); pg.addColorStop(1,'rgba(218,202,178,0.0)'); ctx.fillStyle=pg; ctx.beginPath(); ctx.ellipse(0,-s*.16,s*.044,s*.150,0,0,Math.PI*2); ctx.fill(); ctx.strokeStyle='rgba(200,183,160,0.65)'; ctx.lineWidth=s*.0011; ctx.stroke(); ctx.restore();}
-  function stipple(x,y,r,n,alpha){for(let i=0;i<n;i++){const a2=Math.random()*Math.PI*2,d=Math.random()*r,sz=Math.random()*s*.0022+s*.0004; ctx.fillStyle=`rgba(214,198,175,${alpha*(0.45+Math.random()*.55)})`; ctx.beginPath(); ctx.arc(x+Math.cos(a2)*d,y+Math.sin(a2)*d,sz,0,Math.PI*2); ctx.fill();}}
-  stipple(cx,cy,s*.44,4200,0.58);
-  for(let ring=1;ring<=7;ring++){const r=ring*s*.062,count=ring*16; for(let d=0;d<count;d++){const a=(d/count)*Math.PI*2,sz=(ring<3?s*.002:s*.0014)*(0.7+Math.random()*.6); ctx.fillStyle=`rgba(212,196,172,${0.75-ring*.07})`; ctx.beginPath(); ctx.arc(cx+Math.cos(a)*r,cy+Math.sin(a)*r,sz,0,Math.PI*2); ctx.fill();}}
-  ctx.strokeStyle='rgba(192,176,152,0.70)'; ctx.lineWidth=s*.0018; ctx.beginPath(); ctx.moveTo(cx,s*.46); ctx.bezierCurveTo(cx-s*.02,s*.62,cx+s*.02,s*.78,cx,s*.96); ctx.stroke();
-  [[s*.50,s*.57,-24,-32],[s*.50,s*.68,22,30],[s*.50,s*.80,-18,-26]].forEach(([x,y,lx,ly])=>{ctx.strokeStyle='rgba(195,178,155,0.65)'; ctx.lineWidth=s*.0013; ctx.beginPath(); ctx.moveTo(x,y); ctx.quadraticCurveTo(x+lx,y-10,x+lx,y+ly); ctx.stroke(); stipple(x+lx/2,y+ly/3,s*.07,280,0.48);});
-  const ig=ctx.createRadialGradient(cx,cy,0,cx,cy,s*.08); ig.addColorStop(0,'rgba(235,215,185,0.55)'); ig.addColorStop(1,'rgba(0,0,0,0)');
-  ctx.fillStyle=ig; ctx.beginPath(); ctx.arc(cx,cy,s*.08,0,Math.PI*2); ctx.fill();
-}
-
-/* ══════════════════════════════════════════════════════════════
-   buildScene — shared scene lighting factory
-   Each viewer gets its own scene object with identical lights
-   ══════════════════════════════════════════════════════════════ */
-function buildScene() {
-  const scene = new THREE.Scene();
-  /* Pure matte black — no background colour bleed */
-  scene.background = new THREE.Color(0x000000);
-  /* NO fog, NO grid, NO particles */
-
-  scene.add(new THREE.HemisphereLight(0xffe8c0, 0x1a1020, 0.45));
-
-  const key = new THREE.DirectionalLight(0xfff2d8, 3.6);
-  key.position.set(2.2, 4.0, 2.8);
-  key.castShadow = true;
-  key.shadow.mapSize.set(2048, 2048);
-  key.shadow.camera.near=-3; key.shadow.camera.far=18;
-  key.shadow.camera.left=-2.5; key.shadow.camera.right=2.5;
-  key.shadow.camera.top=3; key.shadow.camera.bottom=-3;
-  key.shadow.bias=-0.0004; key.shadow.radius=4;
-  scene.add(key);
-
-  const fill = new THREE.DirectionalLight(0x7ab8d8, 0.65);
-  fill.position.set(-3,1,1.5); scene.add(fill);
-
-  const rim = new THREE.DirectionalLight(0xd4a03a, 1.4);
-  rim.position.set(0.4,-1.2,-3.2); scene.add(rim);
-
-  const up = new THREE.PointLight(0x9060c0, 0.18, 7);
-  up.position.set(0,-1.8,0.8); scene.add(up);
-
-  const spot = new THREE.SpotLight(0xff8833, 1.8, 10, Math.PI/8, 0.6, 2);
-  spot.position.set(1.5,2.5,-2.5); spot.castShadow=true; spot.shadow.mapSize.set(512,512);
-  scene.add(spot);
-
-  return { scene, rim };
-}
-
-/* ══════════════════════════════════════════════════════════════
-   initCard — bootstraps one mini viewer per .s3d-card
-   ══════════════════════════════════════════════════════════════ */
-function initCard(cardEl) {
-  const canvas      = cardEl.querySelector('.s3d-canvas-item');
-  const loadingEl   = cardEl.querySelector('.s3d-card-loading');
-  const badgeEl     = cardEl.querySelector('.s3d-card-preview-badge');
-  const btnReset    = cardEl.querySelector('.s3d-btn-reset');
-  const btnFS       = cardEl.querySelector('.s3d-btn-fs');
-  const canvasWrap  = cardEl.querySelector('.s3d-card-canvas-wrap');
-
-  const modelPath   = cardEl.dataset.model;
-  const isPlaceholder = cardEl.dataset.placeholder === 'true';
-  const tattooIdx   = parseInt(cardEl.dataset.idx ?? 0);
-
-  /* Renderer */
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance', alpha: false });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.outputColorSpace  = THREE.SRGBColorSpace;
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type    = THREE.PCFSoftShadowMap;
-  renderer.toneMapping       = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.55;
-
-  const { scene, rim } = buildScene();
-
-  const camera = new THREE.PerspectiveCamera(38, 1, 0.01, 60);
-  camera.position.set(0, 0.25, 3.2);
-
-  const controls = new OrbitControls(camera, canvas);
-  controls.enableDamping   = true;
-  controls.dampingFactor   = 0.045;
-  controls.minDistance     = 0.7;
-  controls.maxDistance     = 5.5;
-  controls.autoRotate      = true;
-  controls.autoRotateSpeed = 1.2;
-  controls.target.set(0, 0.05, 0);
-  controls.maxPolarAngle   = Math.PI * 0.78;
-
-  /* Resize */
-  function resize() {
-    const w = canvasWrap.clientWidth, h = canvasWrap.clientHeight;
-    renderer.setSize(w, h, false);
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-  }
-  new ResizeObserver(resize).observe(canvasWrap);
-  resize();
-
-  /* Load model */
-  function autoFitModel(model) {
-    const box   = new THREE.Box3().setFromObject(model);
-    const size  = box.getSize(new THREE.Vector3());
-    const center= box.getCenter(new THREE.Vector3());
-    const scale = 1.6 / Math.max(size.x, size.y, size.z);
-    model.scale.setScalar(scale);
-    model.position.sub(center.multiplyScalar(scale));
-    model.traverse(c => {
-      if (c.isMesh) {
-        c.castShadow = c.receiveShadow = true;
-        if (c.material) {
-          c.material.roughness = Math.max(c.material.roughness ?? 0.7, 0.45);
-          c.material.envMapIntensity = 1.2;
-        }
-      }
-    });
-  }
-
-  if (isPlaceholder) {
-    loadingEl.style.display = 'none';
-    scene.add(buildArm(tattooIdx, renderer.capabilities.getMaxAnisotropy()));
-  } else {
-    loadingEl.style.display = 'flex';
-    if (badgeEl) badgeEl.style.display = 'none';
-    gltfLoader.load(modelPath,
-      (data) => {
-        loadingEl.style.display = 'none';
-        const model = data.scene;
-        autoFitModel(model);
-        scene.add(model);
-        controls.reset();
-      },
-      null,
-      () => {
-        loadingEl.style.display = 'none';
-        if (badgeEl) badgeEl.style.display = 'flex';
-        scene.add(buildArm(tattooIdx, renderer.capabilities.getMaxAnisotropy()));
-      }
-    );
-  }
-
-  /* Buttons */
-  btnReset?.addEventListener('click', () => { controls.reset(); camera.position.set(0,0.25,3.2); });
-  btnFS?.addEventListener('click', () => {
-    if (!document.fullscreenElement) canvasWrap.requestFullscreen?.().catch(()=>{});
-    else document.exitFullscreen?.();
-  });
-
-  /* Render loop */
-  const clock = new THREE.Clock();
-  (function animate() {
-    requestAnimationFrame(animate);
-    const t = clock.elapsedTime;
-    rim.intensity = 1.4 + Math.sin(t * 0.6) * 0.25;
-    controls.update();
-    renderer.render(scene, camera);
-  })();
-}
-
-/* ── Boot all cards ──────────────────────────────────────────── */
-document.querySelectorAll('.s3d-card').forEach(initCard);
-</script>
 
 <style>
   /* ── Artist hero ──────────────────────────────────── */
@@ -642,128 +232,12 @@ document.querySelectorAll('.s3d-card').forEach(initCard);
   }
   .s3d-controls-hint svg { color: var(--gold); flex-shrink: 0; }
 
-  /* ── Multi-viewer grid ────────────────────────────── */
-  .s3d-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
+  /* ── React 3D Viewer wrapper ─────────────────────── */
+  .s3d-viewer-react {
     margin-top: 8px;
-  }
-
-  /* Each card */
-  .s3d-card {
-    display: flex;
-    flex-direction: column;
-    border-radius: 12px;
+    border-radius: 16px;
     overflow: hidden;
-    border: 1px solid var(--border);
-    background: #000;
-    box-shadow: 0 16px 48px rgba(0,0,0,0.75);
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-  .s3d-card:hover {
-    border-color: rgba(185,138,55,0.4);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.9), 0 0 0 1px rgba(185,138,55,0.18);
-  }
-
-  /* Canvas wrapper — square-ish aspect ratio, adapts to model */
-  .s3d-card-canvas-wrap {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 3 / 4;   /* taller than wide — good for vertical arms */
-    background: #000;
-    overflow: hidden;
-  }
-
-  .s3d-canvas-item {
-    position: absolute;
-    inset: 0;
-    width: 100% !important;
-    height: 100% !important;
-    display: block;
-    touch-action: none;
-  }
-
-  /* Loading */
-  .s3d-card-loading {
-    position: absolute; inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0,0,0,0.88);
-    z-index: 10;
-    pointer-events: none;
-  }
-  .s3d-spinner {
-    width: 30px; height: 30px;
-    border: 2px solid rgba(185,138,55,0.2);
-    border-top-color: var(--gold);
-    border-radius: 50%;
-    animation: spin 0.75s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* Preview badge */
-  .s3d-card-preview-badge {
-    position: absolute;
-    bottom: 10px; left: 10px;
-    display: none;
-    font-size: 9px;
-    font-weight: 800;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--gold);
-    background: rgba(0,0,0,0.72);
-    border: 1px solid rgba(185,138,55,0.30);
-    padding: 3px 8px;
-    border-radius: 4px;
-    backdrop-filter: blur(8px);
-    z-index: 8;
-    pointer-events: none;
-  }
-  /* JS sets display:flex when needed */
-
-  /* Action buttons top-right */
-  .s3d-card-actions {
-    position: absolute;
-    top: 10px; right: 10px;
-    display: flex;
-    gap: 6px;
-    z-index: 9;
-  }
-  .s3d-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px; height: 32px;
-    background: rgba(0,0,0,0.65);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.10);
-    border-radius: 6px;
-    color: var(--muted);
-    cursor: pointer;
-    transition: background 0.15s, border-color 0.15s, color 0.15s;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .s3d-btn:hover { background: rgba(185,138,55,0.18); border-color: var(--gold); color: var(--gold); }
-
-  /* Card info strip below canvas */
-  .s3d-card-info {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    padding: 12px 14px;
-    border-top: 1px solid var(--border);
-  }
-  .s3d-card-title {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--text);
-    letter-spacing: 0.5px;
-  }
-  .s3d-card-style {
-    font-size: 10px;
-    color: var(--muted2);
+    box-shadow: 0 24px 80px rgba(0,0,0,0.8);
   }
 
   /* ── CTA under viewer ─────────────────────────────── */
@@ -817,18 +291,8 @@ document.querySelectorAll('.s3d-card').forEach(initCard);
   .aftercare-card .h3 { margin-bottom: 8px; font-size: 20px; }
   .aftercare-card p { font-size: 14px; color: var(--muted); line-height: 1.65; }
 
-  /* ── Fullscreen per card ─────────────────────────────── */
-  .s3d-card-canvas-wrap:fullscreen { border-radius: 0; aspect-ratio: unset; height: 100vh; width: 100vw; }
-  .s3d-card-canvas-wrap:-webkit-full-screen { border-radius: 0; aspect-ratio: unset; height: 100vh; width: 100vw; }
-
   /* ── Mobile ─────────────────────────────────────────── */
   @media (max-width: 600px) {
     .section-3d { padding: 48px 0 40px; }
-    .s3d-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
-    .s3d-controls-hint { gap: 12px; }
-    .s3d-controls-hint span { font-size: 9px; }
-  }
-  @media (max-width: 380px) {
-    .s3d-grid { grid-template-columns: 1fr; }
   }
 </style>
