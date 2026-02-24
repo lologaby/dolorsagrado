@@ -1,12 +1,11 @@
-import { useState, useCallback, Suspense } from 'react';
+import { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Environment, ContactShadows } from '@react-three/drei';
 import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
 import * as THREE from 'three';
-import BodyModel from './BodyModel';
-import UploadPanel from './UploadPanel';
+import PieceModel from './PieceModel';
 
-function SceneLighting() {
+function Lights() {
   return (
     <>
       <ambientLight intensity={0.3} />
@@ -15,11 +14,6 @@ function SceneLighting() {
         intensity={1.5}
         castShadow
         shadow-mapSize={[2048, 2048]}
-        shadow-camera-far={20}
-        shadow-camera-left={-3}
-        shadow-camera-right={3}
-        shadow-camera-top={3}
-        shadow-camera-bottom={-3}
         shadow-bias={-0.0003}
       />
       <pointLight position={[-3, 2, 3]} color="#ffccaa" intensity={0.8} />
@@ -31,50 +25,25 @@ function SceneLighting() {
 function PostFX() {
   return (
     <EffectComposer>
-      <Bloom
-        luminanceThreshold={0.85}
-        luminanceSmoothing={0.7}
-        intensity={0.35}
-        mipmapBlur
-      />
-      <Vignette eskil={false} offset={0.25} darkness={0.65} />
+      <Bloom luminanceThreshold={0.85} luminanceSmoothing={0.7} intensity={0.3} mipmapBlur />
+      <Vignette eskil={false} offset={0.25} darkness={0.6} />
     </EffectComposer>
   );
 }
 
-function LoadingFallback() {
+function Spinner() {
   return (
     <mesh>
-      <sphereGeometry args={[0.15, 16, 16]} />
+      <torusGeometry args={[0.12, 0.015, 12, 48]} />
       <meshStandardMaterial color="#b98a37" wireframe />
     </mesh>
   );
 }
 
-export default function TattooViewer({ modelUrl }) {
-  const [tattooTexture, setTattooTexture] = useState(null);
-  const [tattooPreview, setTattooPreview] = useState(null);
-  const [bodyZone, setBodyZone] = useState('arm');
-  const [decalScale, setDecalScale] = useState(1.0);
-
-  const handleTattooUpload = useCallback((file) => {
-    const url = URL.createObjectURL(file);
-    setTattooPreview(url);
-
-    const img = new Image();
-    img.onload = () => {
-      const tex = new THREE.Texture(img);
-      tex.needsUpdate = true;
-      tex.colorSpace = THREE.SRGBColorSpace;
-      setTattooTexture(tex);
-    };
-    img.src = url;
-  }, []);
-
+function PieceCanvas({ piece }) {
   return (
-    <div className="flex flex-col lg:flex-row w-full min-h-[600px] lg:min-h-[700px] gap-0 bg-[#0a0a0a] rounded-2xl overflow-hidden border border-neutral-800/50">
-      {/* Canvas area — 70% hero */}
-      <div className="relative flex-[7] min-h-[400px] lg:min-h-0">
+    <div className="flex flex-col rounded-2xl overflow-hidden border border-neutral-800/50 bg-black shadow-[0_16px_48px_rgba(0,0,0,0.8)] hover:border-gold/30 transition-all duration-300 group">
+      <div className="relative w-full" style={{ aspectRatio: '3/4' }}>
         <Canvas
           shadows
           dpr={[1, 2]}
@@ -87,22 +56,17 @@ export default function TattooViewer({ modelUrl }) {
           }}
           style={{ background: '#0a0a0a' }}
         >
-          <SceneLighting />
+          <Lights />
           <Environment preset="studio" background={false} />
 
-          <Suspense fallback={<LoadingFallback />}>
-            <BodyModel
-              modelUrl={modelUrl}
-              tattooTexture={tattooTexture}
-              bodyZone={bodyZone}
-              decalScale={decalScale}
-            />
+          <Suspense fallback={<Spinner />}>
+            <PieceModel url={piece.model} />
           </Suspense>
 
           <ContactShadows
-            position={[0, -1.15, 0]}
-            opacity={0.5}
-            scale={4}
+            position={[0, -1.1, 0]}
+            opacity={0.45}
+            scale={3}
             blur={2.5}
             far={3}
             color="#000"
@@ -116,37 +80,41 @@ export default function TattooViewer({ modelUrl }) {
             enableDamping
             dampingFactor={0.05}
             maxPolarAngle={Math.PI * 0.82}
-            makeDefault
           />
 
           <PostFX />
         </Canvas>
 
-        {/* Floating badge */}
-        <div className="absolute top-4 left-4 z-10 flex items-center gap-2 bg-black/60 backdrop-blur-md border border-neutral-700/50 rounded-lg px-3 py-1.5">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="text-gold">
+        {/* 3D badge */}
+        <div className="absolute top-3 right-3 z-10 flex items-center gap-1.5 bg-black/60 backdrop-blur-md border border-neutral-700/50 rounded-md px-2 py-1">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" className="text-gold">
             <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
           </svg>
-          <span className="text-[10px] font-bold tracking-[2px] uppercase text-gold">3D Viewer</span>
+          <span className="text-[8px] font-extrabold tracking-[1.5px] uppercase text-gold">3D</span>
         </div>
       </div>
 
-      {/* Side panel — 30% */}
-      <div className="flex-[3] min-w-[260px] max-w-full lg:max-w-[320px] p-5 lg:p-6 border-t lg:border-t-0 lg:border-l border-neutral-800/50 bg-[#0c0c0c] overflow-y-auto">
-        <div className="mb-5">
-          <h3 className="text-white text-sm font-bold tracking-wide">Tattoo Visualizer</h3>
-          <p className="text-neutral-500 text-[11px] mt-1">Preview your design on the body</p>
-        </div>
-
-        <UploadPanel
-          bodyZone={bodyZone}
-          setBodyZone={setBodyZone}
-          decalScale={decalScale}
-          setDecalScale={setDecalScale}
-          onTattooUpload={handleTattooUpload}
-          tattooPreview={tattooPreview}
-        />
+      {/* Info strip */}
+      <div className="px-4 py-3 border-t border-neutral-800/50">
+        <p className="text-white text-[13px] font-semibold tracking-wide">{piece.title}</p>
+        <p className="text-neutral-500 text-[10px] mt-0.5">{piece.style}</p>
       </div>
+    </div>
+  );
+}
+
+export default function TattooViewer({ pieces }) {
+  const parsedPieces = typeof pieces === 'string' ? JSON.parse(pieces) : pieces;
+
+  return (
+    <div className="grid gap-5" style={{
+      gridTemplateColumns: parsedPieces.length === 1
+        ? '1fr'
+        : 'repeat(auto-fill, minmax(280px, 1fr))'
+    }}>
+      {parsedPieces.map((piece) => (
+        <PieceCanvas key={piece.id} piece={piece} />
+      ))}
     </div>
   );
 }

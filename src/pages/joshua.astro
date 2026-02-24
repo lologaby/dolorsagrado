@@ -2,6 +2,15 @@
 import Layout from '../layouts/Layout.astro';
 import TattooViewer from '../components/tattoo-viewer/TattooViewer';
 
+const pieces3d = [
+  {
+    id: 'tat1-arm',
+    title: 'Tattoo Arm Piece',
+    style: 'Blender 3D · Black & Grey',
+    model: '/models/tat1-arm.glb',
+  },
+];
+
 const gallery = [
   '/images/piercing-gallery-1.jpg',
   '/images/piercing-gallery-2.jpg',
@@ -43,15 +52,15 @@ const gallery = [
     <div class="container-3d">
       <div class="s3d-header fade-in">
         <p class="kicker">Experiencia inmersiva</p>
-        <h2 class="h2">Tattoo <span class="gold-text">Visualizer</span></h2>
+        <h2 class="h2">Piezas en <span class="gold-text">3D</span></h2>
         <p class="lead s3d-lead">
-          Sube tu diseño y visualízalo en 3D sobre el cuerpo. Rota, acerca
-          y elige la zona donde quieres tu tatuaje.
+          Cada pieza de Joshua modelada en Blender. Rota, acerca y examina
+          cada detalle como si lo tuvieras en frente.
         </p>
       </div>
 
       <div class="s3d-viewer-react fade-in">
-        <TattooViewer client:only="react" modelUrl="/models/tat1-arm.glb" />
+        <TattooViewer client:only="react" pieces={JSON.stringify(pieces3d)} />
       </div>
 
       <div class="s3d-cta fade-in">
