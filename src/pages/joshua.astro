@@ -9,13 +9,57 @@ const gallery = [
   '/images/piercing-gallery-5.jpg',
   '/images/piercing-gallery-6.jpg',
 ];
+
+/*
+  3D Pieces — cada entry tiene:
+    id:      slug único
+    title:   nombre de la pieza
+    style:   descripción del estilo
+    model:   path al archivo .glb en /public/models/
+    thumb:   imagen de preview (foto real del tatuaje)
+    placeholder: true mientras no exista el .glb
+*/
+const pieces3d = [
+  {
+    id: 'sleeve-01',
+    title: 'Sleeve Black & Grey',
+    style: 'Full sleeve · Realismo oscuro',
+    model: '/models/joshua-sleeve-01.glb',
+    thumb: '/images/piercing-gallery-1.jpg',
+    placeholder: true,
+  },
+  {
+    id: 'forearm-02',
+    title: 'Antebrazo Geométrico',
+    style: 'Forearm · Blackwork + geometría',
+    model: '/models/joshua-forearm-02.glb',
+    thumb: '/images/piercing-gallery-2.jpg',
+    placeholder: true,
+  },
+  {
+    id: 'upper-arm-03',
+    title: 'Brazo Superior · Retrato',
+    style: 'Upper arm · Retrato Black & Grey',
+    model: '/models/joshua-upper-arm-03.glb',
+    thumb: '/images/piercing-gallery-3.jpg',
+    placeholder: true,
+  },
+  {
+    id: 'calf-04',
+    title: 'Pantorrilla Floral',
+    style: 'Calf · Botanical · Dotwork',
+    model: '/models/joshua-calf-04.glb',
+    thumb: '/images/piercing-gallery-4.jpg',
+    placeholder: true,
+  },
+];
 ---
 
 <Layout
-  title="Joshua Reyes — Sacred Pain Tattoo"
-  description="Joshua Reyes · Black & Grey · Artista tatuador en Sacred Pain Tattoo, San Juan PR."
+  title="Joshua Reyes — Piezas 3D · Sacred Pain Tattoo"
+  description="Explora las piezas de Joshua Reyes en 3D. Brazos modelados en Blender con sus tatuajes. Rota, examina, descubre el arte."
 >
-  <!-- ═══════════════════════════════════ HERO DEL ARTISTA -->
+  <!-- ═══════════════════════════════════ HERO -->
   <section class="artist-hero">
     <div class="artist-hero-bg">
       <img src="/images/piercing-gallery-2.jpg" alt="" aria-hidden="true" />
@@ -30,12 +74,107 @@ const gallery = [
           <a href="https://www.instagram.com/jousoytuartista" target="_blank" rel="noreferrer">@jousoytuartista</a>
         </p>
         <div class="artist-ctas">
-          <a class="btn btn-gold" href="/consultas">Consultar disponibilidad</a>
+          <a class="btn btn-gold" href="/reservar">Reservar cita</a>
           <a class="btn btn-outline-gold" href="https://www.instagram.com/jousoytuartista" target="_blank" rel="noreferrer">Instagram</a>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- ═══════════════════════════════ 3D VIEWER SECTION -->
+  <section class="section-3d" id="piezas-3d">
+    <div class="container-3d">
+
+      <!-- Section header -->
+      <div class="s3d-header fade-in">
+        <p class="kicker">Experiencia inmersiva</p>
+        <h2 class="h2">Piezas en <span class="gold-text">3D</span></h2>
+        <p class="lead s3d-lead">
+          Cada tatuaje de Joshua modelado en Blender. Rota, acerca y examina
+          cada detalle como si lo tuvieras en frente.
+        </p>
+        <div class="s3d-controls-hint">
+          <span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg> Arrastrar · Rotar</span>
+          <span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 3l-9 9M3 21l9-9M14 3h7v7M10 21H3v-7"/></svg> Pellizcar · Zoom</span>
+          <span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3"/></svg> Click derecho · Pan</span>
+        </div>
+      </div>
+
+      <!-- Piece selector tabs -->
+      <div class="s3d-tabs fade-in" role="tablist" aria-label="Selecciona una pieza 3D">
+        {pieces3d.map((p, i) => (
+          <button
+            class={`s3d-tab${i === 0 ? ' s3d-tab--active' : ''}`}
+            role="tab"
+            aria-selected={i === 0 ? 'true' : 'false'}
+            data-piece={p.id}
+            data-model={p.model}
+            data-placeholder={p.placeholder ? 'true' : 'false'}
+            aria-label={p.title}
+          >
+            <div class="s3d-tab-thumb">
+              <img src={p.thumb} alt={p.title} loading="lazy" />
+              <div class="s3d-tab-badge">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                3D
+              </div>
+            </div>
+            <div class="s3d-tab-info">
+              <span class="s3d-tab-title">{p.title}</span>
+              <span class="s3d-tab-style">{p.style}</span>
+            </div>
+          </button>
+        ))}
+      </div>
+
+      <!-- 3D Canvas -->
+      <div class="s3d-viewer-wrap fade-in">
+        <canvas id="canvas-3d" class="s3d-canvas" aria-label="Viewer 3D interactivo"></canvas>
+
+        <!-- Loading overlay -->
+        <div class="s3d-loading" id="s3d-loading">
+          <div class="s3d-spinner"></div>
+          <p>Cargando modelo 3D…</p>
+        </div>
+
+        <!-- Placeholder state (while no .glb uploaded) -->
+        <div class="s3d-placeholder" id="s3d-placeholder">
+          <div class="s3d-placeholder-inner">
+            <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" opacity="0.4"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            <p class="s3d-placeholder-title">Modelo en preparación</p>
+            <p class="s3d-placeholder-sub">Joshua está finalizando el render en Blender.<br/>Pronto podrás rotar e inspeccionar esta pieza.</p>
+          </div>
+        </div>
+
+        <!-- Viewer UI overlay -->
+        <div class="s3d-ui" id="s3d-ui">
+          <div class="s3d-piece-name" id="s3d-piece-name"></div>
+          <div class="s3d-actions">
+            <button class="s3d-btn" id="btn-reset" title="Resetear cámara">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            </button>
+            <button class="s3d-btn" id="btn-autorotate" title="Auto-rotación" class="active">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+            </button>
+            <button class="s3d-btn" id="btn-fullscreen" title="Pantalla completa">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA under viewer -->
+      <div class="s3d-cta fade-in">
+        <p class="s3d-cta-text">
+          ¿Quieres un diseño personalizado de Joshua?
+        </p>
+        <a class="btn btn-gold" href="/reservar">Reservar con Joshua</a>
+        <a class="btn" href="https://www.instagram.com/jousoytuartista" target="_blank" rel="noreferrer">Ver Instagram</a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
 
   <!-- ══════════════════════════════════════════════ BIO -->
   <section class="section">
@@ -52,11 +191,11 @@ const gallery = [
           con intención y permanencia.
         </p>
         <p class="lead" style="margin-top:16px">
-          Para conocer disponibilidad y hablar de tu idea,
-          usa la sección de consultas. Joshua te responderá a la brevedad.
+          Pionero en presentar su trabajo en formato 3D interactivo — cada pieza modelada en Blender
+          para que puedas ver el tatuaje desde todos los ángulos antes de decidir.
         </p>
         <div style="margin-top:24px;display:flex;gap:10px;flex-wrap:wrap">
-          <a class="btn btn-gold" href="/consultas">Solicitar consulta</a>
+          <a class="btn btn-gold" href="/reservar">Reservar cita</a>
           <a class="btn btn-outline-gold" href="https://www.instagram.com/jousoytuartista" target="_blank" rel="noreferrer">Instagram</a>
         </div>
       </div>
@@ -65,10 +204,10 @@ const gallery = [
 
   <hr class="divider" />
 
-  <!-- ══════════════════════════════════════ GALERÍA -->
+  <!-- ══════════════════════════════════════ GALERÍA FOTOS -->
   <section class="gallery-section">
     <div class="container fade-in" style="padding-bottom:32px">
-      <p class="kicker">Portfolio</p>
+      <p class="kicker">Portfolio fotográfico</p>
       <h2 class="h2">El arte de Joshua</h2>
     </div>
     <div class="artist-gallery-grid">
@@ -104,7 +243,7 @@ const gallery = [
           <p class="lead">Cuéntanos tu idea y coordinamos la sesión.</p>
         </div>
         <div class="artist-cta-btns">
-          <a class="btn btn-gold" href="/consultas">Solicitar consulta</a>
+          <a class="btn btn-gold" href="/reservar">Reservar cita</a>
           <a class="btn" href="tel:7875962562">
             <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92V20a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 4.37 6.18 2 2 0 0 1 6.36 4h3.08a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L10.91 11.4a16 16 0 0 0 6.69 6.69l.78-.78a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
             Llamar al estudio
@@ -116,83 +255,580 @@ const gallery = [
 
   <hr class="divider" />
 
-  <!-- ═══════════════════════════ AFTERCARE (al final) -->
+  <!-- ═══════════════════════════ AFTERCARE -->
   <section class="section aftercare-section">
     <div class="container fade-in">
       <p class="kicker">Cuidado posterior</p>
       <h2 class="h2">Aftercare del tatuaje</h2>
       <p class="lead" style="margin-bottom:32px">
         El cuidado post-tatuaje es tan importante como la sesión misma.
-        Sigue estas instrucciones para garantizar la mejor cicatrización posible.
       </p>
       <div class="aftercare-grid">
-        <div class="aftercare-card card">
-          <div class="card-body">
-            <p class="aftercare-num">01</p>
-            <h3 class="h3">Primeras 24 horas</h3>
-            <p>Mantén el vendaje original entre 2–4 horas. Lava suavemente con agua tibia y jabón sin fragancia. No refriegues.</p>
-          </div>
-        </div>
-        <div class="aftercare-card card">
-          <div class="card-body">
-            <p class="aftercare-num">02</p>
-            <h3 class="h3">Días 2–7</h3>
-            <p>Aplica una capa fina de crema sin fragancia (Lubriderm, Aquaphor). Lava 2–3 veces al día. Evita remojar en agua.</p>
-          </div>
-        </div>
-        <div class="aftercare-card card">
-          <div class="card-body">
-            <p class="aftercare-num">03</p>
-            <h3 class="h3">Semanas 2–4</h3>
-            <p>El tatuaje pelará — no arranques la piel. Hidrata diariamente. Evita el sol directo y la piscina hasta sanar completamente.</p>
-          </div>
-        </div>
-        <div class="aftercare-card card">
-          <div class="card-body">
-            <p class="aftercare-num">04</p>
-            <h3 class="h3">Lo que debes evitar</h3>
-            <p>Rascarte, exponerte al sol sin protector, nadar, usar ropa ajustada sobre el tatuaje, y cremas con alcohol o fragancia.</p>
-          </div>
-        </div>
+        <div class="aftercare-card card"><div class="card-body">
+          <p class="aftercare-num">01</p>
+          <h3 class="h3">Primeras 24 horas</h3>
+          <p>Mantén el vendaje 2–4 horas. Lava con agua tibia y jabón sin fragancia.</p>
+        </div></div>
+        <div class="aftercare-card card"><div class="card-body">
+          <p class="aftercare-num">02</p>
+          <h3 class="h3">Días 2–7</h3>
+          <p>Aplica Lubriderm o Aquaphor 2–3 veces al día. Evita remojar en agua.</p>
+        </div></div>
+        <div class="aftercare-card card"><div class="card-body">
+          <p class="aftercare-num">03</p>
+          <h3 class="h3">Semanas 2–4</h3>
+          <p>No arranques la piel. Hidrata diario. Evita sol y piscina hasta sanar.</p>
+        </div></div>
+        <div class="aftercare-card card"><div class="card-body">
+          <p class="aftercare-num">04</p>
+          <h3 class="h3">Lo que debes evitar</h3>
+          <p>Rascarte, sol directo, nadar, ropa ajustada, cremas con alcohol o fragancia.</p>
+        </div></div>
       </div>
-      <p style="margin-top:24px;font-size:13px;color:var(--muted)">
-        ¿Tienes dudas? Llámanos al <a href="tel:7875962562" style="color:var(--gold)">(787) 596-2562</a> o escríbenos por Instagram.
-      </p>
     </div>
   </section>
 </Layout>
 
+<!-- ─── Three.js 3D Viewer Script ─────────────────────────────── -->
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.167.1/build/three.module.js';
+import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.167.1/examples/jsm/controls/OrbitControls.js';
+import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.167.1/examples/jsm/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'https://cdn.jsdelivr.net/npm/three@0.167.1/examples/jsm/loaders/DRACOLoader.js';
+
+/* ── DOM refs ──────────────────────────────────────── */
+const canvas       = document.getElementById('canvas-3d');
+const loadingEl    = document.getElementById('s3d-loading');
+const placeholderEl= document.getElementById('s3d-placeholder');
+const uiEl         = document.getElementById('s3d-ui');
+const pieceNameEl  = document.getElementById('s3d-piece-name');
+const btnReset     = document.getElementById('btn-reset');
+const btnAuto      = document.getElementById('btn-autorotate');
+const btnFS        = document.getElementById('btn-fullscreen');
+const tabs         = document.querySelectorAll('.s3d-tab');
+const wrap         = document.querySelector('.s3d-viewer-wrap');
+
+/* ── Three.js setup ────────────────────────────────── */
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.2;
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0e0c0d);
+
+const camera = new THREE.PerspectiveCamera(45, 1, 0.01, 100);
+camera.position.set(0, 0.1, 2.2);
+
+/* ── Lighting ──────────────────────────────────────── */
+const ambientLight = new THREE.AmbientLight(0xfff5e6, 0.55);
+scene.add(ambientLight);
+
+const keyLight = new THREE.DirectionalLight(0xffecd0, 2.2);
+keyLight.position.set(2, 3, 2);
+keyLight.castShadow = true;
+keyLight.shadow.mapSize.set(2048, 2048);
+scene.add(keyLight);
+
+const fillLight = new THREE.DirectionalLight(0xa0b4cc, 0.6);
+fillLight.position.set(-2, 1, 1);
+scene.add(fillLight);
+
+const rimLight = new THREE.DirectionalLight(0xb98a37, 0.8);
+rimLight.position.set(0, -1, -2);
+scene.add(rimLight);
+
+// Ground plane / studio feel
+const gridHelper = new THREE.GridHelper(6, 20, 0x1a1618, 0x1a1618);
+gridHelper.position.y = -0.85;
+scene.add(gridHelper);
+
+/* ── Controls ──────────────────────────────────────── */
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
+controls.dampingFactor = 0.07;
+controls.minDistance = 0.5;
+controls.maxDistance = 5;
+controls.autoRotate = true;
+controls.autoRotateSpeed = 1.2;
+controls.target.set(0, 0, 0);
+
+/* ── DRACO loader ──────────────────────────────────── */
+const dracoLoader = new DRACOLoader();
+dracoLoader.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.167.1/examples/jsm/libs/draco/');
+const gltfLoader = new GLTFLoader();
+gltfLoader.setDRACOLoader(dracoLoader);
+
+/* ── State ─────────────────────────────────────────── */
+let currentModel = null;
+let autoRotate   = true;
+
+/* ── Placeholder arm (shown until real .glb is loaded) */
+function buildPlaceholderArm() {
+  const group = new THREE.Group();
+
+  const skinMat = new THREE.MeshStandardMaterial({
+    color: 0x8d6b4a,
+    roughness: 0.65,
+    metalness: 0.02,
+  });
+
+  // Upper arm
+  const upper = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.12, 0.10, 0.70, 32),
+    skinMat
+  );
+  upper.position.y = 0.35;
+  upper.castShadow = true;
+  group.add(upper);
+
+  // Elbow
+  const elbow = new THREE.Mesh(
+    new THREE.SphereGeometry(0.105, 32, 16),
+    skinMat
+  );
+  elbow.castShadow = true;
+  group.add(elbow);
+
+  // Forearm — slight taper
+  const forearm = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.095, 0.075, 0.62, 32),
+    skinMat
+  );
+  forearm.position.y = -0.32;
+  forearm.castShadow = true;
+  group.add(forearm);
+
+  // Wrist
+  const wrist = new THREE.Mesh(
+    new THREE.SphereGeometry(0.08, 32, 16),
+    skinMat
+  );
+  wrist.position.y = -0.64;
+  group.add(wrist);
+
+  // Hand (simple box)
+  const hand = new THREE.Mesh(
+    new THREE.BoxGeometry(0.14, 0.20, 0.07),
+    skinMat
+  );
+  hand.position.y = -0.78;
+  hand.castShadow = true;
+  group.add(hand);
+
+  // Tattoo ink overlay — dark band painted on forearm
+  const inkMat = new THREE.MeshStandardMaterial({
+    color: 0x1a1a2e,
+    roughness: 0.9,
+    metalness: 0,
+    transparent: true,
+    opacity: 0.72,
+  });
+  const ink = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.097, 0.077, 0.58, 32),
+    inkMat
+  );
+  ink.position.y = -0.32;
+  group.add(ink);
+
+  // Gold accent lines (simulating tattoo lines)
+  for (let i = 0; i < 5; i++) {
+    const lineMat = new THREE.MeshStandardMaterial({ color: 0xb98a37, roughness: 0.4, metalness: 0.3 });
+    const lineGeo = new THREE.TorusGeometry(0.088 + i * 0.001, 0.003, 8, 32);
+    const line = new THREE.Mesh(lineGeo, lineMat);
+    line.rotation.x = Math.PI / 2;
+    line.position.y = -0.15 + i * 0.09;
+    group.add(line);
+  }
+
+  group.rotation.x = 0.25;
+  return group;
+}
+
+/* ── Resize handler ────────────────────────────────── */
+function resize() {
+  const w = wrap.clientWidth;
+  const h = wrap.clientHeight;
+  renderer.setSize(w, h);
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+}
+const ro = new ResizeObserver(resize);
+ro.observe(wrap);
+
+/* ── Load piece ────────────────────────────────────── */
+function loadPiece(modelPath, title, isPlaceholder) {
+  // Clear scene
+  if (currentModel) { scene.remove(currentModel); currentModel = null; }
+
+  pieceNameEl.textContent = title;
+
+  if (isPlaceholder) {
+    placeholderEl.style.display = 'flex';
+    uiEl.style.opacity = '0.6';
+    loadingEl.style.display = 'none';
+    const arm = buildPlaceholderArm();
+    currentModel = arm;
+    scene.add(arm);
+    return;
+  }
+
+  placeholderEl.style.display = 'none';
+  uiEl.style.opacity = '1';
+  loadingEl.style.display = 'flex';
+
+  gltfLoader.load(
+    modelPath,
+    (gltf) => {
+      loadingEl.style.display = 'none';
+      const model = gltf.scene;
+
+      // Normalize model size / center
+      const box = new THREE.Box3().setFromObject(model);
+      const size = box.getSize(new THREE.Vector3());
+      const center = box.getCenter(new THREE.Vector3());
+      const maxDim = Math.max(size.x, size.y, size.z);
+      model.scale.setScalar(1.4 / maxDim);
+      model.position.sub(center.multiplyScalar(1.4 / maxDim));
+
+      model.traverse(child => {
+        if (child.isMesh) {
+          child.castShadow = true;
+          child.receiveShadow = true;
+        }
+      });
+
+      currentModel = model;
+      scene.add(model);
+      controls.reset();
+    },
+    (xhr) => {
+      // progress — could update a bar here
+    },
+    (err) => {
+      console.warn('Model load error:', err);
+      loadingEl.style.display = 'none';
+      placeholderEl.style.display = 'flex';
+      const arm = buildPlaceholderArm();
+      currentModel = arm;
+      scene.add(arm);
+    }
+  );
+}
+
+/* ── Tabs ──────────────────────────────────────────── */
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    tabs.forEach(t => { t.classList.remove('s3d-tab--active'); t.setAttribute('aria-selected', 'false'); });
+    tab.classList.add('s3d-tab--active');
+    tab.setAttribute('aria-selected', 'true');
+    loadPiece(
+      tab.dataset.model,
+      tab.querySelector('.s3d-tab-title').textContent,
+      tab.dataset.placeholder === 'true'
+    );
+  });
+});
+
+/* ── Control buttons ───────────────────────────────── */
+btnReset.addEventListener('click', () => {
+  controls.reset();
+  camera.position.set(0, 0.1, 2.2);
+});
+
+btnAuto.addEventListener('click', () => {
+  autoRotate = !autoRotate;
+  controls.autoRotate = autoRotate;
+  btnAuto.classList.toggle('s3d-btn--active', autoRotate);
+});
+
+btnFS.addEventListener('click', () => {
+  if (!document.fullscreenElement) {
+    wrap.requestFullscreen().catch(() => {});
+  } else {
+    document.exitFullscreen();
+  }
+});
+
+/* ── Render loop ───────────────────────────────────── */
+function animate() {
+  requestAnimationFrame(animate);
+  controls.update();
+  renderer.render(scene, camera);
+}
+
+/* ── Init ──────────────────────────────────────────── */
+resize();
+animate();
+
+// Load first piece immediately
+const firstTab = tabs[0];
+if (firstTab) {
+  loadPiece(
+    firstTab.dataset.model,
+    firstTab.querySelector('.s3d-tab-title').textContent,
+    firstTab.dataset.placeholder === 'true'
+  );
+  btnAuto.classList.add('s3d-btn--active');
+}
+</script>
+
 <style>
+  /* ── Artist hero ──────────────────────────────────── */
   .artist-hero {
     position: relative;
-    min-height: 65vh;
+    min-height: 60vh;
     display: flex;
     align-items: flex-end;
-    padding-bottom: 56px;
+    padding-bottom: 52px;
   }
   .artist-hero-bg { position: absolute; inset: 0; overflow: hidden; }
-  .artist-hero-bg img {
-    width: 100%; height: 100%;
-    object-fit: cover; object-position: center;
-    filter: brightness(0.45);
-  }
-  .artist-hero-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(7,6,8,0.97) 0%, rgba(7,6,8,0.3) 60%, transparent 100%);
-  }
+  .artist-hero-bg img { width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(0.42); }
+  .artist-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(7,6,8,0.97) 0%, rgba(7,6,8,0.25) 65%, transparent 100%); }
   .artist-hero-content { position: relative; z-index: 1; }
   .artist-meta h1 { margin: 8px 0 4px; }
-  .artist-specialty {
-    font-family: var(--font-heading);
-    font-style: italic;
-    font-size: 18px;
-    color: var(--gold-lt);
-    margin-bottom: 4px;
-  }
+  .artist-specialty { font-family: var(--font-heading); font-style: italic; font-size: 18px; color: var(--gold-lt); margin-bottom: 4px; }
   .artist-handle { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
   .artist-handle a { color: var(--gold); }
   .artist-ctas { display: flex; gap: 10px; flex-wrap: wrap; }
 
+  /* ── 3D Section ───────────────────────────────────── */
+  .section-3d {
+    background: #050405;
+    padding: 72px 0 64px;
+  }
+  .container-3d {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  .gold-text { color: var(--gold); }
+
+  .s3d-header { margin-bottom: 36px; }
+  .s3d-lead { max-width: 48ch; margin-top: 12px; }
+
+  .s3d-controls-hint {
+    display: flex;
+    gap: 20px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+  .s3d-controls-hint span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    color: var(--muted2);
+    text-transform: uppercase;
+  }
+  .s3d-controls-hint svg { color: var(--gold); flex-shrink: 0; }
+
+  /* ── Piece tabs ───────────────────────────────────── */
+  .s3d-tabs {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+    margin-bottom: 20px;
+  }
+  .s3d-tabs::-webkit-scrollbar { display: none; }
+
+  .s3d-tab {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px 10px 10px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.18s, background 0.18s, transform 0.15s;
+    flex-shrink: 0;
+    max-width: 220px;
+    text-align: left;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .s3d-tab:hover { border-color: rgba(185,138,55,0.35); background: rgba(185,138,55,0.04); }
+  .s3d-tab--active {
+    border-color: var(--gold);
+    background: rgba(185,138,55,0.08);
+    box-shadow: 0 0 0 1px rgba(185,138,55,0.2);
+  }
+
+  .s3d-tab-thumb {
+    position: relative;
+    width: 52px; height: 52px;
+    border-radius: 6px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .s3d-tab-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .s3d-tab-badge {
+    position: absolute; bottom: 2px; right: 2px;
+    display: flex; align-items: center; gap: 2px;
+    padding: 1px 5px;
+    background: var(--gold);
+    color: #0a0608;
+    font-size: 7px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    border-radius: 3px;
+  }
+  .s3d-tab-info { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .s3d-tab-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .s3d-tab-style {
+    font-size: 10px;
+    color: var(--muted2);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ── Viewer wrap ──────────────────────────────────── */
+  .s3d-viewer-wrap {
+    position: relative;
+    width: 100%;
+    height: min(540px, 70vw);
+    min-height: 320px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #0e0c0d;
+    border: 1px solid var(--border);
+    box-shadow: 0 24px 80px rgba(0,0,0,0.7);
+  }
+
+  .s3d-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+    touch-action: none;
+  }
+
+  /* Loading overlay */
+  .s3d-loading {
+    position: absolute; inset: 0;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    background: rgba(14,12,13,0.85);
+    z-index: 10;
+    pointer-events: none;
+  }
+  .s3d-loading p { font-size: 12px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+  .s3d-spinner {
+    width: 36px; height: 36px;
+    border: 2px solid rgba(185,138,55,0.2);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.75s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Placeholder overlay */
+  .s3d-placeholder {
+    position: absolute; inset: 0;
+    display: none;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 24px;
+    z-index: 8;
+    pointer-events: none;
+  }
+  .s3d-placeholder-inner {
+    background: rgba(14,12,13,0.80);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-gold);
+    border-radius: 8px;
+    padding: 16px 20px;
+    max-width: 280px;
+  }
+  .s3d-placeholder-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gold);
+    margin: 8px 0 4px;
+    letter-spacing: 0.5px;
+  }
+  .s3d-placeholder-sub {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  /* Viewer UI (top right) */
+  .s3d-ui {
+    position: absolute;
+    top: 14px; right: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    z-index: 9;
+    transition: opacity 0.3s;
+  }
+  .s3d-piece-name {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: rgba(14,12,13,0.7);
+    padding: 4px 10px;
+    border-radius: 4px;
+    backdrop-filter: blur(8px);
+  }
+  .s3d-actions { display: flex; gap: 6px; }
+  .s3d-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px; height: 36px;
+    background: rgba(14,12,13,0.75);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 6px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .s3d-btn:hover { background: rgba(185,138,55,0.15); border-color: var(--gold); color: var(--gold); }
+  .s3d-btn--active { background: rgba(185,138,55,0.18); border-color: var(--gold); color: var(--gold); }
+
+  /* ── CTA under viewer ─────────────────────────────── */
+  .s3d-cta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .s3d-cta-text {
+    font-size: 14px;
+    color: var(--muted);
+    flex: 1;
+    min-width: 200px;
+  }
+
+  /* ── Bio / Gallery / CTA / Aftercare (same as before) */
   .bio-grid { display: grid; gap: 40px; }
   @media (min-width: 760px) { .bio-grid { grid-template-columns: 1fr 2fr; align-items: start; } }
 
@@ -205,24 +841,11 @@ const gallery = [
     margin-top: 24px;
   }
   .ag-item { position: relative; overflow: hidden; display: block; background: var(--dark); }
-  .ag-item img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    transition: transform 0.6s, filter 0.4s;
-    filter: brightness(0.85);
-  }
+  .ag-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s, filter 0.4s; filter: brightness(0.85); }
   .ag-item:hover img { transform: scale(1.07); filter: brightness(0.65); }
   .ag-item--tall { grid-row: span 2; }
-  .ag-overlay {
-    position: absolute; inset: 0;
-    display: flex; align-items: flex-end; justify-content: flex-end;
-    padding: 12px; transition: background 0.3s;
-  }
-  .ag-overlay span {
-    font-size: 16px; color: var(--gold);
-    opacity: 0; transform: translateY(6px);
-    transition: opacity 0.2s, transform 0.2s;
-  }
+  .ag-overlay { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: flex-end; padding: 12px; transition: background 0.3s; }
+  .ag-overlay span { font-size: 16px; color: var(--gold); opacity: 0; transform: translateY(6px); transition: opacity 0.2s, transform 0.2s; }
   .ag-item:hover .ag-overlay { background: rgba(185,138,55,0.08); }
   .ag-item:hover .ag-overlay span { opacity: 1; transform: translateY(0); }
   @media (max-width: 640px) {
@@ -230,10 +853,7 @@ const gallery = [
     .ag-item--tall { grid-row: span 1; }
   }
 
-  .artist-cta-block {
-    display: grid; gap: 28px; padding: 36px;
-    background: var(--surface);
-  }
+  .artist-cta-block { display: grid; gap: 28px; padding: 36px; background: var(--surface); }
   @media (min-width: 760px) { .artist-cta-block { grid-template-columns: 1fr auto; align-items: center; } }
   .artist-cta-btns { display: flex; flex-direction: column; gap: 10px; min-width: 180px; }
   .artist-cta-btns .btn { justify-content: center; }
@@ -243,4 +863,25 @@ const gallery = [
   .aftercare-num { font-family: var(--font-display); font-size: 48px; color: var(--border-gold); line-height: 1; margin-bottom: 8px; }
   .aftercare-card .h3 { margin-bottom: 8px; font-size: 20px; }
   .aftercare-card p { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+  /* ── Fullscreen ─────────────────────────────────────── */
+  .s3d-viewer-wrap:fullscreen {
+    border-radius: 0;
+    height: 100vh;
+    width: 100vw;
+    max-height: none;
+  }
+  .s3d-viewer-wrap:-webkit-full-screen {
+    border-radius: 0;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  /* ── Mobile ─────────────────────────────────────────── */
+  @media (max-width: 480px) {
+    .section-3d { padding: 48px 0 40px; }
+    .s3d-viewer-wrap { height: 60vw; min-height: 260px; }
+    .s3d-controls-hint { gap: 12px; }
+    .s3d-controls-hint span { font-size: 9px; }
+  }
 </style>
