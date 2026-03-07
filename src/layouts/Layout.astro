@@ -1,6 +1,7 @@
 ---
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import { ViewTransitions } from 'astro:transitions';
 
 type Props = {
   title?: string;
@@ -21,7 +22,7 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#080808" />
+    <meta name="theme-color" content="#050405" />
     <meta name="generator" content={Astro.generator} />
 
     <!-- OG -->
@@ -36,25 +37,193 @@ const {
 
     <title>{title}</title>
 
-    <link rel="icon" href="https://img1.wsimg.com/isteam/ip/fd492585-183a-4eed-9c7d-78514a55ce82/favicon/140178df-c1bd-4b15-9696-cfc937269b79.png/:/rs=w:32,h:32,m" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/styles/global.css" />
 
-    <!-- Fade-in on scroll -->
-    <script is:inline>
-      document.addEventListener('DOMContentLoaded', () => {
-        const obs = new IntersectionObserver((entries) => {
-          entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-        }, { threshold: 0.12 });
-        document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
-      });
-    </script>
+    <style is:global>
+      /* ── Floating mobile booking CTA ──────────────────── */
+      .float-book {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 200;
+        padding: 10px 16px;
+        padding-bottom: calc(10px + env(safe-area-inset-bottom));
+        background: linear-gradient(to top, rgba(5,4,5,0.96) 0%, transparent 100%);
+        transform: translateY(110%);
+        transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                    opacity 0.3s;
+        opacity: 0;
+        pointer-events: none;
+      }
+      .float-book.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+      @media (max-width: 880px) {
+        .float-book { display: block; }
+      }
+      .float-book-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        padding: 15px 20px;
+        background: var(--gold);
+        color: #050405;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        transition: background 0.2s;
+      }
+      .float-book-btn:hover,
+      .float-book-btn:active { background: var(--gold-lt); }
+    </style>
+
+    <ViewTransitions />
   </head>
   <body>
+    <!-- Custom cursor (desktop only) -->
+    <div id="cursor-dot"  aria-hidden="true"></div>
+    <div id="cursor-ring" aria-hidden="true"></div>
+
     <a class="skip-link" href="#main">Saltar al contenido</a>
     <SiteHeader />
     <main id="main">
       <slot />
     </main>
     <SiteFooter />
+
+    <!-- Floating mobile booking CTA -->
+    <div id="float-book" class="float-book" aria-hidden="true">
+      <a href="/reservar" class="float-book-btn">
+        Reservar Cita
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <!-- Master script: cursor + scroll reveal + header + drag scroll -->
+    <script is:inline>
+      (function() {
+        /* ── Custom cursor ──────────────────────────────── */
+        var dot  = document.getElementById('cursor-dot');
+        var ring = document.getElementById('cursor-ring');
+        if (dot && ring && window.matchMedia('(pointer: fine)').matches) {
+          var mx = 0, my = 0, rx = 0, ry = 0;
+          document.addEventListener('mousemove', function(e) {
+            mx = e.clientX; my = e.clientY;
+            dot.style.left = mx + 'px';
+            dot.style.top  = my + 'px';
+          });
+          (function animate() {
+            rx += (mx - rx) * 0.10;
+            ry += (my - ry) * 0.10;
+            ring.style.left = rx + 'px';
+            ring.style.top  = ry + 'px';
+            requestAnimationFrame(animate);
+          })();
+          document.addEventListener('mousedown', function() { document.body.classList.add('cursor-click'); });
+          document.addEventListener('mouseup',   function() { document.body.classList.remove('cursor-click'); });
+          document.querySelectorAll('a, button, [data-cursor]').forEach(function(el) {
+            el.addEventListener('mouseenter', function() { document.body.classList.add('cursor-hover'); });
+            el.addEventListener('mouseleave', function() { document.body.classList.remove('cursor-hover'); });
+          });
+        }
+
+        /* ── Scroll reveal ──────────────────────────────── */
+        function initReveal() {
+          var els = document.querySelectorAll('[data-reveal], [data-stagger], .fade-in');
+          if (!els.length) return;
+          var obs = new IntersectionObserver(function(entries) {
+            entries.forEach(function(e) {
+              if (e.isIntersecting) {
+                e.target.classList.add('revealed', 'visible');
+                obs.unobserve(e.target);
+              }
+            });
+          }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+          els.forEach(function(el) { obs.observe(el); });
+        }
+        document.addEventListener('DOMContentLoaded', initReveal);
+        document.addEventListener('astro:page-load', initReveal);
+
+        /* ── Header: transparent → dark on scroll ───────── */
+        function initHeader() {
+          var header = document.getElementById('header');
+          if (!header) return;
+          function onScroll() {
+            header.classList.toggle('scrolled', window.scrollY > 60);
+          }
+          window.addEventListener('scroll', onScroll, { passive: true });
+          onScroll();
+        }
+        document.addEventListener('DOMContentLoaded', initHeader);
+        document.addEventListener('astro:page-load', initHeader);
+
+        /* ── Drag-to-scroll reels ───────────────────────── */
+        function initReels() {
+          document.querySelectorAll('.reel').forEach(function(reel) {
+            var isDown = false, startX = 0, scrollLeft = 0;
+            reel.addEventListener('mousedown', function(e) {
+              isDown = true;
+              startX = e.pageX - reel.offsetLeft;
+              scrollLeft = reel.scrollLeft;
+              reel.classList.add('is-dragging');
+            });
+            reel.addEventListener('mouseleave', function() { isDown = false; reel.classList.remove('is-dragging'); });
+            reel.addEventListener('mouseup',    function() { isDown = false; reel.classList.remove('is-dragging'); });
+            reel.addEventListener('mousemove',  function(e) {
+              if (!isDown) return;
+              e.preventDefault();
+              var x = e.pageX - reel.offsetLeft;
+              var walk = (x - startX) * 1.5;
+              reel.scrollLeft = scrollLeft - walk;
+            });
+          });
+        }
+        document.addEventListener('DOMContentLoaded', initReels);
+        document.addEventListener('astro:page-load', initReels);
+
+        /* ── Floating mobile CTA ────────────────────────── */
+        function initFloatBook() {
+          var fb = document.getElementById('float-book');
+          if (!fb) return;
+          // Only on mobile — CSS hides it on desktop, but skip JS overhead too
+          if (window.matchMedia('(min-width: 881px)').matches) return;
+
+          // Fade in after a short delay so it doesn't flash on first load
+          var showTimer = setTimeout(function() {
+            fb.classList.add('is-visible');
+            fb.removeAttribute('aria-hidden');
+          }, 1800);
+
+          // Hide when the hero CTA button or site footer is visible
+          var heroCta = document.querySelector('.hero-cta-btn');
+          var footer  = document.querySelector('.footer');
+          var targets = [heroCta, footer].filter(Boolean);
+          if (!targets.length) return;
+
+          var obs = new IntersectionObserver(function(entries) {
+            var anyVisible = entries.some(function(e) { return e.isIntersecting; });
+            if (anyVisible) {
+              fb.classList.remove('is-visible');
+              fb.setAttribute('aria-hidden', 'true');
+            } else {
+              fb.classList.add('is-visible');
+              fb.removeAttribute('aria-hidden');
+            }
+          }, { threshold: 0.15 });
+
+          targets.forEach(function(t) { obs.observe(t); });
+        }
+        document.addEventListener('DOMContentLoaded', initFloatBook);
+        document.addEventListener('astro:page-load', initFloatBook);
+      })();
+    </script>
   </body>
 </html>
