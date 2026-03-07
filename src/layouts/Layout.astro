@@ -40,6 +40,51 @@ const {
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/styles/global.css" />
 
+    <style is:global>
+      /* ── Floating mobile booking CTA ──────────────────── */
+      .float-book {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 200;
+        padding: 10px 16px;
+        padding-bottom: calc(10px + env(safe-area-inset-bottom));
+        background: linear-gradient(to top, rgba(5,4,5,0.96) 0%, transparent 100%);
+        transform: translateY(110%);
+        transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                    opacity 0.3s;
+        opacity: 0;
+        pointer-events: none;
+      }
+      .float-book.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+      @media (max-width: 880px) {
+        .float-book { display: block; }
+      }
+      .float-book-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        padding: 15px 20px;
+        background: var(--gold);
+        color: #050405;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        transition: background 0.2s;
+      }
+      .float-book-btn:hover,
+      .float-book-btn:active { background: var(--gold-lt); }
+    </style>
+
     <ViewTransitions />
   </head>
   <body>
@@ -53,6 +98,14 @@ const {
       <slot />
     </main>
     <SiteFooter />
+
+    <!-- Floating mobile booking CTA -->
+    <div id="float-book" class="float-book" aria-hidden="true">
+      <a href="/reservar" class="float-book-btn">
+        Reservar Cita
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
 
     <!-- Master script: cursor + scroll reveal + header + drag scroll -->
     <script is:inline>
@@ -135,6 +188,41 @@ const {
         }
         document.addEventListener('DOMContentLoaded', initReels);
         document.addEventListener('astro:page-load', initReels);
+
+        /* ── Floating mobile CTA ────────────────────────── */
+        function initFloatBook() {
+          var fb = document.getElementById('float-book');
+          if (!fb) return;
+          // Only on mobile — CSS hides it on desktop, but skip JS overhead too
+          if (window.matchMedia('(min-width: 881px)').matches) return;
+
+          // Fade in after a short delay so it doesn't flash on first load
+          var showTimer = setTimeout(function() {
+            fb.classList.add('is-visible');
+            fb.removeAttribute('aria-hidden');
+          }, 1800);
+
+          // Hide when the hero CTA button or site footer is visible
+          var heroCta = document.querySelector('.hero-cta-btn');
+          var footer  = document.querySelector('.footer');
+          var targets = [heroCta, footer].filter(Boolean);
+          if (!targets.length) return;
+
+          var obs = new IntersectionObserver(function(entries) {
+            var anyVisible = entries.some(function(e) { return e.isIntersecting; });
+            if (anyVisible) {
+              fb.classList.remove('is-visible');
+              fb.setAttribute('aria-hidden', 'true');
+            } else {
+              fb.classList.add('is-visible');
+              fb.removeAttribute('aria-hidden');
+            }
+          }, { threshold: 0.15 });
+
+          targets.forEach(function(t) { obs.observe(t); });
+        }
+        document.addEventListener('DOMContentLoaded', initFloatBook);
+        document.addEventListener('astro:page-load', initFloatBook);
       })();
     </script>
   </body>
