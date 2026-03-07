@@ -2,276 +2,234 @@
 import Layout from '../layouts/Layout.astro';
 
 const artists = [
-  { name: 'David Reyes',     handle: '@davidreyesart',       ig: 'https://www.instagram.com/davidreyesart',       slug: '/davidreyes', specialty: 'Custom tattoos',    avatar: '/images/avatars/david.jpg' },
-  { name: 'Ari Reyes',       handle: '@aryatari',            ig: 'https://www.instagram.com/aryatari',            slug: '/aryatari',   specialty: 'Illustrative',      avatar: '/images/avatars/ari.jpg' },
-  { name: 'Joshua Reyes',    handle: '@jousoytuartista',     ig: 'https://www.instagram.com/jousoytuartista',     slug: '/joshua',     specialty: 'Black & Grey',      avatar: '/images/avatars/joshua.jpg' },
-  { name: 'Armando Brignoni',handle: '@brignoni.arts',       ig: 'https://www.instagram.com/brignoni.arts',       slug: '/brignoni',   specialty: 'Neo-traditional',   avatar: '/images/avatars/brignoni.jpg' },
-  { name: 'Tatito',          handle: '@tatitobodypiercings', ig: 'https://www.instagram.com/tatitobodypiercings', slug: '/piercings',  specialty: 'Body Piercing',      avatar: '/images/avatars/tatito.jpg' },
+  { name: 'David Reyes',     handle: '@davidreyesart',       ig: 'https://www.instagram.com/davidreyesart',       slug: '/davidreyes', specialty: 'Black & Grey Realism',  avatar: '/images/avatars/david.jpg',    num: '01' },
+  { name: 'Ari Reyes',       handle: '@aryatari',            ig: 'https://www.instagram.com/aryatari',            slug: '/aryatari',   specialty: 'Illustrative · Fine Line', avatar: '/images/avatars/ari.jpg',      num: '02' },
+  { name: 'Joshua Reyes',    handle: '@jousoytuartista',     ig: 'https://www.instagram.com/jousoytuartista',     slug: '/joshua',     specialty: 'Black & Grey · Realism',   avatar: '/images/avatars/joshua.jpg',   num: '03' },
+  { name: 'Armando Brignoni',handle: '@brignoni.arts',       ig: 'https://www.instagram.com/brignoni.arts',       slug: '/brignoni',   specialty: 'Neo-Traditional',          avatar: '/images/avatars/brignoni.jpg', num: '04' },
+  { name: 'Tatito',          handle: '@tatitobodypiercings', ig: 'https://www.instagram.com/tatitobodypiercings', slug: '/piercings',  specialty: 'Body Piercing',            avatar: '/images/avatars/tatito.jpg',   num: '05' },
 ];
 
 const reviews = [
-  { text: '"The best in P.R — incredible work and a super clean studio."',        author: 'Roberto N.',   stars: 5 },
-  { text: '"Great receptionist and an amazing experience from start to finish."', author: 'Alex M.',      stars: 5 },
-  { text: '"La experiencia fue maravillosa. Desde la llegada te tratan con cariño y respeto."', author: 'Isabel L.', stars: 5 },
-  { text: '"Best of the best — would definitely recommend for anyone visiting PR!"', author: 'Christian V.', stars: 5 },
+  { text: '"The best in P.R — incredible work and a super clean studio."',                                          author: 'Roberto N.',   stars: 5 },
+  { text: '"Great receptionist and an amazing experience from start to finish."',                                  author: 'Alex M.',      stars: 5 },
+  { text: '"La experiencia fue maravillosa. Desde la llegada te tratan con cariño y respeto."',                   author: 'Isabel L.',    stars: 5 },
+  { text: '"Best of the best — would definitely recommend for anyone visiting PR!"',                              author: 'Christian V.', stars: 5 },
 ];
 ---
 
 <Layout>
-  <!-- ════════════════════════════════════════════════ HERO -->
-  <section class="hero">
-    <div class="hero-bg">
+
+  <!-- ══════════════════════════════════════════════ HERO -->
+  <section class="hero" aria-label="Sacred Pain Tattoo">
+    <div class="hero-media">
       <img
         src="/images/hero.jpeg"
-        alt=""
-        aria-hidden="true"
+        alt="Sacred Pain Tattoo Studio — San Juan, Puerto Rico"
         loading="eager"
         decoding="async"
+        fetchpriority="high"
       />
-      <div class="hero-overlay"></div>
     </div>
+    <div class="hero-vignette" aria-hidden="true"></div>
 
-    <div class="container hero-content">
-      <div class="hero-text fade-in">
-        <div class="pill">Walk-ins Welcome · San Juan, PR</div>
-        <h1 class="display hero-headline">
-          Tu mejor<br/>
-          <span class="gold-text">elección</span><br/>
-          para el arte<br/>
-          corporal
-        </h1>
-        <p class="lead hero-lead">
-          Tatuajes, piercings y remoción con laser en San Juan, Puerto Rico.
-          Artistas premiados, ambiente limpio y seguro.
-        </p>
-        <div class="hero-actions">
-          <a class="btn btn-gold" href="/reservar">Reservar cita</a>
-          <a class="btn btn-outline-gold" href="#servicios">Ver servicios</a>
-        </div>
+    <div class="hero-layout">
+      <!-- Top left: eyebrow -->
+      <div class="hero-eyebrow" data-reveal="fade">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        San Juan, Puerto Rico &nbsp;·&nbsp; Est. 2010
       </div>
 
-      <div class="hero-bottom">
-        <div class="hero-stats">
-          <div class="stat">
-            <span class="stat-num">4.8</span>
-            <span class="stat-label-sm">Google Reviews</span>
+      <!-- Bottom left: Giant headline -->
+      <div class="hero-title-wrap">
+        <h1 class="hero-title" data-reveal="up">
+          <span class="ht-line">SACRED</span>
+          <span class="ht-line ht-gold">PAIN</span>
+        </h1>
+        <p class="hero-services" data-reveal="fade">
+          Tattoo &nbsp;&nbsp;·&nbsp;&nbsp; Piercing &nbsp;&nbsp;·&nbsp;&nbsp; Laser
+        </p>
+      </div>
+
+      <!-- Bottom right: CTA block -->
+      <div class="hero-cta-block" data-reveal="fade">
+        <a class="hero-cta-btn" href="/reservar">
+          Reservar cita
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <div class="hero-rating">
+          <span class="hero-stars">★★★★★</span>
+          <span class="hero-rating-text">4.8 &nbsp;·&nbsp; 187+ reseñas Google</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll cue -->
+    <div class="scroll-cue hero-scroll" aria-hidden="true">
+      <span>Scroll</span>
+      <div class="scroll-cue-line"></div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════ MARQUEE -->
+  <div class="marquee-track" aria-hidden="true">
+    <div class="marquee-inner">
+      {[1, 2].map(() => (
+        <>
+          <span class="marquee-item">Arte Permanente</span><span class="marquee-sep">✦</span>
+          <span class="marquee-item">Tattoos</span><span class="marquee-sep">✦</span>
+          <span class="marquee-item">Piercings</span><span class="marquee-sep">✦</span>
+          <span class="marquee-item">Laser</span><span class="marquee-sep">✦</span>
+          <span class="marquee-item">Sacred Pain</span><span class="marquee-sep">✦</span>
+          <span class="marquee-item">San Juan, PR</span><span class="marquee-sep">✦</span>
+          <span class="marquee-item">Walk-ins Welcome</span><span class="marquee-sep">✦</span>
+          <span class="marquee-item">Artistas Premiados</span><span class="marquee-sep">✦</span>
+        </>
+      ))}
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ INFO BAR -->
+  <section class="info-section" aria-label="Información del estudio">
+    <div class="container">
+      <div class="info-bar">
+        <div class="info-item">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <span><strong>Lun–Sáb</strong> 11 AM – 8 PM &nbsp;·&nbsp; <strong>Dom</strong> Cerrado</span>
+        </div>
+        <div class="info-item">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <a href="https://www.google.com/maps/dir/?api=1&destination=Sacred+Pain+Tattoo+418+Av+65+Infanteria+San+Juan+PR+00926" target="_blank" rel="noreferrer" class="info-link">
+            418 Av 65 Infantería, San Juan PR
+          </a>
+          <a href="https://www.google.com/maps/dir/?api=1&destination=Sacred+Pain+Tattoo+418+Av+65+Infanteria+San+Juan+PR+00926" target="_blank" rel="noreferrer" class="maps-pill">
+            <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            Cómo llegar
+          </a>
+        </div>
+        <div class="info-item">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92V20a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 4.37 6.18 2 2 0 0 1 6.36 4h3.08a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L10.91 11.4a16 16 0 0 0 6.69 6.69l.78-.78a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <a href="tel:7875962562" class="info-link">(787) 596-2562</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider-solid" />
+
+  <!-- ════════════════════════════════════════ SERVICIOS -->
+  <section class="section-lg" id="servicios" aria-label="Nuestros servicios">
+    <div class="container">
+      <div class="services-header" data-reveal="up">
+        <p class="kicker">Lo que hacemos</p>
+        <h2 class="h2 services-title">Arte que permanece<br/><em>para siempre</em></h2>
+      </div>
+    </div>
+
+    <div class="services-panels">
+      <a class="svc-panel" href="/tattoos" data-reveal="fade">
+        <div class="svc-img-wrap">
+          <img src="/images/artist-david.jpeg" alt="Tattoos — Sacred Pain" loading="lazy" />
+        </div>
+        <div class="svc-overlay">
+          <div class="svc-num">01</div>
+          <div class="svc-info">
+            <h3 class="svc-name">Tattoos</h3>
+            <p class="svc-desc">Black & Grey · Realism · Neo-Traditional · Illustrative</p>
+            <span class="svc-link">Ver artistas <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
           </div>
-          <div class="stat-divider"></div>
-          <div class="stat">
-            <span class="stat-num">187+</span>
-            <span class="stat-label-sm">Reseñas</span>
+        </div>
+      </a>
+
+      <a class="svc-panel" href="/piercings" data-reveal="fade" style="transition-delay:100ms">
+        <div class="svc-img-wrap">
+          <img src="/images/piercing-1.jpg" alt="Piercings — Sacred Pain" loading="lazy" />
+        </div>
+        <div class="svc-overlay">
+          <div class="svc-num">02</div>
+          <div class="svc-info">
+            <h3 class="svc-name">Piercings</h3>
+            <p class="svc-desc">Joyería de titanio · Ambiente estéril · Expertos certificados</p>
+            <span class="svc-link">Ver precios <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
           </div>
-          <div class="stat-divider"></div>
-          <div class="stat">
-            <span class="stat-num">10+</span>
-            <span class="stat-label-sm">Años</span>
+        </div>
+      </a>
+
+      <a class="svc-panel" href="/laser" data-reveal="fade" style="transition-delay:200ms">
+        <div class="svc-img-wrap">
+          <img src="/images/laser.jpeg" alt="Remoción Laser — Sacred Pain" loading="lazy" />
+        </div>
+        <div class="svc-overlay">
+          <div class="svc-num">03</div>
+          <div class="svc-info">
+            <h3 class="svc-name">Laser</h3>
+            <p class="svc-desc">Remoción segura · Plan de sesiones · Evaluación gratuita</p>
+            <span class="svc-link">Más información <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
           </div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ══════════════════════════════════════════ ARTISTAS -->
+  <section class="section-lg" id="equipo" aria-label="Nuestros artistas">
+    <div class="container">
+      <div class="artists-header" data-reveal="up">
+        <div>
+          <p class="kicker">El equipo</p>
+          <h2 class="h2">Los artistas detrás<br/>de Sacred Pain</h2>
+        </div>
+        <a class="artists-all" href="/tattoos">
+          Ver todos
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Horizontal scroll reel -->
+    <div class="artists-reel reel" role="list" aria-label="Artistas del estudio">
+      {artists.map(a => (
+        <a class="artist-slide" href={a.slug} role="listitem" data-cursor>
+          <div class="artist-slide-img">
+            <img src={a.avatar} alt={`${a.name} — ${a.specialty}`} loading="lazy" />
+          </div>
+          <div class="artist-slide-info">
+            <span class="artist-slide-num">{a.num}</span>
+            <h3 class="artist-slide-name">{a.name}</h3>
+            <p class="artist-slide-spec">{a.specialty}</p>
+            <span class="artist-slide-ig">{a.handle}</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ═══════════════════════════════════════════ RESEÑAS -->
+  <section class="section-lg" id="reviews" aria-label="Reseñas de clientes">
+    <div class="container">
+      <div class="reviews-head" data-reveal="up">
+        <div>
+          <p class="kicker">Reseñas verificadas</p>
+          <h2 class="h2">Lo que dicen<br/>nuestros clientes</h2>
         </div>
         <a
           class="trust-badge"
           href="https://maps.google.com/maps?cid=9668360326715706334"
           target="_blank"
           rel="noreferrer"
+          aria-label="Ver reseñas en Google — 4.8 de 5 estrellas"
         >
-          <span class="trust-badge-stars">★★★★★</span>
-          <span class="trust-badge-score">4.8</span>
-          <span class="trust-badge-meta">187+ reseñas<br/>en Google</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ════════════════════════════════════════════ MARQUEE -->
-  <div class="marquee-track">
-    <div class="marquee-inner">
-      {[1,2].map(() => (
-        <>
-          <span>Tattoos</span><span class="sep">✦</span>
-          <span>Piercings</span><span class="sep">✦</span>
-          <span>Laser</span><span class="sep">✦</span>
-          <span>Sacred Pain</span><span class="sep">✦</span>
-          <span>San Juan, PR</span><span class="sep">✦</span>
-          <span>Walk-ins Welcome</span><span class="sep">✦</span>
-          <span>Artistas Premiados</span><span class="sep">✦</span>
-          <span>Reserva tu cita</span><span class="sep">✦</span>
-        </>
-      ))}
-    </div>
-  </div>
-
-  <!-- ════════════════════════════════════════ INFO BAR -->
-  <section class="section-sm" style="border-bottom:1px solid var(--border)">
-    <div class="container">
-      <div class="info-bar">
-        <div class="info-item">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-          <span><strong>Lun–Sáb</strong> 11 AM – 8 PM &nbsp;·&nbsp; <strong>Dom</strong> Cerrado</span>
-        </div>
-        <div class="info-item">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          <a href="https://www.google.com/maps/dir/?api=1&destination=Sacred+Pain+Tattoo+418+Av+65+Infanteria+San+Juan+PR+00926" target="_blank" rel="noreferrer" style="color:var(--gold);font-weight:600">
-            418 Av 65 Infantería
-          </a><span style="color:var(--muted)">, San Juan PR</span>
-          <a href="https://www.google.com/maps/dir/?api=1&destination=Sacred+Pain+Tattoo+418+Av+65+Infanteria+San+Juan+PR+00926" target="_blank" rel="noreferrer" class="maps-pill">
-            <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            Cómo llegar
-          </a>
-        </div>
-        <div class="info-item">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92V20a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 4.37 6.18 2 2 0 0 1 6.36 4h3.08a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L10.91 11.4a16 16 0 0 0 6.69 6.69l.78-.78a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-          <a href="tel:7875962562" style="color:var(--gold);font-weight:600">(787) 596-2562</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════ SERVICIOS -->
-  <section class="section" id="servicios">
-    <div class="container">
-      <div class="section-header fade-in">
-        <p class="kicker">Nuestros Servicios</p>
-        <h2 class="h2">Da rienda suelta a<br/>tu creatividad</h2>
-      </div>
-
-      <div class="grid md\:cols-3 services-grid">
-        <article class="service-card fade-in">
-          <img
-            src="/images/artist-david.jpeg"
-            alt="Tattoo — Sacred Pain"
-            loading="lazy"
-          />
-          <div class="service-card-overlay">
-            <p class="kicker">Servicio</p>
-            <h3 class="h3">Tattoos</h3>
-            <p style="color:var(--muted);font-size:13px;margin:6px 0 14px;">Conoce nuestros artistas · Solo adultos</p>
-            <a class="btn btn-gold" href="/tattoos">Ver artistas</a>
-          </div>
-        </article>
-
-        <article class="service-card fade-in">
-          <img
-            src="/images/piercing-1.jpg"
-            alt="Piercings — Sacred Pain"
-            loading="lazy"
-          />
-          <div class="service-card-overlay">
-            <p class="kicker">Servicio</p>
-            <h3 class="h3">Piercings</h3>
-            <p style="color:var(--muted);font-size:13px;margin:6px 0 14px;">Joyas de calidad · Ambiente estéril</p>
-            <a class="btn btn-gold" href="/piercings">Ver piercings</a>
-          </div>
-        </article>
-
-        <article class="service-card fade-in">
-          <img
-            src="/images/laser.jpeg"
-            alt="Laser — Sacred Pain"
-            loading="lazy"
-          />
-          <div class="service-card-overlay">
-            <p class="kicker">Servicio</p>
-            <h3 class="h3">Remoción Laser</h3>
-            <p style="color:var(--muted);font-size:13px;margin:6px 0 14px;">Evaluación y plan de sesiones</p>
-            <a class="btn btn-gold" href="/laser">Más información</a>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <hr class="divider" />
-
-  <!-- ════════════════════════════════════════ BOOKING CTA -->
-  <section class="section booking-cta">
-    <div class="container">
-      <div class="booking-cta-inner card card-gold fade-in">
-        <div class="booking-cta-text">
-          <p class="kicker">Agenda ahora</p>
-          <h2 class="h2">¿Listo para tu próxima pieza?</h2>
-          <p class="lead">
-            Reserva una cita con cualquiera de nuestros artistas, obtén información
-            sobre precios y disponibilidad, o pasa como walk-in.
-          </p>
-          <ul class="cta-features">
-            <li>✓ &nbsp;Tatuajes a medida · Walk-ins disponibles</li>
-            <li>✓ &nbsp;Tattoo Now, Pay in 4 — auspiciado por Klarna</li>
-            <li>✓ &nbsp;Estudio limpio, seguro y certificado</li>
-          </ul>
-        </div>
-        <div class="booking-cta-actions">
-          <a class="btn btn-gold" href="/reservar">Reservar cita</a>
-          <a class="btn btn-outline-gold" href="tel:7875962562">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path d="M22 16.92V20a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 4.37 6.18 2 2 0 0 1 6.36 4h3.08a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L10.91 11.4a16 16 0 0 0 6.69 6.69l.78-.78a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-            </svg>
-            Llamar al estudio
-          </a>
-          <a class="btn klarna-cta-btn" href="/pagosaplazos">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-            Pay in 4 con Klarna
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <hr class="divider" />
-
-  <!-- ══════════════════════════════════════════════ EQUIPO -->
-  <section class="section" id="equipo">
-    <div class="container">
-      <div class="section-header fade-in">
-        <p class="kicker">Conozca nuestro equipo</p>
-        <h2 class="h2">Los artistas detrás<br/>de Sacred Pain</h2>
-        <p class="lead">
-          Artistas profesionales y premiados con estilos únicos.
-          Bienvenidos al mejor estudio de Tatuajes y Perforaciones en San Juan, PR.
-        </p>
-      </div>
-
-      <div class="grid sm\:cols-2 md\:cols-3 artists-grid">
-        {artists.map(a => (
-          <article class="artist-card card fade-in">
-            <div class="card-body">
-              <div class="artist-header">
-                <img class="artist-avatar-img" src={a.avatar} alt={`${a.name} — perfil Instagram`} loading="lazy" />
-                <div>
-                  <h3 class="h3" style="font-size:22px">{a.name}</h3>
-                  <p style="font-size:12px;color:var(--gold);font-weight:600;letter-spacing:1px;margin-top:2px">{a.specialty}</p>
-                </div>
-              </div>
-              <hr class="gold-line" />
-              <p class="muted" style="margin-bottom:14px">{a.handle}</p>
-              <div class="artist-actions">
-                <a class="btn btn-gold" href={a.slug}>Ver perfil</a>
-                <a class="btn" href={a.ig} target="_blank" rel="noreferrer">Instagram</a>
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <hr class="divider" />
-
-  <!-- ════════════════════════════════════════════ REVIEWS -->
-  <section class="section" id="reviews">
-    <div class="container">
-      <div class="reviews-header fade-in">
-        <div>
-          <p class="kicker">Reseñas verificadas</p>
-          <h2 class="h2">Lo que dicen<br/>nuestros clientes</h2>
-        </div>
-        <a
-          class="trust-badge trust-badge-lg"
-          href="https://maps.google.com/maps?cid=9668360326715706334"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+          </svg>
           <div>
-            <div style="display:flex;align-items:center;gap:6px">
+            <div class="trust-score-row">
               <span class="trust-badge-score">4.8</span>
               <span class="trust-badge-stars">★★★★★</span>
             </div>
@@ -280,33 +238,23 @@ const reviews = [
         </a>
       </div>
 
-      <div class="grid sm\:cols-2 md\:cols-4 fade-in">
+      <div class="reviews-grid" data-stagger>
         {reviews.map(r => (
-          <div class="review-card">
-            <div class="stars">{'★'.repeat(r.stars)}</div>
+          <blockquote class="review-item">
+            <div class="stars" aria-label={`${r.stars} de 5 estrellas`}>{'★'.repeat(r.stars)}</div>
             <p class="review-text">{r.text}</p>
-            <p class="review-author">{r.author}</p>
-          </div>
+            <cite class="review-author">{r.author}</cite>
+          </blockquote>
         ))}
       </div>
 
-      <div class="reviews-footer fade-in">
-        <a
-          class="btn btn-outline-gold"
-          href="https://maps.google.com/maps?cid=9668360326715706334"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      <div class="reviews-ctas" data-reveal="fade">
+        <a class="btn btn-outline-gold" href="https://maps.google.com/maps?cid=9668360326715706334" target="_blank" rel="noreferrer">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           Leer reseñas en Google
         </a>
-        <a
-          class="btn maps-btn"
-          href="https://www.google.com/maps/dir/?api=1&destination=Sacred+Pain+Tattoo+418+Av+65+Infanteria+San+Juan+PR+00926"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <a class="btn" href="https://www.google.com/maps/dir/?api=1&destination=Sacred+Pain+Tattoo+418+Av+65+Infanteria+San+Juan+PR+00926" target="_blank" rel="noreferrer">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
           Cómo llegar
         </a>
       </div>
@@ -315,257 +263,559 @@ const reviews = [
 
   <hr class="divider" />
 
+  <!-- ════════════════════════════════════════ BOOKING CTA -->
+  <section class="booking-section" id="reservar" aria-label="Reservar cita">
+    <div class="booking-inner">
+      <div class="booking-text" data-reveal="up">
+        <p class="kicker">Agenda ahora</p>
+        <h2 class="booking-headline">¿Listo para tu<br/><em>próxima pieza?</em></h2>
+        <p class="lead booking-lead">
+          Reserva con cualquiera de nuestros artistas. Walk-ins bienvenidos.
+          Tattoo Now, Pay in 4 con Klarna.
+        </p>
+        <ul class="booking-features" aria-label="Beneficios">
+          <li>
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Tatuajes a medida · Walk-ins disponibles
+          </li>
+          <li>
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Tattoo Now, Pay in 4 — auspiciado por Klarna
+          </li>
+          <li>
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Estudio limpio, seguro y certificado
+          </li>
+        </ul>
+      </div>
+      <div class="booking-actions" data-stagger>
+        <a class="btn btn-gold booking-btn-primary" href="/reservar">
+          Reservar cita
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a class="btn" href="tel:7875962562">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M22 16.92V20a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 4.37 6.18 2 2 0 0 1 6.36 4h3.08a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L10.91 11.4a16 16 0 0 0 6.69 6.69l.78-.78a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Llamar al estudio
+        </a>
+        <a class="btn btn-klarna" href="/pagosaplazos">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          Pay in 4 con Klarna
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
   <!-- ════════════════════════════════════════════ SOCIAL -->
-  <section class="social-stripe" id="social">
+  <section class="social-section" id="social" aria-label="Síguenos en redes sociales">
     <div class="container">
-      <div class="social-section fade-in">
+      <div class="social-inner" data-reveal="up">
         <div class="social-text">
           <p class="kicker">Síguenos</p>
           <h2 class="h2">@sacredpain</h2>
           <p class="lead">El trabajo más reciente, behind-the-scenes y flash disponible.</p>
         </div>
-        <div class="social-links">
-          <a class="social-btn social-btn--ig" href="https://www.instagram.com/sacredpain" target="_blank" rel="noreferrer">
-            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        <div class="social-links" data-stagger>
+          <a class="social-btn social-ig" href="https://www.instagram.com/sacredpain" target="_blank" rel="noreferrer" aria-label="Seguir en Instagram">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/></svg>
             Instagram
           </a>
-          <a class="social-btn social-btn--tt" href="https://www.tiktok.com/@sacredpain" target="_blank" rel="noreferrer">
-            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.28 6.28 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.79a4.85 4.85 0 0 1-1.02-.1z"/></svg>
+          <a class="social-btn social-tt" href="https://www.tiktok.com/@sacredpain" target="_blank" rel="noreferrer" aria-label="Seguir en TikTok">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.28 6.28 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.79a4.85 4.85 0 0 1-1.02-.1z"/></svg>
             TikTok
           </a>
-          <a class="social-btn social-btn--fb" href="https://www.facebook.com/sacred.pain" target="_blank" rel="noreferrer">
-            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          <a class="social-btn social-fb" href="https://www.facebook.com/sacred.pain" target="_blank" rel="noreferrer" aria-label="Seguir en Facebook">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
             Facebook
           </a>
         </div>
       </div>
     </div>
   </section>
+
 </Layout>
 
 <style>
-  /* ── Hero ─────────────────────────────────────────────── */
+  /* ══ HERO ═══════════════════════════════════════════════ */
   .hero {
     position: relative;
-    min-height: 90vh;
-    display: flex;
-    align-items: flex-end;
-    padding-bottom: 64px;
-  }
-  .hero-bg {
-    position: absolute;
-    inset: 0;
+    height: 100dvh;
+    min-height: 620px;
     overflow: hidden;
   }
-  .hero-bg img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    object-position: center 30%;
-  }
-  .hero-overlay {
+  .hero-media {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      to top,
-      rgba(8,8,8,0.96) 0%,
-      rgba(8,8,8,0.60) 45%,
-      rgba(8,8,8,0.30) 100%
-    );
   }
-  .hero-content {
+  .hero-media img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+  }
+  .hero-vignette {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to bottom, rgba(5,4,5,0.55) 0%, transparent 25%),
+      linear-gradient(to top, rgba(5,4,5,1) 0%, rgba(5,4,5,0.65) 40%, transparent 70%),
+      linear-gradient(to right, rgba(5,4,5,0.5) 0%, transparent 60%);
+  }
+  .hero-layout {
     position: relative;
-    z-index: 1;
+    z-index: 2;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: 1fr auto auto;
+    padding: 100px var(--pad) 56px;
+    gap: 0 32px;
+  }
+
+  /* Eyebrow */
+  .hero-eyebrow {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    align-self: start;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(240,236,230,0.42);
+    transition-delay: 200ms;
+  }
+  .eyebrow-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--gold);
+    flex-shrink: 0;
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.7); }
+  }
+
+  /* Title */
+  .hero-title-wrap {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: end;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(88px, 17vw, 220px);
+    line-height: 0.87;
+    letter-spacing: -2px;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+  }
+  .ht-line { display: block; }
+  .ht-gold { color: var(--gold); }
+  .hero-services {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: rgba(240,236,230,0.38);
+    padding-bottom: 8px;
+    transition-delay: 400ms;
+  }
+
+  /* CTA block */
+  .hero-cta-block {
+    grid-column: 2;
+    grid-row: 2 / 4;
+    align-self: end;
     display: flex;
     flex-direction: column;
-    gap: 36px;
-  }
-  .hero-text { max-width: 660px; }
-  .hero-headline { margin: 16px 0 18px; }
-  .gold-text { color: var(--gold); }
-  .hero-lead { margin-bottom: 24px; }
-  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
-
-  /* hero bottom: stats + trust badge */
-  .hero-bottom {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+    align-items: flex-end;
     gap: 14px;
+    padding-bottom: 8px;
+    transition-delay: 300ms;
   }
-  .hero-stats {
+  .hero-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 24px;
+    border: 1px solid rgba(185,138,55,0.6);
+    color: var(--text);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    transition: background 0.3s var(--ease-out-expo),
+                color 0.3s,
+                border-color 0.3s;
+    white-space: nowrap;
+  }
+  .hero-cta-btn:hover {
+    background: var(--gold);
+    color: #050405;
+    border-color: var(--gold);
+  }
+  .hero-rating {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 3px;
+  }
+  .hero-stars { color: var(--gold); font-size: 12px; letter-spacing: 2px; }
+  .hero-rating-text { font-size: 9.5px; color: var(--muted2); letter-spacing: 0.5px; }
+
+  /* Scroll cue */
+  .hero-scroll {
+    position: absolute;
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  @media (max-width: 640px) {
+    .hero-layout {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr auto;
+      padding: 90px 20px 40px;
+      gap: 0;
+    }
+    .hero-title { font-size: clamp(72px, 22vw, 120px); }
+    .hero-cta-block {
+      grid-column: 1;
+      grid-row: 3;
+      align-items: flex-start;
+      padding-top: 16px;
+    }
+    .hero-scroll { display: none; }
+  }
+
+  /* ══ INFO SECTION ════════════════════════════════════════ */
+  .info-section {
+    padding: 16px 0;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+  .info-link {
+    color: var(--gold);
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .info-link:hover { color: var(--gold-lt); }
+
+  /* ══ SERVICES ════════════════════════════════════════════ */
+  .services-header {
+    margin-bottom: 56px;
+  }
+  .services-title {
+    margin-top: 14px;
+  }
+  .services-title em {
+    font-family: var(--font-heading);
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .services-panels {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 0;
+  }
+  @media (max-width: 768px) {
+    .services-panels { grid-template-columns: 1fr; }
+  }
+
+  .svc-panel {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 3/4;
+    display: block;
+    cursor: none;
+  }
+  @media (pointer: coarse) { .svc-panel { cursor: pointer; } }
+
+  .svc-img-wrap {
+    position: absolute;
+    inset: 0;
+  }
+  .svc-img-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s var(--ease-out-expo);
+  }
+  .svc-panel:hover .svc-img-wrap img { transform: scale(1.07); }
+
+  .svc-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top,
+      rgba(5,4,5,0.95) 0%,
+      rgba(5,4,5,0.15) 60%,
+      transparent 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 28px;
+    transition: background 0.4s;
+  }
+  .svc-panel:hover .svc-overlay {
+    background: linear-gradient(to top,
+      rgba(5,4,5,0.98) 0%,
+      rgba(5,4,5,0.35) 65%,
+      rgba(5,4,5,0.10) 100%);
+  }
+
+  .svc-num {
+    font-family: var(--font-display);
+    font-size: 64px;
+    color: rgba(255,255,255,0.07);
+    line-height: 1;
+    align-self: flex-end;
+    transition: color 0.3s;
+  }
+  .svc-panel:hover .svc-num { color: rgba(185,138,55,0.15); }
+
+  .svc-info { align-self: flex-end; }
+  .svc-name {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3vw, 42px);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .svc-desc {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    line-height: 1.6;
+  }
+  .svc-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+    transition: border-color 0.25s, gap 0.25s;
+  }
+  .svc-panel:hover .svc-link {
+    border-bottom-color: var(--gold);
+    gap: 12px;
+  }
+
+  /* ══ ARTISTS REEL ════════════════════════════════════════ */
+  .artists-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 40px;
+  }
+  .artists-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    padding-bottom: 2px;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.25s, gap 0.25s;
+  }
+  .artists-all:hover { border-bottom-color: var(--gold); gap: 10px; }
+
+  .artists-reel {
+    gap: 2px;
+    padding: 0 var(--pad) 32px;
+  }
+
+  .artist-slide {
+    flex: 0 0 clamp(220px, 28vw, 320px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: border-color 0.3s;
+    text-decoration: none;
+  }
+  .artist-slide:hover { border-color: var(--border-gold); }
+
+  .artist-slide-img {
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    background: var(--surface);
+  }
+  .artist-slide-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: top;
+    transition: transform 0.6s var(--ease-out-expo);
+  }
+  .artist-slide:hover .artist-slide-img img { transform: scale(1.05); }
+
+  .artist-slide-info {
+    padding: 18px 20px 20px;
+    background: var(--surface);
+    flex: 1;
+  }
+  .artist-slide-num {
+    font-family: var(--font-display);
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 6px;
+  }
+  .artist-slide-name {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .artist-slide-spec {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+  .artist-slide-ig {
+    font-size: 10.5px;
+    color: var(--muted2);
+    letter-spacing: 0.5px;
+  }
+
+  /* ══ REVIEWS ═════════════════════════════════════════════ */
+  .reviews-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+  .trust-score-row {
     display: flex;
     align-items: center;
-    gap: 0;
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--border-gold);
-    border-radius: 8px;
-    padding: 14px 16px;
-    width: fit-content;
-    flex-shrink: 0;
-  }
-  .stat { text-align: center; padding: 0 14px; }
-  .stat-num {
-    display: block;
-    font-family: var(--font-display);
-    font-size: 26px;
-    color: var(--gold);
-    line-height: 1;
-  }
-  .stat-label-sm {
-    display: block;
-    font-size: 9px;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: 4px;
-  }
-  .stat-divider {
-    width: 1px;
-    height: 36px;
-    background: var(--border-gold);
-    flex-shrink: 0;
-  }
-  @media (max-width: 480px) {
-    .hero-bottom { flex-direction: column; align-items: flex-start; }
-    .hero-stats { padding: 12px 14px; }
-    .stat { padding: 0 12px; }
-    .stat-num { font-size: 22px; }
+    gap: 8px;
+    margin-bottom: 2px;
   }
 
-  /* services */
-  .section-header { margin-bottom: 40px; }
-  .services-grid { margin-top: 12px; }
-  .services-grid .service-card { min-height: 480px; }
-
-  /* booking CTA */
-  .booking-cta-inner {
+  .reviews-grid {
     display: grid;
-    gap: 32px;
-    padding: 40px;
-    background: linear-gradient(135deg, var(--surface) 0%, rgba(196,158,71,0.05) 100%);
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--border);
+    margin-bottom: 40px;
   }
   @media (min-width: 880px) {
-    .booking-cta-inner {
-      grid-template-columns: 1fr auto;
-      align-items: center;
-    }
+    .reviews-grid { grid-template-columns: repeat(4, 1fr); }
   }
-  .cta-features {
-    margin: 16px 0 0;
-    padding-left: 0;
+  @media (max-width: 480px) {
+    .reviews-grid { grid-template-columns: 1fr; }
+  }
+
+  .review-item {
+    background: var(--surface);
+    padding: 28px;
+    font-style: normal;
+    transition: background 0.25s;
+  }
+  .review-item:hover { background: var(--surface2); }
+
+  .reviews-ctas {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* ══ BOOKING CTA ══════════════════════════════════════════ */
+  .booking-section {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .booking-inner {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 96px var(--pad);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 48px 64px;
+    align-items: center;
+  }
+  @media (max-width: 880px) {
+    .booking-inner { grid-template-columns: 1fr; }
+  }
+
+  .booking-headline {
+    font-family: var(--font-heading);
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 300;
+    line-height: 1.1;
+    margin: 14px 0 16px;
+  }
+  .booking-headline em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .booking-lead { max-width: 46ch; }
+  .booking-features {
     list-style: none;
-    color: var(--muted);
-    font-size: 14px;
-  }
-  .cta-features li { margin: 7px 0; letter-spacing: 0.2px; }
-  .booking-cta-actions {
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    min-width: 200px;
   }
-  .booking-cta-actions .btn { justify-content: center; }
-
-  /* artists */
-  .artist-header {
+  .booking-features li {
     display: flex;
     align-items: center;
-    gap: 14px;
-    margin-bottom: 4px;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--muted);
   }
-  .artist-avatar-img {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid var(--border-gold);
-    flex-shrink: 0;
-  }
+  .booking-features svg { color: var(--gold); flex-shrink: 0; }
 
-  /* reviews header */
-  .reviews-header {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 24px;
-    margin-bottom: 40px;
-  }
-  .trust-badge-lg {
-    padding: 14px 22px;
-    gap: 14px;
-  }
-  .reviews-footer {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-top: 32px;
-  }
-  .maps-btn {
-    background: rgba(66,133,244,0.10);
-    border-color: rgba(66,133,244,0.30);
-    color: #7bb3f8;
-  }
-  .maps-btn:hover {
-    background: rgba(66,133,244,0.18);
-    border-color: rgba(66,133,244,0.55);
-    color: #9cc5fa;
-  }
-  .maps-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 3px 10px 3px 8px;
-    border-radius: 20px;
-    background: rgba(66,133,244,0.12);
-    border: 1px solid rgba(66,133,244,0.25);
-    color: #7bb3f8;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
-    transition: background 0.15s, border-color 0.15s;
-    text-decoration: none;
-    flex-shrink: 0;
-  }
-  .maps-pill:hover {
-    background: rgba(66,133,244,0.22);
-    border-color: rgba(66,133,244,0.45);
-    text-decoration: none;
-  }
-  .klarna-cta-btn {
-    border-color: rgba(255,179,199,0.30);
-    color: #FFB3C7;
-  }
-  .klarna-cta-btn:hover {
-    background: rgba(255,179,199,0.08);
-    border-color: rgba(255,179,199,0.55);
-    color: #ffc9d8;
-  }
-
-  /* social stripe */
-  .social-stripe {
-    background: var(--surface2);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    padding: 56px 0;
-  }
-  .social-section {
+  .booking-actions {
     display: flex;
     flex-direction: column;
-    gap: 28px;
+    gap: 10px;
+    min-width: 210px;
+  }
+  .booking-actions .btn { justify-content: center; }
+  .booking-btn-primary { font-size: 11px; }
+
+  /* ══ SOCIAL ══════════════════════════════════════════════ */
+  .social-section {
+    padding: 80px 0;
+  }
+  .social-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
     align-items: flex-start;
   }
   @media (min-width: 720px) {
-    .social-section {
+    .social-inner {
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
     }
   }
-  .social-text { max-width: 400px; }
+  .social-text { max-width: 380px; }
+  .social-text .h2 { margin: 12px 0 10px; }
+
   .social-links {
     display: flex;
     gap: 10px;
@@ -574,22 +824,21 @@ const reviews = [
   .social-btn {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: 9px;
     padding: 12px 20px;
-    min-height: 48px;
-    border-radius: 2px;
+    min-height: 46px;
     border: 1px solid var(--border);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
     text-transform: uppercase;
-    transition: background 0.18s, border-color 0.18s, color 0.18s, transform 0.12s;
-    text-decoration: none;
     color: var(--muted);
+    transition: background 0.25s, border-color 0.25s, color 0.25s, transform 0.2s;
+    text-decoration: none;
     -webkit-tap-highlight-color: transparent;
   }
-  .social-btn:hover { text-decoration: none; transform: translateY(-2px); }
-  .social-btn--ig:hover { background: rgba(225,48,108,0.10); border-color: rgba(225,48,108,0.35); color: #e1306c; }
-  .social-btn--tt:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.25); color: var(--text); }
-  .social-btn--fb:hover { background: rgba(66,103,178,0.10); border-color: rgba(66,103,178,0.35); color: #4267b2; }
+  .social-btn:hover { transform: translateY(-2px); text-decoration: none; }
+  .social-ig:hover  { background: rgba(225,48,108,0.09); border-color: rgba(225,48,108,0.32); color: #e1306c; }
+  .social-tt:hover  { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.22); color: var(--text); }
+  .social-fb:hover  { background: rgba(66,103,178,0.09); border-color: rgba(66,103,178,0.30); color: #6b8fc7; }
 </style>

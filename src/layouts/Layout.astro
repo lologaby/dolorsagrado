@@ -1,6 +1,7 @@
 ---
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import { ViewTransitions } from 'astro:transitions';
 
 type Props = {
   title?: string;
@@ -21,7 +22,7 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#080808" />
+    <meta name="theme-color" content="#050405" />
     <meta name="generator" content={Astro.generator} />
 
     <!-- OG -->
@@ -36,25 +37,105 @@ const {
 
     <title>{title}</title>
 
-    <link rel="icon" href="https://img1.wsimg.com/isteam/ip/fd492585-183a-4eed-9c7d-78514a55ce82/favicon/140178df-c1bd-4b15-9696-cfc937269b79.png/:/rs=w:32,h:32,m" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/styles/global.css" />
 
-    <!-- Fade-in on scroll -->
-    <script is:inline>
-      document.addEventListener('DOMContentLoaded', () => {
-        const obs = new IntersectionObserver((entries) => {
-          entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-        }, { threshold: 0.12 });
-        document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
-      });
-    </script>
+    <ViewTransitions />
   </head>
   <body>
+    <!-- Custom cursor (desktop only) -->
+    <div id="cursor-dot"  aria-hidden="true"></div>
+    <div id="cursor-ring" aria-hidden="true"></div>
+
     <a class="skip-link" href="#main">Saltar al contenido</a>
     <SiteHeader />
     <main id="main">
       <slot />
     </main>
     <SiteFooter />
+
+    <!-- Master script: cursor + scroll reveal + header + drag scroll -->
+    <script is:inline>
+      (function() {
+        /* ── Custom cursor ──────────────────────────────── */
+        var dot  = document.getElementById('cursor-dot');
+        var ring = document.getElementById('cursor-ring');
+        if (dot && ring && window.matchMedia('(pointer: fine)').matches) {
+          var mx = 0, my = 0, rx = 0, ry = 0;
+          document.addEventListener('mousemove', function(e) {
+            mx = e.clientX; my = e.clientY;
+            dot.style.left = mx + 'px';
+            dot.style.top  = my + 'px';
+          });
+          (function animate() {
+            rx += (mx - rx) * 0.10;
+            ry += (my - ry) * 0.10;
+            ring.style.left = rx + 'px';
+            ring.style.top  = ry + 'px';
+            requestAnimationFrame(animate);
+          })();
+          document.addEventListener('mousedown', function() { document.body.classList.add('cursor-click'); });
+          document.addEventListener('mouseup',   function() { document.body.classList.remove('cursor-click'); });
+          document.querySelectorAll('a, button, [data-cursor]').forEach(function(el) {
+            el.addEventListener('mouseenter', function() { document.body.classList.add('cursor-hover'); });
+            el.addEventListener('mouseleave', function() { document.body.classList.remove('cursor-hover'); });
+          });
+        }
+
+        /* ── Scroll reveal ──────────────────────────────── */
+        function initReveal() {
+          var els = document.querySelectorAll('[data-reveal], [data-stagger], .fade-in');
+          if (!els.length) return;
+          var obs = new IntersectionObserver(function(entries) {
+            entries.forEach(function(e) {
+              if (e.isIntersecting) {
+                e.target.classList.add('revealed', 'visible');
+                obs.unobserve(e.target);
+              }
+            });
+          }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+          els.forEach(function(el) { obs.observe(el); });
+        }
+        document.addEventListener('DOMContentLoaded', initReveal);
+        document.addEventListener('astro:page-load', initReveal);
+
+        /* ── Header: transparent → dark on scroll ───────── */
+        function initHeader() {
+          var header = document.getElementById('header');
+          if (!header) return;
+          function onScroll() {
+            header.classList.toggle('scrolled', window.scrollY > 60);
+          }
+          window.addEventListener('scroll', onScroll, { passive: true });
+          onScroll();
+        }
+        document.addEventListener('DOMContentLoaded', initHeader);
+        document.addEventListener('astro:page-load', initHeader);
+
+        /* ── Drag-to-scroll reels ───────────────────────── */
+        function initReels() {
+          document.querySelectorAll('.reel').forEach(function(reel) {
+            var isDown = false, startX = 0, scrollLeft = 0;
+            reel.addEventListener('mousedown', function(e) {
+              isDown = true;
+              startX = e.pageX - reel.offsetLeft;
+              scrollLeft = reel.scrollLeft;
+              reel.classList.add('is-dragging');
+            });
+            reel.addEventListener('mouseleave', function() { isDown = false; reel.classList.remove('is-dragging'); });
+            reel.addEventListener('mouseup',    function() { isDown = false; reel.classList.remove('is-dragging'); });
+            reel.addEventListener('mousemove',  function(e) {
+              if (!isDown) return;
+              e.preventDefault();
+              var x = e.pageX - reel.offsetLeft;
+              var walk = (x - startX) * 1.5;
+              reel.scrollLeft = scrollLeft - walk;
+            });
+          });
+        }
+        document.addEventListener('DOMContentLoaded', initReels);
+        document.addEventListener('astro:page-load', initReels);
+      })();
+    </script>
   </body>
 </html>
