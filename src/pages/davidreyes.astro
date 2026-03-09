@@ -15,32 +15,19 @@ const gallery = [
   title="David Reyes — Sacred Pain Tattoo"
   description="David Reyes · Black & Grey Realism y Color Realism · 20+ años de experiencia en tatuajes. Sacred Pain, San Juan PR."
 >
-  <!-- ═══════════════════════════════════ HERO DEL ARTISTA -->
-  <section class="artist-hero">
-    <div class="artist-hero-bg">
-      <img src="/images/artist-david.jpeg" alt="" aria-hidden="true" />
-      <div class="artist-hero-overlay"></div>
-    </div>
-    <div class="container artist-hero-content fade-in">
-      <div class="artist-avatar-wrap">
-        <img
-          src="/images/avatars/david.jpg"
-          alt="David Reyes"
-          class="artist-profile-img"
-        />
-      </div>
-      <div class="artist-meta">
-        <p class="kicker">Sacred Pain · San Juan, PR</p>
-        <h1 class="h1">David Reyes</h1>
-        <p class="artist-specialty">Black &amp; Grey Realism · Color Realism</p>
-        <p class="artist-handle">
-          <a href="https://www.instagram.com/davidreyesart" target="_blank" rel="noreferrer">@davidreyesart</a>
-          &nbsp;·&nbsp; 61K+ seguidores
-        </p>
-        <div class="artist-ctas">
-          <a class="btn btn-gold" href="/reservar?artista=David+Reyes">Reservar con David</a>
-          <a class="btn btn-outline-gold" href="https://www.instagram.com/davidreyesart" target="_blank" rel="noreferrer">Instagram</a>
-        </div>
+  <!-- ═══════════════════════════════════ HERO -->
+  <section class="artist-hero-minimal">
+    <div class="container fade-in" style="max-width:800px; margin: 0 auto; text-align:center;">
+      <p class="kicker" style="justify-content:center;">Sacred Pain · San Juan, PR</p>
+      <h1 class="h1">David Reyes</h1>
+      <p class="artist-specialty">Black &amp; Grey Realism · Color Realism</p>
+      <p class="artist-handle" style="margin-bottom:8px;">
+        <a href="https://www.instagram.com/davidreyesart" target="_blank" rel="noreferrer">@davidreyesart</a>
+        &nbsp;·&nbsp; 61K+ seguidores
+      </p>
+      <div class="artist-ctas" style="justify-content:center; margin-top:24px;">
+        <a class="btn btn-gold" href="/reservar?artista=David+Reyes">Reservar con David</a>
+        <a class="btn btn-outline-gold" href="https://www.instagram.com/davidreyesart" target="_blank" rel="noreferrer">Instagram</a>
       </div>
     </div>
   </section>
@@ -49,6 +36,7 @@ const gallery = [
   <section class="section">
     <div class="container bio-grid fade-in">
       <div>
+        <img src="/images/placeholders/artist-david.jpg" alt="David Reyes" class="w-full h-auto object-cover rounded-sm mb-6 grayscale" style="max-height: 500px;" />
         <p class="kicker">Sobre el artista</p>
         <h2 class="h2">20+ años<br/>de experiencia</h2>
       </div>
@@ -268,6 +256,8 @@ const gallery = [
     margin-top: 4px;
   }
   .bio-stat-divider { width: 1px; height: 36px; background: var(--border-gold); }
+
+  .artist-hero-minimal { padding: 140px 0 60px; background: #000; }
 
   /* ── Gallery ─────────────────────────────────────────── */
   .gallery-section { background: #000; padding: 64px 0 0; }

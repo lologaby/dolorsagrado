@@ -16,23 +16,17 @@ const gallery = [
   description="Explora las piezas de Joshua Reyes en 3D. Brazos modelados en Blender con sus tatuajes. Rota, examina, descubre el arte."
 >
   <!-- ═══════════════════════════════════ HERO -->
-  <section class="artist-hero">
-    <div class="artist-hero-bg">
-      <img src="/images/placeholders/hero-placeholder.jpg" alt="Joshua Reyes Background" aria-hidden="true" />
-      <div class="artist-hero-overlay"></div>
-    </div>
-    <div class="container artist-hero-content fade-in">
-      <div class="artist-meta">
-        <p class="kicker">Sacred Pain · San Juan, PR</p>
-        <h1 class="h1">Joshua Reyes</h1>
-        <p class="artist-specialty">Black &amp; Grey · Arte en la piel</p>
-        <p class="artist-handle">
-          <a href="https://www.instagram.com/jousoytuartista" target="_blank" rel="noreferrer">@jousoytuartista</a>
-        </p>
-        <div class="artist-ctas">
-          <a class="btn btn-gold" href="/reservar">Reservar cita</a>
-          <a class="btn btn-outline-gold" href="https://www.instagram.com/jousoytuartista" target="_blank" rel="noreferrer">Instagram</a>
-        </div>
+  <section class="artist-hero-minimal">
+    <div class="container fade-in" style="max-width:800px; margin: 0 auto; text-align:center;">
+      <p class="kicker" style="justify-content:center;">Sacred Pain · San Juan, PR</p>
+      <h1 class="h1">Joshua Reyes</h1>
+      <p class="artist-specialty">Black &amp; Grey · Arte en la piel</p>
+      <p class="artist-handle" style="margin-bottom:8px;">
+        <a href="https://www.instagram.com/jousoytuartista" target="_blank" rel="noreferrer">@jousoytuartista</a>
+      </p>
+      <div class="artist-ctas" style="justify-content:center; margin-top:24px;">
+        <a class="btn btn-gold" href="/reservar">Reservar cita</a>
+        <a class="btn btn-outline-gold" href="https://www.instagram.com/jousoytuartista" target="_blank" rel="noreferrer">Instagram</a>
       </div>
     </div>
   </section>
@@ -43,6 +37,7 @@ const gallery = [
   <section class="section">
     <div class="container bio-grid fade-in">
       <div>
+        <img src="/images/placeholders/artist-joshua.jpg" alt="Joshua Reyes" class="w-full h-auto object-cover rounded-sm mb-6 grayscale" style="max-height: 500px;" />
         <p class="kicker">Sobre el artista</p>
         <h2 class="h2">Black &amp; Grey<br/>con carácter</h2>
       </div>
@@ -151,6 +146,7 @@ const gallery = [
 </Layout>
 
 <style>
+  .artist-hero-minimal { padding: 140px 0 60px; background: #000; }
   .bio-grid { display: grid; gap: 40px; }
   @media (min-width: 760px) { .bio-grid { grid-template-columns: 1fr 2fr; align-items: start; } }
 
