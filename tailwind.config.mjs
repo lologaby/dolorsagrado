@@ -17,6 +17,7 @@ export default {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         display: ['"Clash Display"', '"Bebas Neue"', 'Impact', 'sans-serif'], // Massively thick headlines
         serif: ['"Playfair Display"', 'Georgia', 'serif'],
+        cursive: ['"Great Vibes"', 'cursive'], // Shop sign cursive style
       },
       transitionTimingFunction: {
         bounce: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)',
