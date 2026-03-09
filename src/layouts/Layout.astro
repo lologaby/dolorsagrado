@@ -1,6 +1,7 @@
 ---
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import '../styles/global.css';
 
 type Props = {
   title?: string;
@@ -10,18 +11,18 @@ type Props = {
 
 const {
   title = 'Sacred Pain Tattoo — San Juan, PR',
-  description = 'El mejor estudio de tatuajes y perforaciones en San Juan, Puerto Rico. Artistas premiados, ambiente limpio y seguro. Reserva tu cita ahora.',
+  description = 'High-end tattoo studio in San Juan, PR. Brutalist art experience, award-winning artists.',
   ogImage = 'https://img1.wsimg.com/isteam/ip/fd492585-183a-4eed-9c7d-78514a55ce82/IMG_9005.jpeg',
 } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang="es" class="bg-background text-primary antialiased">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#080808" />
+    <meta name="theme-color" content="#020202" />
     <meta name="generator" content={Astro.generator} />
 
     <!-- OG -->
@@ -37,22 +38,22 @@ const {
     <title>{title}</title>
 
     <link rel="icon" href="https://img1.wsimg.com/isteam/ip/fd492585-183a-4eed-9c7d-78514a55ce82/favicon/140178df-c1bd-4b15-9696-cfc937269b79.png/:/rs=w:32,h:32,m" />
-    <link rel="stylesheet" href="/styles/global.css" />
 
-    <!-- Fade-in on scroll -->
+    <!-- Intersection Observer for Fade-up -->
     <script is:inline>
       document.addEventListener('DOMContentLoaded', () => {
         const obs = new IntersectionObserver((entries) => {
           entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-        }, { threshold: 0.12 });
-        document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
       });
     </script>
   </head>
-  <body>
-    <a class="skip-link" href="#main">Saltar al contenido</a>
+  <body class="selection:bg-neon selection:text-black">
+    <div class="fixed top-0 left-0 w-full h-[3px] bg-gradient-to-r from-transparent via-neon to-transparent z-[9999] opacity-30"></div>
+    <a class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 bg-neon text-black px-4 py-2 z-[9999]" href="#main">Saltar al contenido</a>
     <SiteHeader />
-    <main id="main">
+    <main id="main" class="min-h-screen">
       <slot />
     </main>
     <SiteFooter />

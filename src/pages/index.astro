@@ -2,594 +2,187 @@
 import Layout from '../layouts/Layout.astro';
 
 const artists = [
-  { name: 'David Reyes',     handle: '@davidreyesart',       ig: 'https://www.instagram.com/davidreyesart',       slug: '/davidreyes', specialty: 'Custom tattoos',    avatar: '/images/avatars/david.jpg' },
+  { name: 'David Reyes',     handle: '@davidreyesart',       ig: 'https://www.instagram.com/davidreyesart',       slug: '/davidreyes', specialty: 'Black & Grey Realism', avatar: '/images/avatars/david.jpg' },
   { name: 'Ari Reyes',       handle: '@aryatari',            ig: 'https://www.instagram.com/aryatari',            slug: '/aryatari',   specialty: 'Illustrative',      avatar: '/images/avatars/ari.jpg' },
   { name: 'Joshua Reyes',    handle: '@jousoytuartista',     ig: 'https://www.instagram.com/jousoytuartista',     slug: '/joshua',     specialty: 'Black & Grey',      avatar: '/images/avatars/joshua.jpg' },
   { name: 'Armando Brignoni',handle: '@brignoni.arts',       ig: 'https://www.instagram.com/brignoni.arts',       slug: '/brignoni',   specialty: 'Neo-traditional',   avatar: '/images/avatars/brignoni.jpg' },
-  { name: 'Tatito',          handle: '@tatitobodypiercings', ig: 'https://www.instagram.com/tatitobodypiercings', slug: '/piercings',  specialty: 'Body Piercing',      avatar: '/images/avatars/tatito.jpg' },
 ];
 
 const reviews = [
-  { text: '"The best in P.R — incredible work and a super clean studio."',        author: 'Roberto N.',   stars: 5 },
-  { text: '"Great receptionist and an amazing experience from start to finish."', author: 'Alex M.',      stars: 5 },
-  { text: '"La experiencia fue maravillosa. Desde la llegada te tratan con cariño y respeto."', author: 'Isabel L.', stars: 5 },
-  { text: '"Best of the best — would definitely recommend for anyone visiting PR!"', author: 'Christian V.', stars: 5 },
+  { text: 'A premium experience unlike any standard tattoo shop. Absolute perfection.', author: 'Roberto N.' },
+  { text: 'The atmosphere is incredible. You feel the art the moment you walk in.', author: 'Alex M.' },
 ];
 ---
 
 <Layout>
-  <!-- ════════════════════════════════════════════════ HERO -->
-  <section class="hero">
-    <div class="hero-bg">
-      <img
-        src="/images/hero.jpeg"
-        alt=""
-        aria-hidden="true"
-        loading="eager"
-        decoding="async"
-      />
-      <div class="hero-overlay"></div>
+  <!-- ════════════════════════════════════════════════ HERO (VIDEO LOOP) -->
+  <section class="relative h-screen w-full overflow-hidden flex items-center justify-center bg-background">
+    <!-- Video Background -->
+    <video
+      autoplay
+      loop
+      muted
+      playsinline
+      class="absolute inset-0 w-full h-full object-cover opacity-40 scale-105 pointer-events-none"
+    >
+      <!-- El usuario deberá colocar sus videos inmersivos aquí -->
+      <source src="/videos/tour.mp4" type="video/mp4" />
+    </video>
+    
+    <!-- Cyberpunk Gradients & Overlays -->
+    <div class="absolute inset-0 bg-hero-gradient pointer-events-none"></div>
+    <div class="absolute inset-0 bg-black/30 pointer-events-none"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-neon/5 rounded-full blur-[120px] pointer-events-none mix-blend-screen"></div>
+
+    <!-- Brutalist Hero Content -->
+    <div class="relative z-10 container-brutal w-full flex flex-col items-center sm:items-start text-center sm:text-left mt-20">
+      <div class="overflow-hidden mb-4">
+        <p class="text-neon tracking-super-wide text-xs font-bold uppercase fade-up" style="transition-delay: 100ms;">High-end Studio · San Juan</p>
+      </div>
+      
+      <div class="flex flex-col gap-0 leading-[0.8] mb-12">
+        <h1 class="text-[12vw] sm:text-[10vw] md:text-[8vw] font-display font-bold uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 fade-up" style="transition-delay: 200ms;">
+          Sacred
+        </h1>
+        <h1 class="text-[12vw] sm:text-[10vw] md:text-[8vw] font-display font-bold uppercase tracking-tighter text-white fade-up" style="transition-delay: 300ms;">
+          Pain <span class="text-neon/80 italic">Tattoo</span>
+        </h1>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center gap-6 fade-up" style="transition-delay: 400ms;">
+        <a href="/reservar" class="btn-brutal-neon w-full sm:w-auto">Reservar Cita</a>
+        <a href="#artistas" class="btn-brutal w-full sm:w-auto mt-4 sm:mt-0">Explorar Galería</a>
+      </div>
     </div>
 
-    <div class="container hero-content">
-      <div class="hero-text fade-in">
-        <div class="pill">Walk-ins Welcome · San Juan, PR</div>
-        <h1 class="display hero-headline">
-          Tu mejor<br/>
-          <span class="gold-text">elección</span><br/>
-          para el arte<br/>
-          corporal
-        </h1>
-        <p class="lead hero-lead">
-          Tatuajes, piercings y remoción con laser en San Juan, Puerto Rico.
-          Artistas premiados, ambiente limpio y seguro.
-        </p>
-        <div class="hero-actions">
-          <a class="btn btn-gold" href="/reservar">Reservar cita</a>
-          <a class="btn btn-outline-gold" href="#servicios">Ver servicios</a>
-        </div>
-      </div>
-
-      <div class="hero-bottom">
-        <div class="hero-stats">
-          <div class="stat">
-            <span class="stat-num">4.8</span>
-            <span class="stat-label-sm">Google Reviews</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat">
-            <span class="stat-num">187+</span>
-            <span class="stat-label-sm">Reseñas</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat">
-            <span class="stat-num">10+</span>
-            <span class="stat-label-sm">Años</span>
-          </div>
-        </div>
-        <a
-          class="trust-badge"
-          href="https://maps.google.com/maps?cid=9668360326715706334"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <span class="trust-badge-stars">★★★★★</span>
-          <span class="trust-badge-score">4.8</span>
-          <span class="trust-badge-meta">187+ reseñas<br/>en Google</span>
-        </a>
-      </div>
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 fade-up" style="transition-delay: 600ms;">
+      <span class="text-[10px] tracking-widest uppercase rotate-90 mb-4">Scroll</span>
+      <div class="w-px h-16 bg-gradient-to-b from-white to-transparent"></div>
     </div>
   </section>
 
-  <!-- ════════════════════════════════════════════ MARQUEE -->
-  <div class="marquee-track">
-    <div class="marquee-inner">
-      {[1,2].map(() => (
+  <!-- ════════════════════════════════════════ MARQUEE (BRUTALIST THICK) -->
+  <div class="border-y border-white/5 bg-black py-4 overflow-hidden relative z-10 flex">
+    <div class="flex whitespace-nowrap animate-[marquee_20s_linear_infinite] items-center gap-8">
+      {[...Array(4)].map(() => (
         <>
-          <span>Tattoos</span><span class="sep">✦</span>
-          <span>Piercings</span><span class="sep">✦</span>
-          <span>Laser</span><span class="sep">✦</span>
-          <span>Sacred Pain</span><span class="sep">✦</span>
-          <span>San Juan, PR</span><span class="sep">✦</span>
-          <span>Walk-ins Welcome</span><span class="sep">✦</span>
-          <span>Artistas Premiados</span><span class="sep">✦</span>
-          <span>Reserva tu cita</span><span class="sep">✦</span>
+          <span class="text-4xl md:text-6xl font-display font-bold text-transparent" style="-webkit-text-stroke: 1px rgba(255,255,255,0.2);">TATTOOS</span>
+          <span class="text-neon">✦</span>
+          <span class="text-4xl md:text-6xl font-display font-bold text-white">PIERCINGS</span>
+          <span class="text-neon">✦</span>
+          <span class="text-4xl md:text-6xl font-display font-bold text-transparent" style="-webkit-text-stroke: 1px rgba(255,255,255,0.2);">LASER</span>
+          <span class="text-neon">✦</span>
+          <span class="text-4xl md:text-6xl font-display font-bold text-white">SACRED PAIN</span>
+          <span class="text-neon">✦</span>
+          <span class="text-4xl md:text-6xl font-display font-bold text-transparent" style="-webkit-text-stroke: 1px rgba(255,255,255,0.2);">WALK-INS WELCOME</span>
+          <span class="text-neon">✦</span>
+          <span class="text-4xl md:text-6xl font-display font-bold text-white">SAN JUAN, PR</span>
+          <span class="text-neon">✦</span>
         </>
       ))}
     </div>
   </div>
 
-  <!-- ════════════════════════════════════════ INFO BAR -->
-  <section class="section-sm" style="border-bottom:1px solid var(--border)">
-    <div class="container">
-      <div class="info-bar">
-        <div class="info-item">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-          <span><strong>Lun–Sáb</strong> 11 AM – 8 PM &nbsp;·&nbsp; <strong>Dom</strong> Cerrado</span>
-        </div>
-        <div class="info-item">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          <a href="https://www.google.com/maps/dir/?api=1&destination=Sacred+Pain+Tattoo+418+Av+65+Infanteria+San+Juan+PR+00926" target="_blank" rel="noreferrer" style="color:var(--gold);font-weight:600">
-            418 Av 65 Infantería
-          </a><span style="color:var(--muted)">, San Juan PR</span>
-          <a href="https://www.google.com/maps/dir/?api=1&destination=Sacred+Pain+Tattoo+418+Av+65+Infanteria+San+Juan+PR+00926" target="_blank" rel="noreferrer" class="maps-pill">
-            <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            Cómo llegar
-          </a>
-        </div>
-        <div class="info-item">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92V20a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 4.37 6.18 2 2 0 0 1 6.36 4h3.08a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L10.91 11.4a16 16 0 0 0 6.69 6.69l.78-.78a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-          <a href="tel:7875962562" style="color:var(--gold);font-weight:600">(787) 596-2562</a>
-        </div>
-      </div>
-    </div>
-  </section>
+  <!-- ════════════════════════════════════════ THE EXPERIENCE (GLASSMORPHISM) -->
+  <section class="py-32 relative bg-background">
+    <!-- Background Grid -->
+    <div class="absolute inset-0 grid-lines grid-lines-v opacity-30 pointer-events-none"></div>
 
-  <!-- ══════════════════════════════════════════ SERVICIOS -->
-  <section class="section" id="servicios">
-    <div class="container">
-      <div class="section-header fade-in">
-        <p class="kicker">Nuestros Servicios</p>
-        <h2 class="h2">Da rienda suelta a<br/>tu creatividad</h2>
-      </div>
-
-      <div class="grid md\:cols-3 services-grid">
-        <article class="service-card fade-in">
-          <img
-            src="/images/artist-david.jpeg"
-            alt="Tattoo — Sacred Pain"
-            loading="lazy"
-          />
-          <div class="service-card-overlay">
-            <p class="kicker">Servicio</p>
-            <h3 class="h3">Tattoos</h3>
-            <p style="color:var(--muted);font-size:13px;margin:6px 0 14px;">Conoce nuestros artistas · Solo adultos</p>
-            <a class="btn btn-gold" href="/tattoos">Ver artistas</a>
-          </div>
-        </article>
-
-        <article class="service-card fade-in">
-          <img
-            src="/images/piercing-1.jpg"
-            alt="Piercings — Sacred Pain"
-            loading="lazy"
-          />
-          <div class="service-card-overlay">
-            <p class="kicker">Servicio</p>
-            <h3 class="h3">Piercings</h3>
-            <p style="color:var(--muted);font-size:13px;margin:6px 0 14px;">Joyas de calidad · Ambiente estéril</p>
-            <a class="btn btn-gold" href="/piercings">Ver piercings</a>
-          </div>
-        </article>
-
-        <article class="service-card fade-in">
-          <img
-            src="/images/laser.jpeg"
-            alt="Laser — Sacred Pain"
-            loading="lazy"
-          />
-          <div class="service-card-overlay">
-            <p class="kicker">Servicio</p>
-            <h3 class="h3">Remoción Laser</h3>
-            <p style="color:var(--muted);font-size:13px;margin:6px 0 14px;">Evaluación y plan de sesiones</p>
-            <a class="btn btn-gold" href="/laser">Más información</a>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <hr class="divider" />
-
-  <!-- ════════════════════════════════════════ BOOKING CTA -->
-  <section class="section booking-cta">
-    <div class="container">
-      <div class="booking-cta-inner card card-gold fade-in">
-        <div class="booking-cta-text">
-          <p class="kicker">Agenda ahora</p>
-          <h2 class="h2">¿Listo para tu próxima pieza?</h2>
-          <p class="lead">
-            Reserva una cita con cualquiera de nuestros artistas, obtén información
-            sobre precios y disponibilidad, o pasa como walk-in.
+    <div class="container-brutal">
+      <div class="grid md:grid-cols-2 gap-16 md:gap-8 items-center">
+        <div class="fade-up relative">
+          <div class="absolute -left-4 -top-4 w-24 h-24 border-l border-t border-neon opacity-50"></div>
+          <h2 class="text-5xl sm:text-7xl font-display font-bold mb-6">Redefining<br/><span class="text-muted">Body Art</span></h2>
+          <p class="text-lg text-muted max-w-md mb-8 leading-relaxed">
+            Not just a shop. An immersive experience tailored for those who demand absolute perfection. Step into the void, leave with a masterpiece.
           </p>
-          <ul class="cta-features">
-            <li>✓ &nbsp;Tatuajes a medida · Walk-ins disponibles</li>
-            <li>✓ &nbsp;Tattoo Now, Pay in 4 — auspiciado por Klarna</li>
-            <li>✓ &nbsp;Estudio limpio, seguro y certificado</li>
-          </ul>
+          <a href="/tattoos" class="inline-flex items-center text-neon uppercase tracking-widest text-sm font-bold group">
+            Ver Portafolio
+            <svg class="ml-2 w-5 h-5 transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+          </a>
         </div>
-        <div class="booking-cta-actions">
-          <a class="btn btn-gold" href="/reservar">Reservar cita</a>
-          <a class="btn btn-outline-gold" href="tel:7875962562">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path d="M22 16.92V20a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 4.37 6.18 2 2 0 0 1 6.36 4h3.08a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L10.91 11.4a16 16 0 0 0 6.69 6.69l.78-.78a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-            </svg>
-            Llamar al estudio
-          </a>
-          <a class="btn klarna-cta-btn" href="/pagosaplazos">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-            Pay in 4 con Klarna
-          </a>
+
+        <div class="relative fade-up glass-panel p-2">
+          <video autoplay loop muted playsinline class="w-full aspect-square object-cover grayscale opacity-80 mix-blend-screen scale-95 hover:scale-100 hover:grayscale-0 transition-all duration-700">
+            <!-- El usuario deberá colocar su video aquí -->
+            <source src="/videos/tour.mp4" type="video/mp4" />
+          </video>
+          <div class="absolute bottom-6 right-6 bg-black/80 backdrop-blur border border-white/10 px-6 py-3">
+            <span class="text-xs uppercase tracking-widest text-white/70">Est. 2012</span>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <hr class="divider" />
-
-  <!-- ══════════════════════════════════════════════ EQUIPO -->
-  <section class="section" id="equipo">
-    <div class="container">
-      <div class="section-header fade-in">
-        <p class="kicker">Conozca nuestro equipo</p>
-        <h2 class="h2">Los artistas detrás<br/>de Sacred Pain</h2>
-        <p class="lead">
-          Artistas profesionales y premiados con estilos únicos.
-          Bienvenidos al mejor estudio de Tatuajes y Perforaciones en San Juan, PR.
+  <!-- ════════════════════════════════════════ PARALLAX ARTISTS (BRUTALIST GRID) -->
+  <section id="artistas" class="py-32 bg-surface relative border-t border-white/5">
+    <div class="container-brutal">
+      <div class="flex flex-col md:flex-row justify-between items-end mb-20 fade-up">
+        <div>
+          <h2 class="text-6xl sm:text-8xl font-display font-bold uppercase tracking-tighter">The<br/>Artists</h2>
+        </div>
+        <p class="text-muted text-sm max-w-xs uppercase tracking-widest text-right hidden md:block border-l border-white/10 pl-6 h-full">
+          Award winning talent. Specializing in high-end realism and neo-traditional.
         </p>
       </div>
 
-      <div class="grid sm\:cols-2 md\:cols-3 artists-grid">
-        {artists.map(a => (
-          <article class="artist-card card fade-in">
-            <div class="card-body">
-              <div class="artist-header">
-                <img class="artist-avatar-img" src={a.avatar} alt={`${a.name} — perfil Instagram`} loading="lazy" />
-                <div>
-                  <h3 class="h3" style="font-size:22px">{a.name}</h3>
-                  <p style="font-size:12px;color:var(--gold);font-weight:600;letter-spacing:1px;margin-top:2px">{a.specialty}</p>
-                </div>
+      <!-- Asymmetric Parallax Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-y-16 md:gap-8">
+        {artists.map((artist, idx) => (
+          <div class={`fade-up group relative md:col-span-5 ${idx % 2 !== 0 ? 'md:col-start-8 md:mt-32' : ''}`}>
+            <!-- Image Card -->
+            <a href={artist.slug} class="block hover-reveal-image group glass-panel p-2">
+              <div class="relative aspect-[3/4] overflow-hidden bg-black">
+                <img src={artist.avatar} alt={artist.name} class="w-full h-full object-cover opacity-80" loading="lazy" />
+                
+                <!-- Hover Cyberpunk Overlay -->
+                <div class="absolute inset-0 border-2 border-neon opacity-0 group-hover:opacity-100 scale-[0.98] transition-all duration-500 pointer-events-none"></div>
+                <div class="absolute inset-0 bg-neon/10 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               </div>
-              <hr class="gold-line" />
-              <p class="muted" style="margin-bottom:14px">{a.handle}</p>
-              <div class="artist-actions">
-                <a class="btn btn-gold" href={a.slug}>Ver perfil</a>
-                <a class="btn" href={a.ig} target="_blank" rel="noreferrer">Instagram</a>
+            </a>
+            
+            <!-- Brutalist Meta -->
+            <div class="mt-6 flex justify-between items-start">
+              <div>
+                <h3 class="text-3xl font-display font-bold uppercase mb-1">{artist.name}</h3>
+                <p class="text-neon text-xs tracking-widest uppercase">{artist.specialty}</p>
               </div>
+              <a href={artist.ig} target="_blank" class="text-muted hover:text-white transition-colors">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+              </a>
             </div>
-          </article>
+          </div>
         ))}
       </div>
     </div>
   </section>
 
-  <hr class="divider" />
-
-  <!-- ════════════════════════════════════════════ REVIEWS -->
-  <section class="section" id="reviews">
-    <div class="container">
-      <div class="reviews-header fade-in">
-        <div>
-          <p class="kicker">Reseñas verificadas</p>
-          <h2 class="h2">Lo que dicen<br/>nuestros clientes</h2>
-        </div>
-        <a
-          class="trust-badge trust-badge-lg"
-          href="https://maps.google.com/maps?cid=9668360326715706334"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-          <div>
-            <div style="display:flex;align-items:center;gap:6px">
-              <span class="trust-badge-score">4.8</span>
-              <span class="trust-badge-stars">★★★★★</span>
-            </div>
-            <span class="trust-badge-meta">187+ reseñas en Google</span>
-          </div>
+  <!-- ════════════════════════════════════════ BOOKING CTA (CYBERPUNK NEON) -->
+  <section class="py-32 relative overflow-hidden">
+    <div class="absolute inset-0 bg-neon/5 pointer-events-none"></div>
+    <div class="container-brutal text-center fade-up relative z-10">
+      <h2 class="text-6xl sm:text-[8vw] font-display font-bold uppercase leading-none mb-8">
+        Secure Your <br/> <span class="text-transparent" style="-webkit-text-stroke: 1px rgba(222, 250, 0, 0.8);">Session</span>
+      </h2>
+      <p class="text-muted text-lg mb-12 max-w-xl mx-auto">
+        Walk-ins welcome, but appointments guarantee your spot with our premium artists. Powered by Klarna Pay in 4.
+      </p>
+      <div class="flex flex-col sm:flex-row justify-center items-center gap-6">
+        <a href="/reservar" class="btn-brutal-neon w-full sm:w-auto">Book Now</a>
+        <a href="/pagosaplazos" class="btn-brutal w-full sm:w-auto relative group overflow-hidden">
+          <span class="relative z-10">Pay Later Info</span>
+          <div class="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
         </a>
-      </div>
-
-      <div class="grid sm\:cols-2 md\:cols-4 fade-in">
-        {reviews.map(r => (
-          <div class="review-card">
-            <div class="stars">{'★'.repeat(r.stars)}</div>
-            <p class="review-text">{r.text}</p>
-            <p class="review-author">{r.author}</p>
-          </div>
-        ))}
-      </div>
-
-      <div class="reviews-footer fade-in">
-        <a
-          class="btn btn-outline-gold"
-          href="https://maps.google.com/maps?cid=9668360326715706334"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          Leer reseñas en Google
-        </a>
-        <a
-          class="btn maps-btn"
-          href="https://www.google.com/maps/dir/?api=1&destination=Sacred+Pain+Tattoo+418+Av+65+Infanteria+San+Juan+PR+00926"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          Cómo llegar
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <hr class="divider" />
-
-  <!-- ════════════════════════════════════════════ SOCIAL -->
-  <section class="social-stripe" id="social">
-    <div class="container">
-      <div class="social-section fade-in">
-        <div class="social-text">
-          <p class="kicker">Síguenos</p>
-          <h2 class="h2">@sacredpain</h2>
-          <p class="lead">El trabajo más reciente, behind-the-scenes y flash disponible.</p>
-        </div>
-        <div class="social-links">
-          <a class="social-btn social-btn--ig" href="https://www.instagram.com/sacredpain" target="_blank" rel="noreferrer">
-            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-            Instagram
-          </a>
-          <a class="social-btn social-btn--tt" href="https://www.tiktok.com/@sacredpain" target="_blank" rel="noreferrer">
-            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.28 6.28 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.79a4.85 4.85 0 0 1-1.02-.1z"/></svg>
-            TikTok
-          </a>
-          <a class="social-btn social-btn--fb" href="https://www.facebook.com/sacred.pain" target="_blank" rel="noreferrer">
-            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-            Facebook
-          </a>
-        </div>
       </div>
     </div>
   </section>
 </Layout>
 
 <style>
-  /* ── Hero ─────────────────────────────────────────────── */
-  .hero {
-    position: relative;
-    min-height: 90vh;
-    display: flex;
-    align-items: flex-end;
-    padding-bottom: 64px;
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
   }
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-  }
-  .hero-bg img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    object-position: center 30%;
-  }
-  .hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      to top,
-      rgba(8,8,8,0.96) 0%,
-      rgba(8,8,8,0.60) 45%,
-      rgba(8,8,8,0.30) 100%
-    );
-  }
-  .hero-content {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 36px;
-  }
-  .hero-text { max-width: 660px; }
-  .hero-headline { margin: 16px 0 18px; }
-  .gold-text { color: var(--gold); }
-  .hero-lead { margin-bottom: 24px; }
-  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
-
-  /* hero bottom: stats + trust badge */
-  .hero-bottom {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 14px;
-  }
-  .hero-stats {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--border-gold);
-    border-radius: 8px;
-    padding: 14px 16px;
-    width: fit-content;
-    flex-shrink: 0;
-  }
-  .stat { text-align: center; padding: 0 14px; }
-  .stat-num {
-    display: block;
-    font-family: var(--font-display);
-    font-size: 26px;
-    color: var(--gold);
-    line-height: 1;
-  }
-  .stat-label-sm {
-    display: block;
-    font-size: 9px;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: 4px;
-  }
-  .stat-divider {
-    width: 1px;
-    height: 36px;
-    background: var(--border-gold);
-    flex-shrink: 0;
-  }
-  @media (max-width: 480px) {
-    .hero-bottom { flex-direction: column; align-items: flex-start; }
-    .hero-stats { padding: 12px 14px; }
-    .stat { padding: 0 12px; }
-    .stat-num { font-size: 22px; }
-  }
-
-  /* services */
-  .section-header { margin-bottom: 40px; }
-  .services-grid { margin-top: 12px; }
-  .services-grid .service-card { min-height: 480px; }
-
-  /* booking CTA */
-  .booking-cta-inner {
-    display: grid;
-    gap: 32px;
-    padding: 40px;
-    background: linear-gradient(135deg, var(--surface) 0%, rgba(196,158,71,0.05) 100%);
-  }
-  @media (min-width: 880px) {
-    .booking-cta-inner {
-      grid-template-columns: 1fr auto;
-      align-items: center;
-    }
-  }
-  .cta-features {
-    margin: 16px 0 0;
-    padding-left: 0;
-    list-style: none;
-    color: var(--muted);
-    font-size: 14px;
-  }
-  .cta-features li { margin: 7px 0; letter-spacing: 0.2px; }
-  .booking-cta-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    min-width: 200px;
-  }
-  .booking-cta-actions .btn { justify-content: center; }
-
-  /* artists */
-  .artist-header {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 4px;
-  }
-  .artist-avatar-img {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid var(--border-gold);
-    flex-shrink: 0;
-  }
-
-  /* reviews header */
-  .reviews-header {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 24px;
-    margin-bottom: 40px;
-  }
-  .trust-badge-lg {
-    padding: 14px 22px;
-    gap: 14px;
-  }
-  .reviews-footer {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-top: 32px;
-  }
-  .maps-btn {
-    background: rgba(66,133,244,0.10);
-    border-color: rgba(66,133,244,0.30);
-    color: #7bb3f8;
-  }
-  .maps-btn:hover {
-    background: rgba(66,133,244,0.18);
-    border-color: rgba(66,133,244,0.55);
-    color: #9cc5fa;
-  }
-  .maps-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 3px 10px 3px 8px;
-    border-radius: 20px;
-    background: rgba(66,133,244,0.12);
-    border: 1px solid rgba(66,133,244,0.25);
-    color: #7bb3f8;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
-    transition: background 0.15s, border-color 0.15s;
-    text-decoration: none;
-    flex-shrink: 0;
-  }
-  .maps-pill:hover {
-    background: rgba(66,133,244,0.22);
-    border-color: rgba(66,133,244,0.45);
-    text-decoration: none;
-  }
-  .klarna-cta-btn {
-    border-color: rgba(255,179,199,0.30);
-    color: #FFB3C7;
-  }
-  .klarna-cta-btn:hover {
-    background: rgba(255,179,199,0.08);
-    border-color: rgba(255,179,199,0.55);
-    color: #ffc9d8;
-  }
-
-  /* social stripe */
-  .social-stripe {
-    background: var(--surface2);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    padding: 56px 0;
-  }
-  .social-section {
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
-    align-items: flex-start;
-  }
-  @media (min-width: 720px) {
-    .social-section {
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-    }
-  }
-  .social-text { max-width: 400px; }
-  .social-links {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .social-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 20px;
-    min-height: 48px;
-    border-radius: 2px;
-    border: 1px solid var(--border);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    transition: background 0.18s, border-color 0.18s, color 0.18s, transform 0.12s;
-    text-decoration: none;
-    color: var(--muted);
-    -webkit-tap-highlight-color: transparent;
-  }
-  .social-btn:hover { text-decoration: none; transform: translateY(-2px); }
-  .social-btn--ig:hover { background: rgba(225,48,108,0.10); border-color: rgba(225,48,108,0.35); color: #e1306c; }
-  .social-btn--tt:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.25); color: var(--text); }
-  .social-btn--fb:hover { background: rgba(66,103,178,0.10); border-color: rgba(66,103,178,0.35); color: #4267b2; }
 </style>

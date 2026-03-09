@@ -1,431 +1,123 @@
 ---
 const nav = [
-  { href: '/',          label: 'Inicio' },
+  { href: '/',          label: 'Studio' },
   { href: '/tattoos',   label: 'Tattoos' },
   { href: '/piercings', label: 'Piercings' },
-  { href: '/laser',     label: 'Laser' },
   { href: '/contacto',  label: 'Contacto' },
 ];
 const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 ---
 
-<header class="header" id="header">
-  <!-- Announcement bar -->
-  <div class="announce">
-    <span>Tattoo Now, Pay in 4 &nbsp;·&nbsp; Tattoo Now, Pay Later &nbsp;·&nbsp;
-      <img src="https://x.klarnacdn.net/payment-method/assets/badges/generic/klarna.svg" alt="Klarna" width="36" height="14" style="vertical-align:middle;display:inline-block;margin-left:2px" />
-    </span>
-  </div>
-
-  <div class="nav-bar">
-    <div class="container nav-inner">
-      <!-- Logo -->
-      <a class="logo" href="/" aria-label="Sacred Pain Tattoo — Inicio">
-        <img src="/images/logo.png" alt="Sacred Pain Tattoo logo" width="48" height="48" />
-        <span class="logo-text">
-          <span class="logo-name">Sacred Pain</span>
-          <span class="logo-sub">Tattoo &amp; Piercings · San Juan, PR</span>
-        </span>
-      </a>
-
-      <!-- Desktop nav -->
-      <nav class="desktop-nav" aria-label="Navegación principal">
-        {nav.map(item => {
-          const isActive = item.href === '/' ? currentPath === '/' : currentPath.startsWith(item.href);
-          return <a class={`nav-link${isActive ? ' nav-active' : ''}`} href={item.href} aria-current={isActive ? 'page' : undefined}>{item.label}</a>;
-        })}
-      </nav>
-
-      <!-- CTA + hamburger -->
-      <div class="nav-end">
-        <a class="btn btn-gold hide-mobile" href="/reservar">Reservar cita</a>
-        <button
-          class="hamburger"
-          id="hamburger"
-          aria-label="Abrir menú"
-          aria-expanded="false"
-          aria-controls="mobile-drawer"
-        >
-          <span class="bar bar1"></span>
-          <span class="bar bar2"></span>
-          <span class="bar bar3"></span>
-        </button>
+<header class="fixed top-0 left-0 w-full z-[200] mix-blend-difference bg-transparent transition-all duration-300 pointer-events-none" id="header">
+  <div class="container-brutal py-6 md:py-8 flex items-center justify-between pointer-events-auto">
+    <!-- Logo -->
+    <a href="/" class="group flex items-center gap-4">
+      <div class="w-12 h-12 border-2 border-primary rounded-full flex items-center justify-center group-hover:bg-primary group-hover:text-black transition-colors duration-300">
+        <span class="font-display font-bold text-xl leading-none">SP</span>
       </div>
+      <div class="hidden sm:flex flex-col">
+        <span class="font-display text-2xl uppercase tracking-tighter leading-none">Sacred Pain</span>
+        <span class="text-[9px] uppercase tracking-widest text-primary/70">San Juan, PR</span>
+      </div>
+    </a>
+
+    <!-- Desktop Nav -->
+    <nav class="hidden md:flex items-center gap-8 glass-panel px-8 py-3 rounded-full pointer-events-auto">
+      {nav.map(item => {
+        const isActive = item.href === '/' ? currentPath === '/' : currentPath.startsWith(item.href);
+        return (
+          <a
+            href={item.href}
+            class={`text-xs font-display uppercase tracking-[0.2em] transition-all duration-300 hover:text-neon ${isActive ? 'text-neon' : 'text-primary'}`}
+          >
+            {item.label}
+          </a>
+        );
+      })}
+    </nav>
+
+    <!-- CTAs & Hamburger -->
+    <div class="flex items-center gap-4 pointer-events-auto">
+      <a href="/reservar" class="hidden sm:inline-flex text-xs font-bold uppercase tracking-widest text-black bg-neon px-6 py-3 hover:bg-white transition-colors duration-300">
+        Book
+      </a>
+      <button id="hamburger" class="md:hidden w-12 h-12 border border-primary/20 flex flex-col items-center justify-center gap-1.5 transition-colors hover:border-neon group" aria-label="Menu">
+        <span class="w-5 h-[2px] bg-primary group-hover:bg-neon transition-all duration-300 tr-bar-1"></span>
+        <span class="w-5 h-[2px] bg-primary group-hover:bg-neon transition-all duration-300 tr-bar-2"></span>
+      </button>
     </div>
   </div>
 </header>
 
-<!-- Backdrop (tap to close) -->
-<div class="drawer-backdrop" id="drawer-backdrop" aria-hidden="true"></div>
-
-<!-- Mobile drawer (full-height side panel) -->
-<div class="mobile-drawer" id="mobile-drawer" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Menú de navegación">
-
-  <!-- Header of drawer -->
-  <div class="drawer-head">
-    <span class="drawer-brand">Sacred Pain</span>
-    <button class="drawer-close" id="drawer-close" aria-label="Cerrar menú">
-      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24">
-        <line x1="18" y1="6" x2="6" y2="18"/>
-        <line x1="6" y1="6" x2="18" y2="18"/>
-      </svg>
-    </button>
-  </div>
-
-  <!-- Nav links -->
-  <nav class="drawer-nav" aria-label="Menú móvil">
-    {nav.map(item => {
+<!-- Mobile Full Screen Menu -->
+<div id="mobile-menu" class="fixed inset-0 bg-background/95 backdrop-blur-2xl z-[190] flex flex-col justify-center items-center opacity-0 pointer-events-none transition-all duration-500">
+  <div class="absolute inset-0 bg-noise opacity-5 pointer-events-none"></div>
+  <nav class="flex flex-col gap-8 text-center relative z-10">
+    {nav.map((item, idx) => {
       const isActive = item.href === '/' ? currentPath === '/' : currentPath.startsWith(item.href);
       return (
         <a
-          class={`drawer-link${isActive ? ' drawer-active' : ''}`}
           href={item.href}
-          aria-current={isActive ? 'page' : undefined}
+          class={`font-display text-5xl uppercase tracking-tighter transition-all duration-300 mobile-link transform translate-y-8 opacity-0 ${isActive ? 'text-neon italic' : 'text-primary hover:text-neon hover:italic'}`}
+          style={`transition-delay: ${100 + idx * 100}ms;`}
         >
           {item.label}
-          <svg class="drawer-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
         </a>
       );
     })}
+    <a href="/reservar" class="mt-8 btn-brutal-neon transform translate-y-8 opacity-0 mobile-link" style="transition-delay: 500ms;">
+      Book Session
+    </a>
   </nav>
-
-  <!-- CTAs -->
-  <div class="drawer-ctas">
-    <a class="btn btn-gold" href="/reservar" style="width:100%;justify-content:center;font-size:13px">
-      Reservar cita
-    </a>
-    <a class="drawer-phone" href="tel:7875962562">
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92V20a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 4.37 6.18 2 2 0 0 1 6.36 4h3.08a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L10.91 11.4a16 16 0 0 0 6.69 6.69l.78-.78a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-      (787) 596-2562
-    </a>
-  </div>
-
-  <!-- Footer info -->
-  <div class="drawer-footer">
-    <p>418 Av 65 Infantería, San Juan PR</p>
-    <p><strong>Lun–Sáb</strong> 11 AM – 8 PM &nbsp;·&nbsp; <strong>Dom</strong> Cerrado</p>
-  </div>
 </div>
 
 <script>
-  const btn        = document.getElementById('hamburger')!;
-  const drawer     = document.getElementById('mobile-drawer')!;
-  const backdrop   = document.getElementById('drawer-backdrop')!;
-  const closeBtn   = document.getElementById('drawer-close')!;
+  const btn = document.getElementById('hamburger');
+  const menu = document.getElementById('mobile-menu');
+  const links = document.querySelectorAll('.mobile-link');
+  const bar1 = document.querySelector('.tr-bar-1');
+  const bar2 = document.querySelector('.tr-bar-2');
+  let open = false;
 
-  function openMenu() {
-    drawer.classList.add('open');
-    backdrop.classList.add('open');
-    btn.classList.add('active');
-    btn.setAttribute('aria-expanded', 'true');
-    drawer.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
+  if (btn && menu) {
+    btn.addEventListener('click', () => {
+      open = !open;
+      if (open) {
+        menu.classList.remove('opacity-0', 'pointer-events-none');
+        menu.classList.add('opacity-100', 'pointer-events-auto');
+        document.body.style.overflow = 'hidden';
+        
+        // Transform hamburger to X
+        bar1?.classList.add('translate-y-[4px]', 'rotate-45');
+        bar2?.classList.add('-translate-y-[4px]', '-rotate-45');
+
+        // Animate links in
+        links.forEach(l => {
+          l.classList.remove('translate-y-8', 'opacity-0');
+          l.classList.add('translate-y-0', 'opacity-100');
+        });
+      } else {
+        menu.classList.remove('opacity-100', 'pointer-events-auto');
+        menu.classList.add('opacity-0', 'pointer-events-none');
+        document.body.style.overflow = '';
+        
+        // Transform X to hamburger
+        bar1?.classList.remove('translate-y-[4px]', 'rotate-45');
+        bar2?.classList.remove('-translate-y-[4px]', '-rotate-45');
+
+        // Animate links out
+        links.forEach(l => {
+          l.classList.remove('translate-y-0', 'opacity-100');
+          l.classList.add('translate-y-8', 'opacity-0');
+        });
+      }
+    });
+
+    // Close on link click
+    links.forEach(link => {
+      link.addEventListener('click', () => {
+        if(open) btn.click();
+      });
+    });
   }
-
-  function closeMenu() {
-    drawer.classList.remove('open');
-    backdrop.classList.remove('open');
-    btn.classList.remove('active');
-    btn.setAttribute('aria-expanded', 'false');
-    drawer.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-  }
-
-  btn.addEventListener('click', () => {
-    if (drawer.classList.contains('open')) {
-      closeMenu();
-    } else {
-      openMenu();
-    }
-  });
-
-  closeBtn.addEventListener('click', closeMenu);
-  backdrop.addEventListener('click', closeMenu);
-
-  // Close on link click
-  drawer.querySelectorAll('a').forEach(a =>
-    a.addEventListener('click', closeMenu)
-  );
-
-  // Close on Escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && drawer.classList.contains('open')) closeMenu();
-  });
 </script>
-
-<style>
-  .header {
-    position: sticky;
-    top: 0;
-    z-index: 200;
-  }
-
-  /* ── Announce ─────────────────────────────────── */
-  .announce {
-    background: var(--gold);
-    color: #000;
-    text-align: center;
-    padding: 7px 16px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-  }
-
-  /* ── Nav bar ──────────────────────────────────── */
-  .nav-bar {
-    background: rgba(8,8,8,0.92);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    border-bottom: 1px solid var(--border);
-  }
-  .nav-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 12px;
-    padding-bottom: 12px;
-    gap: 16px;
-  }
-
-  /* ── Logo ─────────────────────────────────────── */
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-shrink: 0;
-    text-decoration: none;
-  }
-  .logo img {
-    width: 44px; height: 44px;
-    border-radius: 50%;
-    border: 2px solid var(--border-gold);
-    object-fit: cover;
-  }
-  .logo-text { display: flex; flex-direction: column; line-height: 1.15; }
-  .logo-name {
-    font-family: var(--font-display);
-    font-size: 20px;
-    letter-spacing: 1px;
-    color: var(--text);
-  }
-  .logo-sub {
-    font-size: 9px; font-weight: 500;
-    letter-spacing: 1px; color: var(--muted2);
-    text-transform: uppercase;
-  }
-  @media (max-width: 380px) {
-    .logo-sub { display: none; }
-    .logo-name { font-size: 18px; }
-    .logo img { width: 38px; height: 38px; }
-  }
-
-  /* ── Desktop nav ──────────────────────────────── */
-  .desktop-nav { display: none; align-items: center; gap: 4px; }
-  @media (min-width: 880px) { .desktop-nav { display: flex; } }
-  .nav-link {
-    padding: 7px 12px; border-radius: 4px;
-    font-size: 12px; font-weight: 600;
-    letter-spacing: 1.5px; text-transform: uppercase;
-    color: var(--muted);
-    transition: color 0.15s, background 0.15s;
-  }
-  .nav-link:hover { color: var(--text); background: rgba(255,255,255,0.06); text-decoration: none; }
-  .nav-active { color: var(--gold); background: rgba(185,138,55,0.08); }
-
-  /* ── Nav end ──────────────────────────────────── */
-  .nav-end { display: flex; align-items: center; gap: 10px; }
-  .hide-mobile { display: none; }
-  @media (min-width: 880px) { .hide-mobile { display: inline-flex; } }
-
-  /* ── Hamburger ────────────────────────────────── */
-  .hamburger {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-    width: 44px; height: 44px;
-    background: transparent;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    cursor: pointer;
-    padding: 0;
-    flex-shrink: 0;
-    -webkit-tap-highlight-color: transparent;
-    transition: border-color 0.2s;
-  }
-  .hamburger:hover { border-color: var(--gold); }
-  @media (min-width: 880px) { .hamburger { display: none; } }
-  .bar {
-    display: block;
-    width: 20px; height: 1.5px;
-    background: var(--text);
-    border-radius: 2px;
-    transition: transform 0.28s cubic-bezier(0.4,0,0.2,1), opacity 0.2s ease, width 0.2s ease;
-    transform-origin: center;
-  }
-  .hamburger.active .bar1 { transform: translateY(6.5px) rotate(45deg); }
-  .hamburger.active .bar2 { opacity: 0; width: 0; }
-  .hamburger.active .bar3 { transform: translateY(-6.5px) rotate(-45deg); }
-
-  /* ── Backdrop ─────────────────────────────────── */
-  .drawer-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.65);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    z-index: 299;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-  .drawer-backdrop.open {
-    opacity: 1;
-    pointer-events: auto;
-  }
-  @media (min-width: 880px) { .drawer-backdrop { display: none !important; } }
-
-  /* ── Mobile drawer ────────────────────────────── */
-  .mobile-drawer {
-    position: fixed;
-    top: 0; right: 0;
-    width: min(320px, 88vw);
-    height: 100dvh;
-    background: #0d0b0c;
-    border-left: 1px solid rgba(185,138,55,0.18);
-    z-index: 300;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    transform: translateX(100%);
-    transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
-    will-change: transform;
-  }
-  .mobile-drawer.open {
-    transform: translateX(0);
-  }
-  @media (min-width: 880px) { .mobile-drawer { display: none !important; } }
-
-  /* Drawer head */
-  .drawer-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 24px 16px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    flex-shrink: 0;
-  }
-  .drawer-brand {
-    font-family: var(--font-display);
-    font-size: 18px;
-    color: var(--text);
-    letter-spacing: 1px;
-  }
-  .drawer-close {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px; height: 40px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.10);
-    border-radius: 6px;
-    color: var(--text);
-    cursor: pointer;
-    transition: background 0.15s, border-color 0.15s, color 0.15s;
-    -webkit-tap-highlight-color: transparent;
-    flex-shrink: 0;
-  }
-  .drawer-close:hover {
-    background: rgba(220,50,50,0.12);
-    border-color: rgba(220,50,50,0.35);
-    color: #ff6b6b;
-  }
-
-  /* Drawer nav links */
-  .drawer-nav {
-    display: flex;
-    flex-direction: column;
-    padding: 12px 0;
-    flex: 1;
-  }
-  .drawer-link {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 24px;
-    font-size: 15px;
-    font-weight: 600;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    color: var(--muted);
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-    transition: color 0.15s, background 0.15s, padding-left 0.15s;
-    text-decoration: none;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .drawer-link:hover, .drawer-link:focus-visible {
-    color: var(--text);
-    background: rgba(255,255,255,0.04);
-    padding-left: 28px;
-    text-decoration: none;
-  }
-  .drawer-active {
-    color: var(--gold) !important;
-    background: rgba(185,138,55,0.07);
-    border-left: 3px solid var(--gold);
-    padding-left: 21px;
-  }
-  .drawer-active:hover { padding-left: 21px; }
-  .drawer-arrow { flex-shrink: 0; color: var(--muted2); }
-  .drawer-active .drawer-arrow { color: var(--gold); }
-
-  /* Drawer CTAs */
-  .drawer-ctas {
-    padding: 20px 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    flex-shrink: 0;
-  }
-  .drawer-phone {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 13px 20px;
-    min-height: 48px;
-    border: 1px solid var(--border);
-    border-radius: 2px;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    color: var(--muted);
-    transition: color 0.15s, border-color 0.15s, background 0.15s;
-    text-decoration: none;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .drawer-phone:hover {
-    color: var(--text);
-    border-color: rgba(255,255,255,0.25);
-    background: rgba(255,255,255,0.04);
-    text-decoration: none;
-  }
-
-  /* Drawer footer */
-  .drawer-footer {
-    padding: 16px 24px 28px;
-    border-top: 1px solid rgba(255,255,255,0.04);
-    flex-shrink: 0;
-  }
-  .drawer-footer p {
-    font-size: 11px;
-    color: var(--muted2);
-    margin: 3px 0;
-    letter-spacing: 0.3px;
-  }
-  .drawer-footer strong { color: var(--muted); }
-</style>

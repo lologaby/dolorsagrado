@@ -1,0 +1,123 @@
+/* ============================================================
+   SACRED PAIN TATTOO — Brutalist & Dark Luxury System
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-base: #020202;
+    --text-primary: #EBEBEB;
+    --text-muted: #71717A;
+    --border-color: rgba(255, 255, 255, 0.08);
+    --neon: #DEFA00;
+  }
+
+  html, body {
+    @apply bg-background text-primary antialiased;
+    font-family: 'Inter', sans-serif;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.04;
+    background-image: theme('backgroundImage.noise');
+    mix-blend-mode: overlay;
+  }
+
+  /* Brutalist Headings */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Clash Display', 'Bebas Neue', sans-serif;
+    @apply uppercase tracking-tight text-primary;
+  }
+}
+
+@layer components {
+  /* Brutalist Container */
+  .container-brutal {
+    @apply max-w-[1400px] mx-auto px-4 sm:px-8;
+  }
+
+  /* Glassmorphism Panel */
+  .glass-panel {
+    @apply bg-surface/60 backdrop-blur-xl border border-white/5;
+  }
+
+  /* Brutalist Button */
+  .btn-brutal {
+    @apply inline-flex items-center justify-center bg-transparent border border-white/20 px-8 py-4 font-display uppercase tracking-widest text-sm hover:bg-white hover:text-black transition-all duration-300;
+  }
+  
+  .btn-brutal-neon {
+    @apply inline-flex items-center justify-center bg-neon text-black border border-neon px-8 py-4 font-display uppercase tracking-widest text-sm hover:bg-transparent hover:text-neon transition-all duration-300;
+    box-shadow: 0 0 20px rgba(222, 250, 0, 0.15);
+  }
+  .btn-brutal-neon:hover {
+    box-shadow: 0 0 30px rgba(222, 250, 0, 0.4);
+  }
+
+  /* Typographic Grid Lines */
+  .grid-lines {
+    @apply relative;
+  }
+  .grid-lines::before,
+  .grid-lines::after {
+    content: '';
+    @apply absolute bg-white/5 pointer-events-none;
+  }
+  .grid-lines-v::before {
+    @apply top-0 bottom-0 left-1/3 w-px;
+  }
+  .grid-lines-v::after {
+    @apply top-0 bottom-0 right-1/3 w-px;
+  }
+}
+
+/* Animations & Interactivity */
+.hover-reveal-image {
+  @apply overflow-hidden relative;
+}
+.hover-reveal-image img {
+  @apply transition-transform duration-700 ease-expo grayscale group-hover:grayscale-0 group-hover:scale-105;
+}
+
+/* Parallax Scrolling Helper */
+.parallax-item {
+  transform: translateY(var(--tw-translate-y));
+  transition: transform 0.1s linear;
+}
+
+/* Scroll Fade In */
+.fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1), transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Custom Scrollbar for Edge/Brave */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-background;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-surface-lighter rounded;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-white/20;
+}
