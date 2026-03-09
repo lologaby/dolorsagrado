@@ -40,6 +40,14 @@
     font-family: 'Clash Display', 'Bebas Neue', sans-serif;
     @apply uppercase tracking-tight text-primary;
   }
+
+  /* Video Fix for Mobile (Hide play button) */
+  video::-webkit-media-controls {
+    display: none !important;
+  }
+  video::-webkit-media-controls-start-playback-button {
+    display: none !important;
+  }
 }
 
 @layer components {
