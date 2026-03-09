@@ -181,6 +181,40 @@ const reviews = [
       </div>
     </div>
   </section>
+
+  <!-- Mobile Autoplay Fix for iOS Low Power Mode -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const videos = document.querySelectorAll("video");
+      
+      const playVideos = () => {
+        videos.forEach((video) => {
+          video.muted = true;
+          video.setAttribute('playsinline', '');
+          const playPromise = video.play();
+          if (playPromise !== undefined) {
+            playPromise.catch(() => {
+              // Browser blocked autoplay (likely Low Power Mode), wait for interaction
+              console.log("Autoplay blocked, waiting for interaction.");
+            });
+          }
+        });
+      };
+
+      // Try playing immediately
+      playVideos();
+
+      // Fallback: force play on the absolute first touch/click anywhere on the screen
+      const unlockVideos = () => {
+        playVideos();
+        document.body.removeEventListener('touchstart', unlockVideos);
+        document.body.removeEventListener('click', unlockVideos);
+      };
+
+      document.body.addEventListener('touchstart', unlockVideos, { once: true });
+      document.body.addEventListener('click', unlockVideos, { once: true });
+    });
+  </script>
 </Layout>
 
 <style>
