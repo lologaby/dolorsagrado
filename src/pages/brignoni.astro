@@ -2,12 +2,12 @@
 import Layout from '../layouts/Layout.astro';
 
 const gallery = [
-  '/images/hero-studio.jpeg',
-  '/images/piercing-gallery-1.jpg',
-  '/images/piercing-gallery-2.jpg',
-  '/images/piercing-gallery-3.jpg',
-  '/images/piercing-gallery-4.jpg',
-  '/images/piercing-gallery-5.jpg',
+  '/images/placeholders/tattoo-1.jpg',
+  '/images/placeholders/tattoo-2.jpg',
+  '/images/placeholders/tattoo-3.jpg',
+  '/images/placeholders/tattoo-4.jpg',
+  '/images/placeholders/tattoo-5.jpg',
+  '/images/placeholders/tattoo-6.jpg',
 ];
 ---
 
@@ -18,7 +18,7 @@ const gallery = [
   <!-- ═══════════════════════════════════ HERO DEL ARTISTA -->
   <section class="artist-hero">
     <div class="artist-hero-bg">
-      <img src="/images/hero-studio.jpeg" alt="" aria-hidden="true" />
+      <img src="/images/placeholders/hero-placeholder.jpg" alt="Armando Brignoni Background" aria-hidden="true" />
       <div class="artist-hero-overlay"></div>
     </div>
     <div class="container artist-hero-content fade-in">
@@ -72,14 +72,16 @@ const gallery = [
     <div class="artist-gallery-grid">
       {gallery.map((img, i) => (
         <a
-          class={`ag-item${i === 0 ? ' ag-item--tall' : ''}`}
+          class={`ag-item${i % 3 === 0 ? ' ag-item--tall' : ''} glass-panel`}
           href="https://www.instagram.com/brignoni.arts"
           target="_blank"
           rel="noreferrer"
           aria-label="Ver en Instagram"
         >
-          <img src={img} alt="Tatuaje por Armando Brignoni" loading="lazy" />
-          <div class="ag-overlay"><span>↗</span></div>
+          <div class="relative w-full h-full overflow-hidden group">
+            <img src={img} alt="Tatuaje por Armando Brignoni" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 ease-expo grayscale group-hover:grayscale-0 group-hover:scale-105" />
+            <div class="ag-overlay"><span>↗</span></div>
+          </div>
         </a>
       ))}
     </div>
@@ -198,27 +200,13 @@ const gallery = [
     gap: 3px;
     margin-top: 24px;
   }
-  .ag-item { position: relative; overflow: hidden; display: block; background: var(--dark); }
-  .ag-item img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    transition: transform 0.6s, filter 0.4s;
-    filter: brightness(0.85);
-  }
-  .ag-item:hover img { transform: scale(1.07); filter: brightness(0.65); }
+  .ag-item { position: relative; overflow: hidden; display: block; background: var(--dark); padding: 0.5rem; }
   .ag-item--tall { grid-row: span 2; }
   .ag-overlay {
     position: absolute; inset: 0;
     display: flex; align-items: flex-end; justify-content: flex-end;
-    padding: 12px; transition: background 0.3s;
+    padding: 12px; pointer-events: none;
   }
-  .ag-overlay span {
-    font-size: 16px; color: var(--gold);
-    opacity: 0; transform: translateY(6px);
-    transition: opacity 0.2s, transform 0.2s;
-  }
-  .ag-item:hover .ag-overlay { background: rgba(185,138,55,0.08); }
-  .ag-item:hover .ag-overlay span { opacity: 1; transform: translateY(0); }
   @media (max-width: 640px) {
     .artist-gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 160px; }
     .ag-item--tall { grid-row: span 1; }
